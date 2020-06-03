@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="adda.item.tab.shape.orientation.OrientationDialog">
+  <grid id="27dc6" binding="wrapperPanel" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="845" height="441"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="93f09" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="2" column="0" row-span="2" col-span="8" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0" ipady="1"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="4ce75" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="alpha:"/>
+            </properties>
+          </component>
+          <vspacer id="df59d">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+          <component id="c8b58" class="javax.swing.JSpinner" binding="spinnerAlpha">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties/>
+          </component>
+          <hspacer id="d9cf2">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </hspacer>
+          <component id="54892" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="beta:"/>
+            </properties>
+          </component>
+          <component id="9e7d3" class="javax.swing.JSpinner" binding="spinnerBeta">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties/>
+          </component>
+          <hspacer id="d530c">
+            <constraints>
+              <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </hspacer>
+          <component id="6a4a9" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="gamma:"/>
+            </properties>
+          </component>
+          <component id="25e79" class="javax.swing.JSpinner" binding="spinnerGamma">
+            <constraints>
+              <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties/>
+          </component>
+        </children>
+      </grid>
+      <component id="c65e2" class="javax.swing.JLabel" binding="imageLabel">
+        <constraints>
+          <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <vspacer id="f94a4">
+        <constraints>
+          <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </vspacer>
+    </children>
+  </grid>
+</form>

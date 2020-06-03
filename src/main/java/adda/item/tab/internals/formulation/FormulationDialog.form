@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="adda.item.tab.internals.formulation.FormulationDialog">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="500" height="415"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="fc414" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="aa4df" class="javax.swing.JLabel" binding="polarizationLabel">
+            <constraints/>
+            <properties>
+              <text value="Polarization"/>
+            </properties>
+          </component>
+          <component id="8c4c4" class="javax.swing.JComboBox" binding="polarizationComboBox">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </grid>
+      <grid id="a99a4" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="3b95a" class="javax.swing.JLabel" binding="interactionLabel">
+            <constraints/>
+            <properties>
+              <text value="Interaction"/>
+            </properties>
+          </component>
+          <component id="5896" class="javax.swing.JComboBox" binding="interactionComboBox">
+            <constraints/>
+            <properties/>
+          </component>
+          <grid id="68990" binding="shellCountPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="2f9d" class="javax.swing.JLabel" binding="shellCountLabel">
+                <constraints/>
+                <properties>
+                  <text value="for nearest"/>
+                </properties>
+              </component>
+              <component id="c23b7" class="javax.swing.JSpinner" binding="shellCountSpinner">
+                <constraints/>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="5f760" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="14c69" class="javax.swing.JLabel" binding="scatteringQuantitiesLabel">
+            <constraints/>
+            <properties>
+              <requestFocusEnabled value="false"/>
+              <text value="Scattering quantities"/>
+            </properties>
+          </component>
+          <component id="3420f" class="javax.swing.JComboBox" binding="scatteringQuantitiesComboBox">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

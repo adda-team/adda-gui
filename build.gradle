@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id "edu.sc.seis.launch4j" version "2.4.6"
+}
+
+group = 'adda'
+version = '0.1'
+sourceCompatibility = '8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.json', name: 'json', version: '20190722'
+    compile group: 'xalan', name: 'serializer', version: '2.7.2'
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
+    compile group: 'com.github.jiconfont', name: 'jiconfont-swing', version: '1.0.0'
+    compile group: 'com.github.jiconfont', name: 'jiconfont-font_awesome', version: '4.7.0.1'
+    compile group: 'com.formdev', name: 'flatlaf', version: '0.35'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
+
+manifest {
+    attributes(
+            'Main-Class': 'adda.Main'
+    )
+}
+
+launch4j {
+    mainClassName = 'adda.Main'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs= ["src/main/java"]
+        }
+        resources {
+            srcDirs= ["src/main/resources"]
+        }
+    }
+}
+
+
+
+test {
+    useJUnitPlatform()
+}
+

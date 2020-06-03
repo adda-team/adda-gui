@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="adda.application.MainForm">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="562" height="415"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="ce114" binding="treePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="59" height="24"/>
+          </grid>
+          <gridbag weightx="0.0" weighty="1.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <scrollpane id="9b8a8">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="417b4" binding="leftPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints/>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
+      <grid id="186ad" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="5.0" weighty="1.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="497d3" binding="centerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="5.0"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="851e1" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <tabbedpane id="c215a" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="200" height="200"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <background color="-855310"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="79897" binding="actualCommandLinePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints>
+                      <tabbedpane title="Actual command line"/>
+                    </constraints>
+                    <properties>
+                      <background color="-855310"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <scrollpane id="f93f1">
+                        <constraints border-constraint="Center"/>
+                        <properties>
+                          <background color="-855310"/>
+                          <horizontalScrollBarPolicy value="31"/>
+                        </properties>
+                        <border type="empty">
+                          <size top="5" left="5" bottom="5" right="5"/>
+                        </border>
+                        <children>
+                          <component id="139c0" class="javax.swing.JTextArea" binding="actualCommandLineTextArea">
+                            <constraints/>
+                            <properties>
+                              <background color="-855310"/>
+                              <disabledTextColor color="-1"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
+                    </children>
+                  </grid>
+                  <grid id="aa06c" binding="infoPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                    <constraints>
+                      <tabbedpane title="Info"/>
+                    </constraints>
+                    <properties>
+                      <background color="-855310"/>
+                    </properties>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                  <grid id="8004a" binding="consolePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints>
+                      <tabbedpane title="Console"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <scrollpane id="94e22">
+                        <constraints border-constraint="Center"/>
+                        <properties>
+                          <background color="-1"/>
+                          <enabled value="false"/>
+                          <horizontalScrollBarPolicy value="31"/>
+                        </properties>
+                        <border type="empty">
+                          <size top="5" left="5" bottom="5" right="5"/>
+                        </border>
+                        <children>
+                          <component id="92f5b" class="javax.swing.JTextArea" binding="consoleTextArea">
+                            <constraints/>
+                            <properties/>
+                          </component>
+                        </children>
+                      </scrollpane>
+                    </children>
+                  </grid>
+                </children>
+              </tabbedpane>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="2327f" binding="shortcutPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
+    </children>
+  </grid>
+</form>

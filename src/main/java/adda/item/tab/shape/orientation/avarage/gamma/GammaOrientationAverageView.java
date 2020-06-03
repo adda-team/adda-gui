@@ -1,0 +1,53 @@
+package adda.item.tab.shape.orientation.avarage.gamma;
+
+import adda.application.controls.VerticalLayout;
+import adda.base.models.IModel;
+import adda.base.views.ViewBase;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class GammaOrientationAverageView extends ViewBase {
+
+    @Override
+    protected void initLabel(IModel model) {
+
+    }
+
+    @Override
+    protected JPanel getWrapperPanel() {
+        JPanel wrapper = new JPanel();
+        wrapper.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        return wrapper;
+    }
+
+    @Override
+    protected void initPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        //panel.setLayout(new VerticalLayout());
+        panel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        panel.setAlignmentY(Component.TOP_ALIGNMENT);
+        this.panel = panel;
+    }
+
+    @Override
+    protected void initFromModelInner(IModel model) {
+        super.initFromModelInner(model);
+        this.panel.setBorder(BorderFactory.createTitledBorder(model.getLabel()));
+
+
+        //todo rework me!
+        panel.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalGlue());
+        panel.add(Box.createVerticalGlue());
+
+
+    }
+}
