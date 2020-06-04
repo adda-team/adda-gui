@@ -14,8 +14,6 @@ import java.util.List;
 public abstract class BooleanFlagModel extends ModelBaseAddaOptionsContainer {
 
     public static final String FLAG_FIELD_NAME = "flag";
-    protected volatile boolean isNeedCaching = false;
-    protected List<IAddaOption> cachedList;
 
     protected abstract String getAddaCommand();
     protected String getAddaValue() {
