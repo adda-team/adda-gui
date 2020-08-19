@@ -12,7 +12,7 @@ public class StringHelper {
     static {
         DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols();
         formatSymbols.setDecimalSeparator('.');
-        DecimalFormat decimalFormat = new DecimalFormat("0", formatSymbols);
+        DecimalFormat decimalFormat = new DecimalFormat("0.#", formatSymbols);
         decimalFormat.setMaximumFractionDigits(340);
         decimalFormat.setGroupingUsed(false);
         DECIMAL_FORMAT = decimalFormat;

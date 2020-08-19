@@ -111,28 +111,36 @@ public class ControllerBase implements IController {
 
     protected void processTextField(JTextField textField) {
         String text = textField.getText();
-        ReflectionHelper.setPropertyValue(model, textField.getName(), text);
+        if (validate(textField, text)) {
+            ReflectionHelper.setPropertyValue(model, textField.getName(), text);
+        }
     }
 
     protected void processIntegerField(JSpinner spinner) {
         int value = (int) spinner.getValue();
-        ReflectionHelper.setPropertyValue(model, spinner.getName(), value);
+        if (validate(spinner, value)) {
+            ReflectionHelper.setPropertyValue(model, spinner.getName(), value);
+        }
     }
 
     protected void processDoubleField(JNumericField numericField) {
         if (StringHelper.isEmpty(numericField.getText())) return;
         double value = numericField.getDouble();
-        ReflectionHelper.setPropertyValue(model, numericField.getName(), value);
+        if (validate(numericField, value)) {
+            ReflectionHelper.setPropertyValue(model, numericField.getName(), value);
+        }
     }
 
     protected void processCheckBox(JCheckBox checkBox) {
         boolean isSelected = checkBox.isSelected();
-        ReflectionHelper.setPropertyValue(model, checkBox.getName(), isSelected);
+        if (validate(checkBox, isSelected)) {
+            ReflectionHelper.setPropertyValue(model, checkBox.getName(), isSelected);
+        }
     }
 
     protected void processComboBox(JComboBox comboBox) {
         ComboBoxItem selectedItem = (ComboBoxItem) comboBox.getSelectedItem();
-        if (selectedItem != null) {
+        if (selectedItem != null && validate(comboBox, selectedItem)) {
             ReflectionHelper.setPropertyValue(model, comboBox.getName(), selectedItem.getKey());
         }
     }
@@ -153,5 +161,9 @@ public class ControllerBase implements IController {
     @Override
     public IView getView() {
         return view;
+    }
+
+    protected boolean validate(Component component, Object value) {
+        return true;
     }
 }

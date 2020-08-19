@@ -4,6 +4,7 @@ import adda.base.annotation.BindEnableFrom;
 import adda.base.annotation.Viewable;
 import adda.base.models.ModelBase;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
+import adda.utils.StringHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -122,8 +123,8 @@ public class CoatedModel extends ModelShapeParam {
 
     public List<String> getParamsList() {
         if (isShowSecondParam || isShowThirdParam || isShowFourthParam) {
-            return Arrays.asList(Double.toString(firstParam), Double.toString(secondParam), Double.toString(thirdParam), Double.toString(fourthParam));
+            return Arrays.asList(StringHelper.toDisplayString(firstParam), StringHelper.toDisplayString(secondParam), StringHelper.toDisplayString(thirdParam), StringHelper.toDisplayString(fourthParam));
         }
-        return Arrays.asList(Double.toString(firstParam));
+        return Arrays.asList(StringHelper.toDisplayString(firstParam));
     }
 }

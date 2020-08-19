@@ -3,6 +3,7 @@ package adda.item.tab.shape.selector.params.rbc;
 import adda.base.annotation.Viewable;
 import adda.base.models.ModelBase;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
+import adda.utils.StringHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,6 +59,6 @@ public class RbcModel extends ModelShapeParam {
 
 
     public List<String> getParamsList() {
-        return Arrays.asList(Double.toString(firstParam), Double.toString(secondParam), Double.toString(thirdParam));
+        return Arrays.asList(StringHelper.toDisplayString(firstParam), StringHelper.toDisplayString(secondParam), StringHelper.toDisplayString(thirdParam));
     }
 }

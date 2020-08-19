@@ -93,32 +93,34 @@ public abstract class ControllerDialogBase extends ControllerBase {
         //invokeLater for fix combobox close list issue
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                if (!isDialogModelDisabled && needOpenDialog(component.getName(), value) && view instanceof ViewDialogBase) {
-                    try {
-                        IModel clone = (IModel) model.clone();
-                        ReflectionHelper.setPropertyValue(clone, component.getName(), value);
+                if (validate(component, value)) {
+                    if (!isDialogModelDisabled && needOpenDialog(component.getName(), value) && view instanceof ViewDialogBase) {
+                        try {
+                            IModel clone = (IModel) model.clone();
+                            ReflectionHelper.setPropertyValue(clone, component.getName(), value);
 
-                        if (processDialog(clone)) {
-                            model.copyProperties(clone);//todo non-deep clone! override clone method or serialize/deserialize to get deep clone
-                            ReflectionHelper.setPropertyValue(model, component.getName(), value);
-                        } else {
-                            //set new value and next set previous value, need for view control state change
-                            //100% we will fire changes twice 1) set wrong new value (for sync UI control value and model)
-                            //                                2) revert correct old value by execute 'set property' -> refresh vodel -> refresh view
-                            //so we need disable dialog mode for reverting to prevent dialog opening when old value also open dialog
-                            isDialogModelDisabled = true;
-                            IModel additionalClone = (IModel) model.clone();
+                            if (processDialog(clone)) {
+                                model.copyProperties(clone);//todo non-deep clone! override clone method or serialize/deserialize to get deep clone
+                                ReflectionHelper.setPropertyValue(model, component.getName(), value);
+                            } else {
+                                //set new value and next set previous value, need for view control state change
+                                //100% we will fire changes twice 1) set wrong new value (for sync UI control value and model)
+                                //                                2) revert correct old value by execute 'set property' -> refresh vodel -> refresh view
+                                //so we need disable dialog mode for reverting to prevent dialog opening when old value also open dialog
+                                isDialogModelDisabled = true;
+                                IModel additionalClone = (IModel) model.clone();
 
-                            ReflectionHelper.setPropertyValue(model, component.getName(), value);
-                            model.copyProperties(additionalClone);
+                                ReflectionHelper.setPropertyValue(model, component.getName(), value);
+                                model.copyProperties(additionalClone);
 
+                            }
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
                         }
-                    } catch (CloneNotSupportedException e) {
-                        e.printStackTrace();
+                    } else {
+                        ReflectionHelper.setPropertyValue(model, component.getName(), value);
+                        isDialogModelDisabled = false;
                     }
-                } else {
-                    ReflectionHelper.setPropertyValue(model, component.getName(), value);
-                    isDialogModelDisabled = false;
                 }
             }
         });

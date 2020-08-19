@@ -1,6 +1,7 @@
 package adda;
 
 import adda.application.MainForm;
+import adda.item.tab.shape.selector.ShapeSelectorView;
 import adda.utils.Binder;
 import adda.item.root.projectTree.ProjectTreeBox;
 import adda.item.root.shortcut.ShortcutsBox;
@@ -29,7 +30,7 @@ public class Main {
                     e.printStackTrace();
                 }
 
-                JFrame frame = new JFrame("ADDA GUI");
+                JFrame frame = new JFrame("   ADDA GUI");
                 MainForm app = new MainForm();
 
                 app.getShortcutPanel().setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
@@ -62,6 +63,15 @@ public class Main {
 
                 Context.getInstance().mainFrame = frame;
                 Context.getInstance().mainForm = app;
+
+                String path = "image/adda_logo.png";
+
+                java.net.URL imgURL = Main.class.getClassLoader().getResource(path);
+                if (imgURL != null) {
+                    ImageIcon img = new ImageIcon(imgURL);
+                    frame.setIconImage(img.getImage());
+                }
+
             }
         });
     }

@@ -4,6 +4,7 @@ import adda.base.annotation.BindEnableFrom;
 import adda.base.annotation.Viewable;
 import adda.base.models.ModelBase;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
+import adda.utils.StringHelper;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import java.util.List;
 public class CuboidModel extends ModelShapeParam {
 
 
-    @Viewable(value = "use [y/x]")
+    @Viewable(value = "not cube")
     protected boolean isShowFirstParam = false;
 
     public boolean isShowFirstParam() {
@@ -27,6 +28,7 @@ public class CuboidModel extends ModelShapeParam {
 //                setShowSecondParam(false);
 //            }
         }
+        setShowSecondParam(isShowFirstParam);
     }
 
     @BindEnableFrom("isShowFirstParam")
@@ -46,7 +48,7 @@ public class CuboidModel extends ModelShapeParam {
 
 
 //    @BindEnableFrom("isShowFirstParam")
-    @Viewable(value = "use [z/x]")
+    //@Viewable(value = "use [z/x]")
     protected boolean isShowSecondParam = false;
 
     public boolean isShowSecondParam() {
@@ -79,7 +81,7 @@ public class CuboidModel extends ModelShapeParam {
 
     public List<String> getParamsList() {
         if (isShowFirstParam || isShowSecondParam) {
-            return Arrays.asList(Double.toString(firstParam), Double.toString(secondParam));
+            return Arrays.asList(StringHelper.toDisplayString(firstParam), StringHelper.toDisplayString(secondParam));
         }
         return Collections.emptyList();
     }

@@ -3,6 +3,7 @@ package adda.item.tab.shape.selector.params.capsule;
 import adda.base.annotation.Viewable;
 import adda.base.models.ModelBase;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
+import adda.utils.StringHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,6 @@ public class CapsuleModel extends ModelShapeParam {
 
 
     public List<String> getParamsList() {
-        return Arrays.asList(Double.toString(firstParam));
+        return Arrays.asList(StringHelper.toDisplayString(firstParam));
     }
 }

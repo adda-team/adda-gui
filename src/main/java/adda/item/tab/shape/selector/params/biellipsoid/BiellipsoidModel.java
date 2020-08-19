@@ -3,6 +3,7 @@ package adda.item.tab.shape.selector.params.biellipsoid;
 import adda.base.annotation.Viewable;
 import adda.base.models.ModelBase;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
+import adda.utils.StringHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -90,7 +91,7 @@ public class BiellipsoidModel extends ModelShapeParam {
 
 
     public List<String> getParamsList() {
-        return Arrays.asList(Double.toString(firstParam), Double.toString(secondParam), Double.toString(thirdParam), Double.toString(fourthParam), Double.toString(fifthParam));
+        return Arrays.asList(StringHelper.toDisplayString(firstParam), StringHelper.toDisplayString(secondParam), StringHelper.toDisplayString(thirdParam), StringHelper.toDisplayString(fourthParam), StringHelper.toDisplayString(fifthParam));
     }
 
 }
