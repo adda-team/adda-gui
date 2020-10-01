@@ -123,7 +123,7 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer {
 
     public List<String> getParamsList() {
         if (isInfinite) {
-            return Arrays.asList(Double.toString(distance), INF);
+            return Arrays.asList(StringHelper.toDisplayString(distance), INF);
         }
         return Arrays.asList(StringHelper.toDisplayString(distance), StringHelper.toDisplayString(realPart), StringHelper.toDisplayString(imagPart));
     }
@@ -135,7 +135,7 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer {
                 new StringBuilder()
                         .append(StringHelper.toDisplayString("Distance from particle center"))
                         .append(SEMICOLON_STR)
-                        .append(distance).append(" [").append(measure).append("]")
+                        .append(StringHelper.toDisplayString(distance)).append(" [").append(measure).append("]")
                         .append(", ")
                         .append(StringHelper.toDisplayString("Refractive index"))
                         .append(SEMICOLON_STR)

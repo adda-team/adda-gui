@@ -100,7 +100,8 @@ public class LambdaModel extends ModelBaseAddaOptionsContainer implements IModel
 
     @Override
     protected List<IAddaOption> getAddaOptionsInner() {
-        IAddaOption addaOption = new AddaOption(LAMBDA_FIELD_NAME, String.valueOf(lambda), String.format(FORMAT, lambda, measure));
+        final String displayLambda = StringHelper.toDisplayString(lambda);
+        IAddaOption addaOption = new AddaOption(LAMBDA_FIELD_NAME, displayLambda, String.format(FORMAT, displayLambda, measure));
         return Arrays.asList(addaOption);
     }
 }

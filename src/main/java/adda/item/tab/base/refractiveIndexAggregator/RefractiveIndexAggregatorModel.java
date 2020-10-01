@@ -339,6 +339,6 @@ public class RefractiveIndexAggregatorModel extends ModelBaseAddaOptionsContaine
     }
 
     private String getComplexInfo(double real, double imag) {
-        return String.format(COMPLEX_FORMAT, real, imag);
+        return String.format(COMPLEX_FORMAT, StringHelper.toDisplayString(real), StringHelper.toDisplayString(imag));
     }
 }

@@ -85,11 +85,11 @@ public class PropagationModel extends TabEnumModel<PropagationEnum> {
 
 
     public List<String> getParamsList() {
-        return Arrays.asList(Double.toString(x), Double.toString(y), Double.toString(z));
+        return Arrays.asList(StringHelper.toDisplayString(x), StringHelper.toDisplayString(y), StringHelper.toDisplayString(z));
     }
 
     @Override
     protected List<IAddaOption> getAddaOptionsInner() {
-        return Arrays.asList(new AddaOption("prop", String.join(DELIMITER, getParamsList()), StringHelper.toDisplayString(enumValue) + DELIMITER + String.format("[%s; %s; %s]", getX(), getY(), getZ())));
+        return Arrays.asList(new AddaOption("prop", String.join(DELIMITER, getParamsList()), StringHelper.toDisplayString(enumValue) + DELIMITER + String.format("[%s; %s; %s]", getParamsList().toArray())));
     }
 }

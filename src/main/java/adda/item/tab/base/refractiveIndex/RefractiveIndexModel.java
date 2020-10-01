@@ -8,6 +8,7 @@ import adda.base.models.IModelObserver;
 import adda.base.models.ModelBase;
 import adda.base.models.ModelBaseAddaOptionsContainer;
 import adda.utils.ReflectionHelper;
+import adda.utils.StringHelper;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -197,7 +198,7 @@ public class RefractiveIndexModel extends ModelBaseAddaOptionsContainer implemen
 
     public List<String> getParamsList() {
 
-        return Arrays.asList(Double.toString(realX), Double.toString(imagX), Double.toString(realY), Double.toString(imagY), Double.toString(realZ),  Double.toString(imagZ));
+        return Arrays.asList(StringHelper.toDisplayString(realX), StringHelper.toDisplayString(imagX), StringHelper.toDisplayString(realY), StringHelper.toDisplayString(imagY), StringHelper.toDisplayString(realZ),  StringHelper.toDisplayString(imagZ));
     }
 
     @Override

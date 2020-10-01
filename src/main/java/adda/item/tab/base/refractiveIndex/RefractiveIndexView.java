@@ -6,12 +6,12 @@ import adda.base.models.IModel;
 import adda.base.views.ViewBase;
 import adda.base.views.ViewDialogBase;
 import adda.item.tab.internals.formulation.FormulationModel;
+import adda.utils.StringHelper;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class RefractiveIndexView extends ViewDialogBase {
-
 
 
     protected JComplexNumberInput complexNumberInput;
@@ -76,9 +76,9 @@ public class RefractiveIndexView extends ViewDialogBase {
         if (model instanceof RefractiveIndexModel) {
             RefractiveIndexModel refractiveIndexModel = (RefractiveIndexModel) model;
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-            panel.add(new JLabel(String.format("OX: %s + i%s", refractiveIndexModel.getRealX(), refractiveIndexModel.getImagX())));//todo localization
-            panel.add(new JLabel(String.format("OY: %s + i%s", refractiveIndexModel.getRealY(), refractiveIndexModel.getImagY())));//todo localization
-            panel.add(new JLabel(String.format("OZ: %s + i%s", refractiveIndexModel.getRealZ(), refractiveIndexModel.getImagZ())));//todo localization
+            panel.add(new JLabel(String.format("OX: %s + i%s", StringHelper.toDisplayString(refractiveIndexModel.getRealX()), StringHelper.toDisplayString(refractiveIndexModel.getImagX()))));//todo localization
+            panel.add(new JLabel(String.format("OY: %s + i%s", StringHelper.toDisplayString(refractiveIndexModel.getRealY()), StringHelper.toDisplayString(refractiveIndexModel.getImagY()))));//todo localization
+            panel.add(new JLabel(String.format("OZ: %s + i%s", StringHelper.toDisplayString(refractiveIndexModel.getRealZ()), StringHelper.toDisplayString(refractiveIndexModel.getImagZ()))));//todo localization
         }
         return panel;
     }

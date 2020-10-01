@@ -5,6 +5,7 @@ import adda.base.IAddaOption;
 import adda.base.models.ModelBase;
 import adda.item.tab.TabEnumModel;
 import adda.item.tab.internals.iterativeSolver.IterativeSolverEnum;
+import adda.utils.StringHelper;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -72,7 +73,7 @@ public class DipoleShapeModel extends TabEnumModel<DipoleShapeEnum> {
 
 
     public List<String> getParamsList() {
-        return Arrays.asList(Double.toString(scaleX), Double.toString(scaleY), Double.toString(scaleZ));
+        return Arrays.asList(StringHelper.toDisplayString(scaleX), StringHelper.toDisplayString(scaleY), StringHelper.toDisplayString(scaleZ));
     }
 
 

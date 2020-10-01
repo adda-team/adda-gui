@@ -23,7 +23,7 @@ public class PropagationView extends ViewDialogBase {
         JPanel panel = new JPanel();
         if (model instanceof PropagationModel) {
             PropagationModel propagationModel = (PropagationModel) model;
-            panel.add(new JLabel(String.format("[%s; %s; %s]", propagationModel.getX(), propagationModel.getY(), propagationModel.getZ())));//todo localization
+            panel.add(new JLabel(String.format("[%s; %s; %s]", propagationModel.getParamsList().toArray())));//todo localization
 
         }
         return panel;

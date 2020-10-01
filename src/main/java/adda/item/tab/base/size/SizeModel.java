@@ -81,7 +81,8 @@ public class SizeModel extends ModelBaseAddaOptionsContainer {
     @Override
     protected List<IAddaOption> getAddaOptionsInner() {
         String command = SizeEnum.AlongOX.equals(type) ? SIZE : EQ_RAD;
-        IAddaOption addaOption = new AddaOption(command, String.valueOf(value),  value + SPACE_STR + StringHelper.toDisplayString(measure));
+        String displayValue = StringHelper.toDisplayString(value);
+        IAddaOption addaOption = new AddaOption(command, displayValue,  displayValue + SPACE_STR + StringHelper.toDisplayString(measure));
         return Arrays.asList(addaOption);
     }
 }
