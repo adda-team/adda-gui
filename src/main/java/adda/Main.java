@@ -1,7 +1,7 @@
 package adda;
 
 import adda.application.MainForm;
-import adda.item.tab.shape.selector.ShapeSelectorView;
+import adda.item.root.workspace.WorkspaceModel;
 import adda.utils.Binder;
 import adda.item.root.projectTree.ProjectTreeBox;
 import adda.item.root.shortcut.ShortcutsBox;
@@ -9,7 +9,6 @@ import adda.item.root.workspace.WorkspaceBox;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicLookAndFeel;
 import java.awt.*;
 
 public class Main {
@@ -63,6 +62,8 @@ public class Main {
 
                 Context.getInstance().mainFrame = frame;
                 Context.getInstance().mainForm = app;
+                Context.getInstance().workspaceModel = (WorkspaceModel) workspaceBox.getModel();
+                //Binder.bind(Context.getInstance().getWorkspaceModel(), shortcutsBox.getModel());
 
                 String path = "image/adda_logo.png";
 

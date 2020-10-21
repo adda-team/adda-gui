@@ -1,6 +1,7 @@
 package adda;
 
 import adda.application.MainForm;
+import adda.item.root.workspace.WorkspaceModel;
 import adda.settings.formatters.json.JsonFormatter;
 import adda.settings.formatters.plaintext.PlainTextFormatter;
 import adda.settings.serializer.AddaSerializer;
@@ -13,6 +14,18 @@ public class Context {
     protected JFrame mainFrame;
 
     protected MainForm mainForm;
+
+    protected WorkspaceModel workspaceModel;
+
+    protected String runPath;
+
+    public String getRunPath() {
+        return runPath;
+    }
+
+    public WorkspaceModel getWorkspaceModel() {
+        return workspaceModel;
+    }
 
     public MainForm getMainForm() {
         return mainForm;

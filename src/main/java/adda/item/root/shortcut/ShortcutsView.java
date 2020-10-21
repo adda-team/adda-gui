@@ -11,6 +11,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ShortcutsView extends ViewBase {
+
+    public JButton runButton;
+    public JButton prognosisButton;
+
     public void initFromModel(IModel model) {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(5, 30, 5, 30));
@@ -48,11 +52,13 @@ public class ShortcutsView extends ViewBase {
         JButton runButton = new JButton("Run",runIcon);
 //        button.setBorder(new RoundedBorder(10)); //10 is the radius
         panel.add(runButton);
+        this.runButton = runButton;
         panel.add( Box.createHorizontalStrut(20) );
         Icon icon = IconFontSwing.buildIcon(FontAwesome.STEP_FORWARD, 25, Color.blue);
         JButton button = new JButton("Prognosis",icon);
 //        button.setBorder(new RoundedBorder(10)); //10 is the radius
         panel.add(button);
+        prognosisButton = button;
 
 
 

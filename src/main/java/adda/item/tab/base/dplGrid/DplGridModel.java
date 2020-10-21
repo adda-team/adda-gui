@@ -49,7 +49,7 @@ public class DplGridModel extends TabEnumModel<DplGridEnum> {
 
     @Override
     protected List<IAddaOption> getAddaOptionsInner() {
-        final String value = DplGridEnum.grid.equals(enumValue) ? String.valueOf((int) Math.round(this.value)) : String.valueOf(this.value);
+        final String value = DplGridEnum.grid.equals(enumValue) ? StringHelper.toDisplayString((int) Math.round(this.value)) : StringHelper.toDisplayString(this.value);
         IAddaOption addaOption = new AddaOption(enumValue.toString(), value, value);
         return Arrays.asList(addaOption);
     }

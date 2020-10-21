@@ -24,6 +24,9 @@ import adda.item.tab.shape.granules.GranulesModel;
 import adda.item.tab.shape.selector.ShapeSelectorModel;
 import adda.utils.Binder;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -97,8 +100,9 @@ public class ProjectAreaBox extends BoxBase {
         optionsModel.setCommandLineToArea();
 
         //to check is focused current tab
+        //Binder.bindBoth(model, optionsModel);
         model.addObserver(optionsModel);
-
+        ((ProjectAreaModel) model).setOptionsModel(optionsModel);
 
 
 
@@ -170,7 +174,17 @@ public class ProjectAreaBox extends BoxBase {
         form.getPanelOutput().add(outputTabBox.getLayout());
         form.getPanelDdaInternal().add(internalsTabBox.getLayout());
         form.getPanelOptions().add(optionsBox.getLayout());
-        this.panel = form.getPanelMain();
+
+        JPanel mainPanel = new JPanel(){
+            @Override
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        mainPanel.setLayout(new OverlayLayout(mainPanel));
+        mainPanel.add(view.getRootComponent());
+        mainPanel.add(form.getPanelMain());
+        this.panel = mainPanel;
 
 //        List<IModel> models = new ArrayList<>();
 //        getRecursiveModelList(internalsTabBox, models);
@@ -195,4 +209,5 @@ public class ProjectAreaBox extends BoxBase {
 
 
     }
+
 }

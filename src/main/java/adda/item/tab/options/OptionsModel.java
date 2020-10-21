@@ -74,12 +74,15 @@ public class OptionsModel extends ModelBase implements IModelObserver {
         Context.getInstance()
                 .getMainForm()
                 .getActualCommandLineTextArea()
-                .setText(containers
-                        .stream()
-                        .map(addaOptionsContainer -> addaOptionsContainer.getAddaOptions())
-                        .flatMap(List::stream)
-                        .map(addaOption -> addaOption.getFormatted())
-                        .collect(Collectors.joining(DELIMITER))
-                );
+                .setText(getActualCommandLine());
+    }
+
+    public String getActualCommandLine() {
+        return containers
+                .stream()
+                .map(addaOptionsContainer -> addaOptionsContainer.getAddaOptions())
+                .flatMap(List::stream)
+                .map(addaOption -> addaOption.getFormatted())
+                .collect(Collectors.joining(DELIMITER));
     }
 }
