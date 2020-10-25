@@ -10,7 +10,7 @@ public class ActualDirectoryModel extends ModelBase {
     String dir;
 
     public ActualDirectoryModel() {
-        this.setLabel("directory");//todo localization
+        this.setLabel("Directory");//todo localization
     }
 
     public String getDir() {

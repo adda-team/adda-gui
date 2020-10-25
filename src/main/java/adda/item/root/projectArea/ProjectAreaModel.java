@@ -1,5 +1,6 @@
 package adda.item.root.projectArea;
 
+import adda.Context;
 import adda.Main;
 import adda.base.models.ModelBase;
 import adda.item.tab.options.OptionsModel;
@@ -8,8 +9,10 @@ import adda.utils.OutputDisplayer;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class ProjectAreaModel extends ModelBase {
@@ -63,6 +66,12 @@ public class ProjectAreaModel extends ModelBase {
         String addaPath = path + "/win64/adda.exe";
         args.add(addaPath);
         args.addAll(Arrays.asList(optionsModel.getActualCommandLine().split(" ")));
+        args.add("-dir");
+        Date now = new Date();
+        SimpleDateFormat pattern = new SimpleDateFormat("dd-MM-yyyy_HH_mm_ss");
+        args.add(Context.getInstance().getProjectTreeModel().getSelectedPath().getFolder() + "/run_"+pattern.format(now));
+
+
         ProcessBuilder builder = new ProcessBuilder(args);
         builder.redirectErrorStream(true);
 

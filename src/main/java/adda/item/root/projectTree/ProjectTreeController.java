@@ -62,7 +62,7 @@ public class ProjectTreeController extends ControllerBase {
                                     if (jtree.getModel().getRoot().equals(node)) {
                                         showPopup = true;
                                     } else {
-                                        ((ProjectTreeModel) model).setSelectedPath(String.format("%s", node.name));
+                                        ((ProjectTreeModel) model).setSelectedPath(node);
                                     }
 
                                 }
@@ -91,7 +91,7 @@ public class ProjectTreeController extends ControllerBase {
                                         if (node == null || model == null) {
                                             return;
                                         }
-                                        ((ProjectTreeModel) model).setSelectedPath(String.format("%s", node.name));
+                                        ((ProjectTreeModel) model).setSelectedPath(node);
                                     }
                                 });
                                 popup.add(open);
