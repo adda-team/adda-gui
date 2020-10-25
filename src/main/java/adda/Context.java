@@ -1,6 +1,7 @@
 package adda;
 
 import adda.application.MainForm;
+import adda.item.root.projectTree.ProjectTreeModel;
 import adda.item.root.workspace.WorkspaceModel;
 import adda.settings.formatters.json.JsonFormatter;
 import adda.settings.formatters.plaintext.PlainTextFormatter;
@@ -17,6 +18,8 @@ public class Context {
 
     protected WorkspaceModel workspaceModel;
 
+    protected ProjectTreeModel projectTreeModel;
+
     protected String runPath;
 
     public String getRunPath() {
@@ -25,6 +28,10 @@ public class Context {
 
     public WorkspaceModel getWorkspaceModel() {
         return workspaceModel;
+    }
+
+    public ProjectTreeModel getProjectTreeModel() {
+        return projectTreeModel;
     }
 
     public MainForm getMainForm() {

@@ -31,6 +31,12 @@ public class AddaSerializer extends Serializer {
     }
 
     private void innerSerialize(final Object obj, final IFormatterItem currentElement) {
+        //todo obj is null
+        if (obj == null) {
+            currentElement.setValue("null");
+            return;
+        }
+
         Class<?> currentClass = obj.getClass();
         if (isPrimitive(currentClass)) {
             currentElement.setValue(obj.toString());

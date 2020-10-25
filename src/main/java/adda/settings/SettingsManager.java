@@ -1,54 +1,107 @@
 package adda.settings;
 
 import adda.settings.formatters.json.JsonFormatter;
+import adda.settings.formatters.xml.XmlFormatter;
 import adda.settings.serializer.AddaSerializer;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class SettingsManager {
     //todo read from file
     //todo observe when settings file changed
     public static Setting getSettings() {
-        String xml = "<Setting>\n" +
-                "  <appSetting>\n" +
-                "    <language>ru</language>\n" +
-                "    <defaultProjectName>qwe</defaultProjectName>\n" +
-                "  </appSetting>\n" +
-                "  <projects>\n" +
-                "    <ProjectSetting>\n" +
-                "      <path>test_path_1</path>\n" +
-                "      <name>proj1</name>\n" +
-                "    </ProjectSetting>\n" +
-                "    <ProjectSetting>\n" +
-                "      <path>test_path_2</path>\n" +
-                "      <name>proj2</name>\n" +
-                "    </ProjectSetting>\n" +
-                "  </projects>\n" +
-                "</Setting>";
-        String json = "{\n" +
-                "    \"Setting\" : \n" +
-                "    {\n" +
-                "        \"appSetting\" : \n" +
-                "        {\n" +
-                "            \"language\" : \"ru\",\n" +
-                "            \"defaultProjectName\" : \"qwe\"\n" +
-                "        },\n" +
-                "        \"projects\" : \n" +
-                "                [                \n" +
-                "                    {\n" +
-                "                        \"path\" : \"test_path_1\",\n" +
-                "                        \"name\" : \"proj1\"\n" +
-                "                    },\n" +
-                "                \n" +
-                "                    {\n" +
-                "                        \"path\" : \"test_path_2\",\n" +
-                "                        \"name\" : \"proj2\"\n" +
-                "                    }\n" +
-                "                ]\n" +
-                "\n" +
-                "    }\n" +
-                "}";
+        String userDir = System.getProperty("user.dir");
+        String settingsDir = userDir + "/setting.xml";
+        Setting setting;
+        try {
+            String json = new String(Files.readAllBytes(Paths.get(settingsDir)), StandardCharsets.UTF_8);
+            AddaSerializer serializer = new AddaSerializer(new XmlFormatter());
+            setting = serializer.deserialize(json, Setting.class);
+        } catch (IOException e) {
+            setting = recreateSettings();
+        }
 
-        AddaSerializer serializer = new AddaSerializer(new JsonFormatter());
-
-        return serializer.deserialize(json, Setting.class);
+        return setting;
     }
+
+    public static Setting recreateSettings() {
+        String userDir = System.getProperty("user.dir");
+        String firstProjectDir = userDir + "/first-project";
+
+        File file = new File(firstProjectDir);
+        //deleteFolder(file);
+        boolean firstProjectIsCreated = true;
+        if (!file.exists()) {
+            if (!file.mkdir()) {
+                //throw new FileNotFoundException("Directory " + firstProjectDir + "cannot be created");
+                firstProjectIsCreated = false;
+            }
+        }
+
+        Setting setting = new Setting();
+        AppSetting appSetting = new AppSetting();
+        appSetting.setDefaultProjectName("New Project");
+        appSetting.setLanguage("EN");
+        //appSetting.setDefaultAddaValues(new HashMap<>());
+        setting.setAppSetting(appSetting);
+
+        List<ProjectSetting> list = new ArrayList<>();
+        if (firstProjectIsCreated) {
+            ProjectSetting projectSetting = new ProjectSetting();
+            projectSetting.setName("First Project");
+            projectSetting.setPath(firstProjectDir);
+            list.add(projectSetting);
+        }
+
+        setting.setProjects(list);
+
+        try {
+            saveSettings(setting, userDir + "/setting.xml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return setting;
+
+    }
+
+    public static void saveSettings(Setting setting, String path) throws IOException {
+        AddaSerializer serializer = new AddaSerializer(new XmlFormatter());
+
+        String json = serializer.serialize(setting);
+        BufferedWriter output = null;
+        try {
+            File file = new File(path);
+            output = new BufferedWriter(new FileWriter(file));
+            output.write(json);
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        } finally {
+            if ( output != null ) {
+                output.close();
+            }
+        }
+    }
+
+    public static void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if(files!=null) { //some JVMs return null for empty dirs
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
+    }
+
+
 }

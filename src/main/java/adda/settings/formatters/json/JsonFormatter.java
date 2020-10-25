@@ -130,7 +130,7 @@ public class JsonFormatter implements IFormatter {
                     builder.append("\"");
                 }
             }
-            if (item.getChildren().size() > 1) {
+            if (item.getChildren().size() > 0) {
                 builder.append("\n");
                 processFormattedTextInner(item.getChildren(), builder, level + 1 + (item.isArray() ? 1 : 0), item.isArray());
             }

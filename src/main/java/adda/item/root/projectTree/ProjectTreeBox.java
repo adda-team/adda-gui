@@ -12,7 +12,7 @@ public class ProjectTreeBox extends BoxBaseObservable {
 
     protected void initView(IModel model) {
         IView view = getAssociatedView();
-        //model.addObserver(view);
+        model.addObserver(view);
         view.initFromModel(model);
         this.view = view;
     }

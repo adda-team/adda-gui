@@ -1,13 +1,24 @@
 package adda.item.root.projectTree;
 
+import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.views.ViewBase;
 import adda.base.models.IModel;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.swing.IconFontSwing;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeWillExpandListener;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.ExpandVetoException;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 
 public class ProjectTreeView extends ViewBase {
+
+    private JTree jtree;
 
     @Override
     public void initFromModel(IModel model) {
@@ -16,7 +27,7 @@ public class ProjectTreeView extends ViewBase {
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridBagLayout());
         this.panel = panel;
-        JTree jtree = new JTree((ProjectTreeModel)model);
+        jtree = new JTree((ProjectTreeModel)model);
         jtree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -26,5 +37,42 @@ public class ProjectTreeView extends ViewBase {
         gbc.fill = GridBagConstraints.BOTH;
 
         this.panel.add(jtree, gbc);
+
+        jtree.setCellRenderer(new CustomTreeCellRenderer());
+        jtree.addTreeWillExpandListener(new TreeWillExpandListener() {
+            @Override
+            public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
+
+            }
+
+            @Override
+            public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
+                ProjectTreeNode node = (ProjectTreeNode) jtree.getLastSelectedPathComponent();
+                if (jtree.getModel().getRoot().equals(node)) {
+                    throw new ExpandVetoException(event, "Collapsing tree not allowed");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
+        if (ProjectTreeModel.REFRESH.equals(event.getPropertyName())) {
+            SwingUtilities.updateComponentTreeUI(jtree);
+        }
+    }
+
+    private class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
+        @Override
+        public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+            super.getTreeCellRendererComponent(tree, value, selected,expanded, leaf, row, hasFocus);
+            ProjectTreeNode node = (ProjectTreeNode) value;
+            if (tree.getModel().getRoot().equals(node)) {
+                IconFontSwing.register(FontAwesome.getIconFont());
+                Icon icon = IconFontSwing.buildIcon(FontAwesome.DESKTOP, 14, Color.gray);
+                setIcon(icon);
+            }
+            return this;
+        }
     }
 }

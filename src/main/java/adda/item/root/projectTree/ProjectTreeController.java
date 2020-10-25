@@ -1,6 +1,9 @@
 package adda.item.root.projectTree;
 
+import adda.Context;
 import adda.base.controllers.ControllerBase;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
@@ -38,27 +41,15 @@ public class ProjectTreeController extends ControllerBase {
                         int selRow = jtree.getRowForLocation(e.getX(), e.getY());
                         TreePath selPath = jtree.getPathForLocation(e.getX(), e.getY());
 
+                        boolean showPopup = false;
+
                         if (SwingUtilities.isRightMouseButton(e)) {
                             jtree.setSelectionPath(selPath);
                             if (selRow>-1){
                                 jtree.setSelectionRow(selRow);
                             }
-                            JPopupMenu popup = new JPopupMenu();
-                            JMenuItem open = new JMenuItem("Open");
-                            open.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent actionEvent) {
-                                    //todo refactor copypaste!!!!!!!
-                                    ProjectTreeNode node = (ProjectTreeNode) jtree.getLastSelectedPathComponent();
-                                    if (node == null || model == null) {
-                                        return;
-                                    }
-                                    ((ProjectTreeModel) model).setSelectedPath(String.format("%s", selPath.toString()));
+                            showPopup = true;
 
-                                }
-                            });
-                            popup.add(open);
-                            popup.show(jtree, e.getX(), e.getY());
                         } else {
 
                             if (selRow != -1) {
@@ -68,10 +59,47 @@ public class ProjectTreeController extends ControllerBase {
                                     if (node == null || model == null) {
                                         return;
                                     }
-                                    ((ProjectTreeModel) model).setSelectedPath(String.format("%s", selPath.toString()));
+                                    if (jtree.getModel().getRoot().equals(node)) {
+                                        showPopup = true;
+                                    } else {
+                                        ((ProjectTreeModel) model).setSelectedPath(String.format("%s", node.name));
+                                    }
+
                                 }
                             }
                         }
+
+                        if (showPopup) {
+                            ProjectTreeNode node = (ProjectTreeNode) jtree.getLastSelectedPathComponent();
+                            JPopupMenu popup = new JPopupMenu();
+                            if (jtree.getModel().getRoot().equals(node)) {
+                                JMenuItem open = new JMenuItem("Add new project");
+                                open.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent actionEvent) {
+                                        ((ProjectTreeModel) jtree.getModel()).showNewProjectDialog();
+                                    }
+                                });
+                                popup.add(open);
+                            } else {
+                                JMenuItem open = new JMenuItem("Open");
+                                open.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent actionEvent) {
+                                        //todo refactor copypaste!!!!!!!
+                                        ProjectTreeNode node = (ProjectTreeNode) jtree.getLastSelectedPathComponent();
+                                        if (node == null || model == null) {
+                                            return;
+                                        }
+                                        ((ProjectTreeModel) model).setSelectedPath(String.format("%s", node.name));
+                                    }
+                                });
+                                popup.add(open);
+                            }
+                            popup.show(jtree, e.getX(), e.getY());
+                        }
+
+
                     }
                 };
                 jtree.addMouseListener(adapter);

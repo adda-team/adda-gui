@@ -45,12 +45,13 @@ public class OutputDisplayer implements Runnable {
             setText("");
             byte[] buffer = new byte[100];
             while (isAlive(proc_) || reader_.available() > 0) {
-                Thread.sleep(25);
+
                 int no = reader_.available();
                 if (no > 0) {
                     int n = reader_.read(buffer, 0, Math.min(no, buffer.length));
                     appendText(new String(buffer, 0, n));
                 }
+                Thread.sleep(50);
             }
         } catch (IOException | InterruptedException ioe ) {
             buf.append("\n\nERROR:\n"+ioe.toString());

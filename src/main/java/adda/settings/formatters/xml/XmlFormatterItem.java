@@ -58,7 +58,8 @@ public class XmlFormatterItem implements IFormatterItem {
 
     @Override
     public void setValue(String value) {
-
+        //element.getFirstChild().setNodeValue(value);
+        element.setTextContent(value);
     }
 
     @Override

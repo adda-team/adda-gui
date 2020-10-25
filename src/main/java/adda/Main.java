@@ -1,6 +1,9 @@
 package adda;
 
 import adda.application.MainForm;
+import adda.item.root.projectTree.ProjectTreeModel;
+import adda.item.root.projectTree.ProjectTreeNewItemDialog;
+import adda.item.root.projectTree.ProjectTreeNewItemModel;
 import adda.item.root.workspace.WorkspaceModel;
 import adda.utils.Binder;
 import adda.item.root.projectTree.ProjectTreeBox;
@@ -10,6 +13,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Main {
 
@@ -63,6 +68,7 @@ public class Main {
                 Context.getInstance().mainFrame = frame;
                 Context.getInstance().mainForm = app;
                 Context.getInstance().workspaceModel = (WorkspaceModel) workspaceBox.getModel();
+                Context.getInstance().projectTreeModel = (ProjectTreeModel) treeBox.getModel();
                 //Binder.bind(Context.getInstance().getWorkspaceModel(), shortcutsBox.getModel());
 
                 String path = "image/adda_logo.png";
@@ -85,16 +91,17 @@ public class Main {
         JMenu fileMenu = new JMenu("File");
 
         JMenu newMenu = new JMenu("New");
+
         fileMenu.add(newMenu);
 
-        JMenuItem txtFileItem = new JMenuItem("Project");
-        newMenu.add(txtFileItem);
-
-        JMenuItem imgFileItem = new JMenuItem("View");
-        newMenu.add(imgFileItem);
-
-        JMenuItem openItem = new JMenuItem("Open");
-        fileMenu.add(openItem);
+        JMenuItem project = new JMenuItem("Project");
+        project.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Context.getInstance().getProjectTreeModel().showNewProjectDialog();
+            }
+        });
+        newMenu.add(project);
 
         fileMenu.addSeparator();
 
@@ -107,13 +114,6 @@ public class Main {
 //        });
 
         menuBar.add(fileMenu);
-
-        JMenu runMenu = new JMenu("Run");
-
-        runMenu.add(new JMenuItem("Run 'proj1'"));//todo get project name from context
-        runMenu.add(new JMenuItem("Prognosis for 'proj1'"));
-
-        menuBar.add(runMenu);
 
         JMenu helpMenu = new JMenu("Help");
 

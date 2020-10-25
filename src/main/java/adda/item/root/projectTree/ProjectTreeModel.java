@@ -1,5 +1,6 @@
 package adda.item.root.projectTree;
 
+import adda.Context;
 import adda.base.models.ModelBase;
 import adda.settings.ProjectSetting;
 import adda.settings.Setting;
@@ -17,17 +18,19 @@ import java.util.Map;
 
 public class ProjectTreeModel extends ModelBase implements TreeModel, Serializable, Cloneable {
 
+    public static final String REFRESH = "refresh";
     private String selectedPath;
     protected EventListenerList listeners;
     private Map<String, List<ProjectTreeNode>> map;
     private ProjectTreeNode root;
-    private static final String ROOT_NAME = "Local computer";
+    private static final String ROOT_NAME = "This PC";
     private static final String ROOT_ID = "local_computer";
 
     public ProjectTreeModel() {
         this.root = new ProjectTreeNode();
         root.id = ROOT_ID;
         root.name = ROOT_NAME;
+        root.desc = ROOT_NAME;
         root.isPath = false;
 
         this.listeners = new EventListenerList();
@@ -40,7 +43,8 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
             ProjectTreeNode node = new ProjectTreeNode();
 //            node.id = String.join("_", projectSetting.getName(), projectSetting.getPath());
             node.id = projectSetting.getPath();
-            node.name = String.format("%s (%s)", projectSetting.getName(), projectSetting.getPath());
+            node.name = projectSetting.getName();
+            node.desc = String.format("<HTML><b>%s</b><br><small>%s</small></HTML>", projectSetting.getName(), projectSetting.getPath());
             node.isPath = true;
             rootChildren.add(node);
         }
@@ -82,6 +86,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
                     ProjectTreeNode d = new ProjectTreeNode();
                     d.id = entry.getKey();
                     d.name = entry.getKey();
+                    d.desc = entry.getKey();
                     d.isPath = entry.getValue();
                     children.add(d);
                 }
@@ -139,7 +144,6 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
             this.selectedPath = selectedPath;
             notifyObservers("selectedPath", selectedPath);
         }
-
     }
 
     public Object clone() {
@@ -151,5 +155,35 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         } catch (CloneNotSupportedException e) {
             throw new InternalError();
         }
+    }
+
+    public void addProject(ProjectTreeNewItemModel newItemModel) {
+        ProjectTreeNode node = new ProjectTreeNode();
+//            node.id = String.join("_", projectSetting.getName(), projectSetting.getPath());
+        node.id = newItemModel.getDirectory();
+        node.name = newItemModel.getDisplayName();
+        node.desc = String.format("<HTML><b>%s</b><br><small>%s</small></HTML>", newItemModel.getDisplayName(), newItemModel.getDirectory());
+        node.isPath = true;
+        map.get(root.id).add(node);
+
+        reload();
+    }
+
+    public void showNewProjectDialog() {
+        ProjectTreeNewItemModel model = new ProjectTreeNewItemModel();
+        model.setDisplayName("New project");
+        model.setFolderName("new-project");
+        model.setDirectory(System.getProperty("user.dir"));
+
+        ProjectTreeNewItemDialog dialog = new ProjectTreeNewItemDialog(model);
+        dialog.pack();
+        dialog.setVisible(true);
+        if (dialog.isOkPressed()) {
+            addProject(model);
+        }
+    }
+
+    public void reload() {
+        notifyObservers(REFRESH, true);
     }
 }
