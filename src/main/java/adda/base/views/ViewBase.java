@@ -1,5 +1,7 @@
 package adda.base.views;
 
+import adda.Context;
+import adda.application.validation.validator.NotEmptyValidator;
 import adda.base.models.IModel;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.application.controls.ComboBoxItem;
@@ -108,6 +110,7 @@ public class ViewBase implements IView {
                         numericField.setPrecision(10);
                         numericField.setAllowNegative(false);
                         numericField.setPreferredSize(new Dimension(80, 20));
+
                         double val = (double) ReflectionHelper.getPropertyValue(model, entryName);
                         numericField.setDouble(val);
                         component = numericField;
@@ -169,7 +172,7 @@ public class ViewBase implements IView {
         JLabel label = new JLabel();
         label.setText(model.getLabel());
         label.setPreferredSize(new Dimension(120, 30));
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
         label.setAlignmentY(Component.TOP_ALIGNMENT);
         components.put("label", label);
         panel.add(label);

@@ -5,6 +5,8 @@ import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringHelper {
 
@@ -55,6 +57,17 @@ public class StringHelper {
         return value.toString();
     }
 
+
+    private static final Pattern REMOVE_TAGS = Pattern.compile("<.+?>");
+
+    public static String removeTags(String string) {
+        if (string == null || string.length() == 0) {
+            return string;
+        }
+
+        Matcher m = REMOVE_TAGS.matcher(string);
+        return m.replaceAll("");
+    }
 
 
 

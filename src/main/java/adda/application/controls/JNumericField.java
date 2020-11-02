@@ -130,7 +130,9 @@ public class JNumericField extends JTextField {
 
 
     public double getDouble() {
-        return Double.parseDouble(getText());
+        String text = getText();
+        if ("-".equals(text)) return 0;
+        return Double.parseDouble(text);
     }
 
     public void setDouble(double value) {

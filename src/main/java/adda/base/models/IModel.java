@@ -1,5 +1,6 @@
 package adda.base.models;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IModel extends Cloneable {
@@ -8,8 +9,14 @@ public interface IModel extends Cloneable {
 
     String getLabel();
 
+    boolean validate();
+
+    Map<String, String> getValidationErrors();
+
     Map<String, Class> getViewableProperties();
+
     Map<String, String> getBindProperties();
+
     String getViewableLabel(String field);
 
     void addObserver(IModelObserver observer);
@@ -24,6 +31,4 @@ public interface IModel extends Cloneable {
 
     Object clone() throws CloneNotSupportedException;
 //    void notifyObservers();
-
-
 }

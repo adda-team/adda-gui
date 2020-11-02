@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CylinderModel extends ModelShapeParam {
-    @Viewable(value = "h/d:")
+    @Viewable(value = "h/d")
     protected double firstParam = 1;
 
     public double getFirstParam() {
@@ -19,7 +19,7 @@ public class CylinderModel extends ModelShapeParam {
     public void setFirstParam(double firstParam) {
         if (this.firstParam != firstParam) {
             this.firstParam = firstParam;
-            notifyObservers("firstParam", firstParam);
+            notifyObservers(FIRST_PARAM, firstParam);
         }
     }
 
@@ -27,5 +27,19 @@ public class CylinderModel extends ModelShapeParam {
 
     public List<String> getParamsList() {
         return Arrays.asList(StringHelper.toDisplayString(firstParam));
+    }
+
+    @Override
+    public boolean validate() {
+        boolean isValid = true;
+
+        if (firstParam > 0) {
+            validationErrors.put(FIRST_PARAM, "");
+        } else {
+            validationErrors.put(FIRST_PARAM,  StringHelper.toDisplayString("h/d must be greater than 0"));
+            isValid = false;
+        }
+
+        return isValid;
     }
 }

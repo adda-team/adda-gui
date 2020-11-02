@@ -7,8 +7,10 @@ import adda.base.annotation.Viewable;
 import adda.utils.ReflectionHelper;
 import adda.utils.StringHelper;
 
+import java.awt.*;
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class ModelBase implements IModel {
@@ -27,6 +29,16 @@ public class ModelBase implements IModel {
         initPropertyInfo();
         observers = new LinkedList<>();
         label = this.getClass().getSimpleName().replaceAll("Model", "");
+    }
+
+    protected Map<String, String> validationErrors = new HashMap<>();
+
+    public Map<String, String> getValidationErrors() {
+        return validationErrors;
+    }
+
+    public boolean validate() {
+        return true;
     }
 
     protected void initPropertyInfo() {

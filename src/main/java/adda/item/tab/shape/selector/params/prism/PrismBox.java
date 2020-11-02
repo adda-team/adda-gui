@@ -5,7 +5,7 @@ import adda.base.boxes.BoxBase;
 import adda.item.tab.shape.selector.params.ViewParamBase;
 
 @BindModel
-@BindView(ViewParamBase.class)
+@BindView
 @BindController
 public class PrismBox extends BoxBase {
 

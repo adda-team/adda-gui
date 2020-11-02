@@ -10,6 +10,7 @@ import adda.base.views.IView;
 import adda.item.tab.base.size.SizeEnum;
 import adda.item.tab.base.size.SizeMeasureEnum;
 import adda.item.tab.base.size.SizeModel;
+import adda.utils.StringHelper;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -79,7 +80,7 @@ public class OptionsView implements IView {
 
 
         ActionTableCellRenderer<IAddaOptionsContainer> renderer =
-                new ActionTableCellRenderer<>(IAddaOptionsContainer::getDescription);
+                new ActionTableCellRenderer<IAddaOptionsContainer>(container -> StringHelper.removeTags(container.getDescription()));//IAddaOptionsContainer::getDescription);
 //                new ActionTableCellRenderer<>(container -> container.getAddaOptions().stream().map(IAddaOption::getDisplayString).collect(Collectors.joining(DELIMITER)));
         table.getColumnModel().getColumn(1).setCellRenderer(renderer);
 

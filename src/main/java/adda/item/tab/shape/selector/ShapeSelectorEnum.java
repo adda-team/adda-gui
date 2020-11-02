@@ -1,6 +1,7 @@
 package adda.item.tab.shape.selector;
 
 public enum ShapeSelectorEnum {
+    sphere,
     bicoated,
     biellipsoid,
     bisphere,
@@ -15,6 +16,6 @@ public enum ShapeSelectorEnum {
     plate,
     prism,
     rbc,
-    sphere,
+
     spherebox,
 }

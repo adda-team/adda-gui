@@ -1,5 +1,8 @@
 package adda.base.controllers;
 
+import adda.Context;
+import adda.application.validation.validator.ModelValidator;
+import adda.application.validation.validator.NotEmptyValidator;
 import adda.base.models.IModel;
 import adda.base.views.IView;
 import adda.application.controls.ComboBoxItem;
@@ -74,6 +77,7 @@ public class ControllerBase implements IController {
             }
             if (component.getClass().equals(JNumericField.class)) {
                 JNumericField numericField = (JNumericField) component;
+                numericField.setInputVerifier(new ModelValidator(Context.getInstance().getMainFrame(), numericField, model, numericField.getName()));
                 numericField.getDocument().addDocumentListener(new DocumentListener() {
                     @Override
                     public void insertUpdate(DocumentEvent e) {
@@ -124,10 +128,12 @@ public class ControllerBase implements IController {
     }
 
     protected void processDoubleField(JNumericField numericField) {
+        numericField.getInputVerifier().verify(numericField);
         if (StringHelper.isEmpty(numericField.getText())) return;
         double value = numericField.getDouble();
         if (validate(numericField, value)) {
             ReflectionHelper.setPropertyValue(model, numericField.getName(), value);
+            numericField.getInputVerifier().verify(numericField);
         }
     }
 

@@ -10,23 +10,23 @@ import java.util.List;
 
 public class PrismModel extends ModelShapeParam {
 
-    @Viewable(value = "n:")
-    protected double firstParam = 3;
+    @Viewable(value = "n")
+    protected int firstParam = 3;
 
-    public double getFirstParam() {
+    public int getFirstParam() {
         return firstParam;
     }
 
-    public void setFirstParam(double firstParam) {
+    public void setFirstParam(int firstParam) {
         if (this.firstParam != firstParam) {
             this.firstParam = firstParam;
-            notifyObservers("firstParam", firstParam);
+            notifyObservers(FIRST_PARAM, firstParam);
         }
     }
 
 
 
-    @Viewable(value = "h/Dx:")
+    @Viewable(value = "h/d")
     protected double secondParam = 1;
 
     public double getSecondParam() {
@@ -36,7 +36,7 @@ public class PrismModel extends ModelShapeParam {
     public void setSecondParam(double secondParam) {
         if (this.secondParam != secondParam) {
             this.secondParam = secondParam;
-            notifyObservers("secondParam", secondParam);
+            notifyObservers(SECOND_PARAM, secondParam);
         }
     }
 
@@ -44,5 +44,19 @@ public class PrismModel extends ModelShapeParam {
 
     public List<String> getParamsList() {
         return Arrays.asList(StringHelper.toDisplayString(firstParam), StringHelper.toDisplayString(secondParam));
+    }
+
+    @Override
+    public boolean validate() {
+        boolean isValid = true;
+
+        if (secondParam > 0) {
+            validationErrors.put(SECOND_PARAM, "");
+        } else {
+            validationErrors.put(SECOND_PARAM,  StringHelper.toDisplayString("h/d must be greater than 0"));
+            isValid = false;
+        }
+
+        return isValid;
     }
 }

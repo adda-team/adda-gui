@@ -11,7 +11,7 @@ import java.util.List;
 public class BisphereModel extends ModelShapeParam {
 
 
-    @Viewable(value = "Rcc/d:")
+    @Viewable(value = "<html>R<sub>cc</sub>/d</html>")
     protected double firstParam = 1;
 
     public double getFirstParam() {
@@ -21,13 +21,24 @@ public class BisphereModel extends ModelShapeParam {
     public void setFirstParam(double firstParam) {
         if (this.firstParam != firstParam) {
             this.firstParam = firstParam;
-            notifyObservers("firstParam", firstParam);
+            notifyObservers(FIRST_PARAM, firstParam);
         }
     }
 
 
-
     public List<String> getParamsList() {
         return Arrays.asList(StringHelper.toDisplayString(firstParam));
+    }
+
+    @Override
+    public boolean validate() {
+        boolean isValid = true;
+        if (firstParam < 1) {
+            validationErrors.put(FIRST_PARAM,  StringHelper.toDisplayString("R<sub>cc</sub>/d must be greater than or equal 1"));
+            isValid = false;
+        } else {
+            validationErrors.put(FIRST_PARAM, "");
+        }
+        return isValid;
     }
 }

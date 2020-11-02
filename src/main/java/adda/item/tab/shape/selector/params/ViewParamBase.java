@@ -11,7 +11,8 @@ public class ViewParamBase extends ViewBase {
     @Override
     protected void initPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+//        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new VerticalLayout(-1));
         this.panel = panel;
     }
     @Override

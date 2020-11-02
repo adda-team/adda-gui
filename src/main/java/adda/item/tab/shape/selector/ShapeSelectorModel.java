@@ -116,7 +116,7 @@ public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implemen
                     valueBuilder.append(param);
 
                     displayStringBuilder.append(label);
-                    displayStringBuilder.append(" ");
+                    displayStringBuilder.append("=");
                     displayStringBuilder.append(param);
                     if (i < count - 1) {
                         valueBuilder.append(" ");

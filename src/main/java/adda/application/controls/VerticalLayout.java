@@ -7,8 +7,15 @@ public class VerticalLayout implements LayoutManager {
 
     private boolean isHeightOnly = false;
 
+    private int margin = 5;
+
     public VerticalLayout() {
     }
+
+    public VerticalLayout(int margin) {
+        this.margin = margin;
+    }
+
 
     public void addLayoutComponent(String name, Component comp) {
     }
@@ -29,20 +36,20 @@ public class VerticalLayout implements LayoutManager {
     public void layoutContainer(Container container) {
 
         Component list[] = container.getComponents();
-        int currentY = 5;
+        int currentY = margin;
         for (int i = 0; i < list.length; i++) {
 
             Dimension pref = list[i].getPreferredSize();
             list[i].setBounds(5, currentY, isHeightOnly ? container.getWidth() - 10 : pref.width, pref.height);
 
-            currentY += 5;
+            currentY += margin;
             currentY += pref.height;
         }
     }
 
     private Dimension calculateBestSize(Container c) {
         Component[] list = c.getComponents();
-        size.width = c.getWidth() - 5;
+        size.width = c.getWidth() - margin;
         if (!isHeightOnly) {
             int maxWidth = 0;
             for (int i = 0; i < list.length; i++) {
@@ -51,12 +58,12 @@ public class VerticalLayout implements LayoutManager {
                     maxWidth = width;
             }
 
-            size.width = maxWidth + 5;
+            size.width = maxWidth + margin;
         }
 
         int height = 0;
         for (int i = 0; i < list.length; i++) {
-            height += 5;
+            height += margin;
 //            height += list[i].getHeight();
             height += list[i].getPreferredSize() != null ? list[i].getPreferredSize().height : list[i].getHeight();
         }

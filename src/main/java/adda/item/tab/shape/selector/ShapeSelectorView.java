@@ -35,8 +35,8 @@ public class ShapeSelectorView extends ViewBase {
         additionalPanel.setLayout(new BorderLayout());
         additionalPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         additionalPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-        additionalPanel.setPreferredSize(new Dimension(130, 145));
-        additionalPanel.setMaximumSize(new Dimension(130, 145));
+        additionalPanel.setPreferredSize(new Dimension(130, 155));
+        additionalPanel.setMaximumSize(new Dimension(130, 155));
 
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -73,8 +73,8 @@ public class ShapeSelectorView extends ViewBase {
         pictureLabel.setHorizontalTextPosition(JLabel.CENTER);
 //        pictureLabel.setBorder(BorderFactory.createLineBorder(Color.black));
         additionalPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-        pictureLabel.setPreferredSize(new Dimension(150, 165));
-        pictureLabel.setMaximumSize(new Dimension(150, 165));
+        pictureLabel.setPreferredSize(new Dimension(140, 165));
+        pictureLabel.setMaximumSize(new Dimension(140, 165));
 //        pictureLabel.setPreferredSize(new Dimension(230, 230));
         ShapeSelectorModel shapeSelectorModel = (ShapeSelectorModel) model;
         pictureLabel.setIcon(getImageIcon(shapeSelectorModel.getEnumValue().toString()));

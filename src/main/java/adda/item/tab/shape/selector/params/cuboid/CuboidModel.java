@@ -32,7 +32,7 @@ public class CuboidModel extends ModelShapeParam {
     }
 
     @BindEnableFrom("isShowFirstParam")
-    @Viewable(value = "y/x:")
+    @Viewable(value = "y/x")
     protected double firstParam = 1;
 
     public double getFirstParam() {
@@ -42,7 +42,7 @@ public class CuboidModel extends ModelShapeParam {
     public void setFirstParam(double firstParam) {
         if (this.firstParam != firstParam) {
             this.firstParam = firstParam;
-            notifyObservers("firstParam", firstParam);
+            notifyObservers(FIRST_PARAM, firstParam);
         }
     }
 
@@ -63,7 +63,7 @@ public class CuboidModel extends ModelShapeParam {
     }
 
     @BindEnableFrom("isShowSecondParam")
-    @Viewable(value = "z/x:")
+    @Viewable(value = "z/x")
     protected double secondParam = 1;
 
     public double getSecondParam() {
@@ -73,7 +73,7 @@ public class CuboidModel extends ModelShapeParam {
     public void setSecondParam(double secondParam) {
         if (this.secondParam != secondParam) {
             this.secondParam = secondParam;
-            notifyObservers("secondParam", secondParam);
+            notifyObservers(SECOND_PARAM, secondParam);
         }
     }
 
@@ -84,5 +84,26 @@ public class CuboidModel extends ModelShapeParam {
             return Arrays.asList(StringHelper.toDisplayString(firstParam), StringHelper.toDisplayString(secondParam));
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public boolean validate() {
+        boolean isValid = true;
+
+        if (firstParam > 0) {
+            validationErrors.put(FIRST_PARAM, "");
+        } else {
+            validationErrors.put(FIRST_PARAM,  StringHelper.toDisplayString("y/x must be greater than 0"));
+            isValid = false;
+        }
+
+        if (secondParam > 0) {
+            validationErrors.put(SECOND_PARAM, "");
+        } else {
+            validationErrors.put(SECOND_PARAM,  StringHelper.toDisplayString("z/x must be greater than 0"));
+            isValid = false;
+        }
+
+        return isValid;
     }
 }

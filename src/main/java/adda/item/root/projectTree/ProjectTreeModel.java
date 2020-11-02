@@ -78,7 +78,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
             };
 
             try {
-                int watchID = JNotify.addWatch(projectSetting.getPath(), DIRECTORY_LISTENER_MASK, true, directoryListener);
+                int watchID = JNotify.addWatch(projectSetting.getPath(), DIRECTORY_LISTENER_MASK, false, directoryListener);
                 directoryListenerIds.put(node, watchID);
             } catch (JNotifyException e) {
                 e.printStackTrace();
