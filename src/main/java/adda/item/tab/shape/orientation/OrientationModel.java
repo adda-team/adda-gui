@@ -1,13 +1,20 @@
 package adda.item.tab.shape.orientation;
 
+import adda.Context;
 import adda.base.AddaOption;
 import adda.base.IAddaOption;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.models.IModelObserver;
 import adda.item.tab.TabEnumModel;
+import adda.item.tab.base.beam.BeamEnum;
+import adda.item.tab.internals.initialField.InitialFieldEnum;
+import adda.item.tab.output.beam.BeamSaveModel;
+import adda.item.tab.output.internalField.InternalFieldSaveModel;
+import adda.item.tab.output.polarization.PolarizationSaveModel;
 import adda.item.tab.shape.orientation.avarage.OrientationAverageBox;
 import adda.item.tab.shape.orientation.avarage.OrientationAverageModel;
+import adda.item.tab.shape.surface.SurfaceModel;
 import adda.utils.StringHelper;
 
 import java.util.Arrays;
@@ -168,5 +175,36 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
 
+    }
+
+    @Override
+    public boolean validate() {
+
+        boolean isValid = true;
+        String error = "";
+        if (enumValue == OrientationEnum.Average) {
+            BeamSaveModel beamSaveModel = (BeamSaveModel) Context.getInstance().getChildModelFromSelectedBox(BeamSaveModel.class);
+            InternalFieldSaveModel internalFieldSaveModel = (InternalFieldSaveModel) Context.getInstance().getChildModelFromSelectedBox(InternalFieldSaveModel.class);
+            PolarizationSaveModel polarizationSaveModel = (PolarizationSaveModel) Context.getInstance().getChildModelFromSelectedBox(PolarizationSaveModel.class);
+            error = "<html>";
+            if (beamSaveModel.getFlag()) {
+                isValid = false;
+                error += "<br>" + StringHelper.toDisplayString("Beam saving does`t compatible<br>with orientation average");
+            }
+            if (internalFieldSaveModel.getFlag()) {
+                isValid = false;
+                error += "<br>" + StringHelper.toDisplayString("Internal field saving does`t compatible<br>with orientation average");
+            }
+            if (polarizationSaveModel.getFlag()) {
+                isValid = false;
+                error += "<br>" + StringHelper.toDisplayString("Dipole polarization saving does`t compatible with<br>orientation average");
+            }
+            error += "</html>";
+        }
+
+        error = error.replaceAll("<html></html>", "");
+        error = error.replaceFirst("<br>", "");
+        validationErrors.put(ENUM_VALUE_FIELD_NAME, error);
+        return isValid;
     }
 }

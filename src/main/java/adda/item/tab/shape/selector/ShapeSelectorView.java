@@ -33,10 +33,10 @@ public class ShapeSelectorView extends ViewBase {
 
         JPanel additionalPanel = new JPanel();
         additionalPanel.setLayout(new BorderLayout());
-        additionalPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        additionalPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         additionalPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-        additionalPanel.setPreferredSize(new Dimension(130, 155));
-        additionalPanel.setMaximumSize(new Dimension(130, 155));
+        additionalPanel.setPreferredSize(new Dimension(140, 155));
+        additionalPanel.setMaximumSize(new Dimension(140, 155));
 
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -115,6 +115,8 @@ public class ShapeSelectorView extends ViewBase {
                         additionalPanel.repaint();
                         additionalPanel.revalidate();
                         additionalPanel.add(model.getParamsBox().getLayout());
+                        additionalPanel.repaint();
+                        additionalPanel.revalidate();
                     }
                 } else {
                     if (additionalPanel.getComponents().length > 1) {

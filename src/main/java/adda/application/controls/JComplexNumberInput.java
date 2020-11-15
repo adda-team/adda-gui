@@ -1,5 +1,6 @@
 package adda.application.controls;
 
+import adda.application.validation.validator.NotEmptyValidator;
 import adda.utils.ReflectionHelper;
 import adda.utils.StringHelper;
 
@@ -23,6 +24,7 @@ public class JComplexNumberInput extends JPanel {
         setLayout(new FlowLayout(FlowLayout.LEFT));
 
         realPartNumericField = new JNumericField();
+        realPartNumericField.setInputVerifier(new NotEmptyValidator(realPartNumericField));
         realPartNumericField.setMaxLength(20);
         realPartNumericField.setPrecision(10);
         realPartNumericField.setAllowNegative(false);
@@ -52,6 +54,7 @@ public class JComplexNumberInput extends JPanel {
         super.add(label);
 
         imagPartNumericField = new JNumericField();
+        imagPartNumericField.setInputVerifier(new NotEmptyValidator(imagPartNumericField));
         imagPartNumericField.setMaxLength(20);
         imagPartNumericField.setPrecision(10);
         imagPartNumericField.setAllowNegative(false);
@@ -79,11 +82,18 @@ public class JComplexNumberInput extends JPanel {
         super.add(imagPartNumericField);
     }
 
+
+
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         realPartNumericField.setEnabled(enabled);
         imagPartNumericField.setEnabled(enabled);
+    }
+
+    public boolean verify() {
+        return realPartNumericField.getInputVerifier().verify(realPartNumericField) &&
+                imagPartNumericField.getInputVerifier().verify(imagPartNumericField);
     }
 
     public String getRealPartText() {

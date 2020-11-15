@@ -7,13 +7,18 @@ import adda.base.events.IModelPropertyChangeEvent;
 import adda.application.controls.ComboBoxItem;
 import adda.application.controls.JNumericField;
 import adda.base.models.ModelBase;
+import adda.item.tab.shape.surface.SurfaceModel;
 import adda.utils.ListUtils;
 import adda.utils.ReflectionHelper;
 import adda.utils.StringHelper;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.styles.RoundedBalloonStyle;
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.*;
 
 public class ViewBase implements IView {
@@ -60,6 +65,7 @@ public class ViewBase implements IView {
                         }
                         Vector<ComboBoxItem> dataSource = ListUtils.getDataSource(entryClass);
                         JComboBox comboBox = new JComboBox(dataSource);
+                        comboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 //                        comboBox.setMinimumSize(new Dimension(50, 20));
                         //comboBox.setRenderer(new ComboBoxItemRenderer());
                         Object val = ReflectionHelper.getPropertyValue(model, entryName);
@@ -86,6 +92,7 @@ public class ViewBase implements IView {
                     } else if (entryClass.equals(boolean.class)) {
                         JCheckBox checkBox = new JCheckBox();
                         boolean val = (boolean) ReflectionHelper.getPropertyValue(model, entryName);
+                        checkBox.setAlignmentX(Component.LEFT_ALIGNMENT);
                         checkBox.setSelected(val);
                         if (!StringHelper.isEmpty(label)) {
                             checkBox.setText(label);//todo localization
@@ -124,6 +131,7 @@ public class ViewBase implements IView {
                             wrapper.add(panel.add(new JLabel(label)));
                             wrapper.add(component);
                             wrappers.put(entryName + WRAPPER_POSTFIX, wrapper);
+                            wrapper.setAlignmentX(Component.LEFT_ALIGNMENT);
                             panel.add(wrapper);
                         } else {
                             panel.add(component);
@@ -139,7 +147,46 @@ public class ViewBase implements IView {
                         if (bindProperty.isPresent()) {
                             try {
                                 boolean val = (boolean) ReflectionHelper.getPropertyValue(model, bindProperty.get());
-                                component.setVisible(val);
+                                if (model.isVisibleIfDisabled()) {
+                                    Component finalComponent = component;
+                                    component.addMouseListener(new MouseAdapter() {
+
+                                        volatile BalloonTip balloonTip;
+
+                                        @Override
+                                        public void mouseEntered(MouseEvent me) {
+                                            if (!(boolean) ReflectionHelper.getPropertyValue(model, bindProperty.get())
+                                                    && (balloonTip == null || !balloonTip.isVisible())
+                                                    && model.getValidationErrors().containsKey(bindProperty.get())
+                                                    && !StringHelper.isEmpty(model.getValidationErrors().get(bindProperty.get()))
+                                            ) {
+                                                RoundedBalloonStyle style = new RoundedBalloonStyle(5, 5, Color.WHITE, Color.black);
+                                                balloonTip = new BalloonTip(
+                                                        (JComponent) finalComponent,
+                                                        new JLabel(model.getValidationErrors().get(bindProperty.get())),
+                                                        style,
+                                                        BalloonTip.Orientation.RIGHT_ABOVE,
+                                                        BalloonTip.AttachLocation.NORTHWEST,
+                                                        30, 10,
+                                                        false
+                                                );
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void mouseExited(MouseEvent e) {
+                                            if (balloonTip != null) {
+                                                balloonTip.closeBalloon();
+                                                balloonTip = null;
+                                            }
+                                        }
+                                    });
+                                    component.setEnabled(val);
+                                } else {
+                                    component.setVisible(val);
+                                }
+
                                 if (addLabel && !StringHelper.isEmpty(label)) {
                                     wrappers.get(entryName + WRAPPER_POSTFIX).setVisible(val);
                                 }
@@ -162,6 +209,7 @@ public class ViewBase implements IView {
     protected void initPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
+        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 //        panel.setAlignmentY(Component.TOP_ALIGNMENT);
 //        panel.setPreferredSize(new Dimension(999999, 30));
 //        panel.setBackground(Color.white);
@@ -204,9 +252,15 @@ public class ViewBase implements IView {
             Component component = components.get(bindProperties.get(event.getPropertyName()));
             try {
                 boolean val = (boolean) event.getPropertyValue();
-                component.setVisible(val);
+                if (sender.isVisibleIfDisabled()) {
+                    component.setEnabled(val);
+                } else {
+                    component.setVisible(val);
+                }
+
                 if (wrappers.containsKey(bindProperties.get(event.getPropertyName()) + WRAPPER_POSTFIX)) {
-                    wrappers.get(bindProperties.get(event.getPropertyName()) + WRAPPER_POSTFIX).setVisible(val);
+                    final JPanel panel = wrappers.get(bindProperties.get(event.getPropertyName()) + WRAPPER_POSTFIX);
+                    panel.setVisible(val);
                 }
                 //component.setEnabled(val);
             } catch (ClassCastException e) {

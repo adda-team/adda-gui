@@ -4,9 +4,12 @@ import adda.application.controls.CustomOkCancelModalDialog;
 import adda.application.controls.JNumericField;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
+import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
 import adda.item.tab.shape.orientation.OrientationDialog;
 import adda.utils.ListenerHelper;
 import adda.utils.StringHelper;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.styles.RoundedBalloonStyle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -85,6 +88,20 @@ public class DipoleShapeDialog extends CustomOkCancelModalDialog {
         }
 
         getDialogContentPanel().add(wrapperPanel);
+
+        if (!model.validate()) {
+            buttonOK.setEnabled(false);
+            RoundedBalloonStyle style = new RoundedBalloonStyle(5, 5, Color.WHITE, Color.black);
+            BalloonTip balloonTip = new BalloonTip(
+                    buttonOK,
+                    new JLabel(model.getValidationErrors().get(DipoleShapeModel.ENUM_VALUE_FIELD_NAME)),
+                    style,
+                    BalloonTip.Orientation.RIGHT_ABOVE,
+                    BalloonTip.AttachLocation.NORTHWEST,
+                    30, 10,
+                    false
+            );
+        }
 
 
         

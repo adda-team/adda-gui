@@ -1,20 +1,40 @@
 package adda.item.tab.shape.surface;
 
+import adda.Context;
 import adda.base.AddaOption;
 import adda.base.IAddaOption;
+import adda.base.annotation.BindEnableFrom;
 import adda.base.annotation.Viewable;
+import adda.base.events.IModelPropertyChangeEvent;
+import adda.base.models.IModel;
+import adda.base.models.IModelObserver;
 import adda.base.models.ModelBase;
 import adda.base.models.ModelBaseAddaOptionsContainer;
+import adda.item.tab.base.beam.BeamEnum;
+import adda.item.tab.base.beam.BeamModel;
+import adda.item.tab.internals.dipoleShape.DipoleShapeEnum;
+import adda.item.tab.internals.dipoleShape.DipoleShapeModel;
+import adda.item.tab.internals.formulation.FormulationModel;
+import adda.item.tab.internals.formulation.InteractionEnum;
+import adda.item.tab.internals.formulation.PolarizationEnum;
+import adda.item.tab.internals.initialField.InitialFieldEnum;
+import adda.item.tab.internals.initialField.InitialFieldModel;
+import adda.item.tab.output.radiationForce.RadiationForceSaveModel;
 import adda.utils.StringHelper;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class SurfaceModel extends ModelBaseAddaOptionsContainer {
+public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IModelObserver {
+
+    public SurfaceModel() {
+        isVisibleIfDisabled = true;
+    }
 
     public static final String MEASURE_FIELD_NAME = "measure";
     public static final String IS_USE_SURFACE_FIELD_NAME = "isUseSurface";
+    public static final String IS_USE_SURFACE_ENABLED_FIELD_NAME = "isUseSurfaceEnabled";
     public static final String DISTANCE_FIELD_NAME = "distance";
     public static final String IS_INFINITE_FIELD_NAME = "isInfinite";
     public static final String REAL_PART_FIELD_NAME = "realPart";
@@ -25,8 +45,11 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer {
     public static final String DELIMITER = " ";
     public static final String INF = "inf";
 
+    @BindEnableFrom("isUseSurfaceEnabled")
     @Viewable
     protected boolean isUseSurface = false;
+
+    protected boolean isUseSurfaceEnabled = true;
     protected boolean isInfinite = true;
     
     protected double distance = 1;
@@ -57,6 +80,17 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer {
         if (this.isUseSurface != isUseSurface) {
             this.isUseSurface = isUseSurface;
             notifyObservers(IS_USE_SURFACE_FIELD_NAME, isUseSurface);
+        }
+    }
+
+    public boolean isUseSurfaceEnabled() {
+        return isUseSurfaceEnabled;
+    }
+
+    public void setUseSurfaceEnabled(boolean isUseSurfaceEnabled) {
+        if (this.isUseSurfaceEnabled != isUseSurfaceEnabled) {
+            this.isUseSurfaceEnabled = isUseSurfaceEnabled;
+            notifyObservers(IS_USE_SURFACE_ENABLED_FIELD_NAME, isUseSurfaceEnabled);
         }
     }
 
@@ -143,5 +177,43 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer {
                         .toString();
 
         return Collections.singletonList(new AddaOption(SURF, String.join(DELIMITER, getParamsList()), displayString));
+    }
+
+
+    @Override
+    public boolean validate() {
+        RadiationForceSaveModel radiationForceSaveModel = (RadiationForceSaveModel) Context.getInstance().getChildModelFromSelectedBox(RadiationForceSaveModel.class);
+        BeamModel beamModel = (BeamModel) Context.getInstance().getChildModelFromSelectedBox(BeamModel.class);
+        InitialFieldModel initialFieldModel = (InitialFieldModel) Context.getInstance().getChildModelFromSelectedBox(InitialFieldModel.class);
+
+        String error = "<html>";
+        boolean isValid = true;
+        if (radiationForceSaveModel.getFlag()) {
+            isValid = false;
+            error += "<br>" + StringHelper.toDisplayString("Radiation Force does`t compatible with 'surface' option");
+        }
+        if (beamModel.getEnumValue() != BeamEnum.plane) {
+            isValid = false;
+            error += "<br>" + StringHelper.toDisplayString("Non plane beam does`t compatible with 'surface' option");
+        }
+        if (initialFieldModel.getEnumValue() == InitialFieldEnum.wkb) {
+            isValid = false;
+            error += "<br>" + StringHelper.toDisplayString("WKB initial field for the iterative solver  does`t compatible with 'surface' option");
+        }
+        error += "</html>";
+
+        error = error.replaceAll("<html></html>", "");
+        error = error.replaceFirst("<br>", "");
+
+        validationErrors.put(IS_USE_SURFACE_ENABLED_FIELD_NAME, error);
+
+        return isValid;
+    }
+
+    @Override
+    public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
+        if (sender instanceof RadiationForceSaveModel || sender instanceof BeamModel || sender instanceof InitialFieldModel) {
+            setUseSurfaceEnabled(validate());
+        }
     }
 }

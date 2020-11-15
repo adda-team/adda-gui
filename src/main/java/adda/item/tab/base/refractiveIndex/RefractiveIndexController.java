@@ -27,6 +27,7 @@ public class RefractiveIndexController extends ControllerDialogBase {
                         if (!StringHelper.isEmpty(complexNumberInput.getRealPartText())) {
                             refractiveIndexModel.setRealX(complexNumberInput.getRealPart());
                         }
+                         complexNumberInput.verify();
                     })
             );
 
@@ -35,6 +36,7 @@ public class RefractiveIndexController extends ControllerDialogBase {
                         if (!StringHelper.isEmpty(complexNumberInput.getImagPartText())) {
                             refractiveIndexModel.setImagX(complexNumberInput.getImagPart());
                         }
+                        complexNumberInput.verify();
                     })
             );
 

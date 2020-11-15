@@ -18,6 +18,13 @@ public class ModelBase implements IModel {
     public static final String LABEL_FIELD_NAME = "label";
     protected List<IModelObserver> observers;
 
+    protected boolean isVisibleIfDisabled = false;
+
+    @Override
+    public boolean isVisibleIfDisabled() {
+        return isVisibleIfDisabled;
+    }
+
     @Viewable
     protected String label;//todo localization (add field original label, put into original label untranslated string)
 

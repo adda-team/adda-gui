@@ -1,5 +1,6 @@
 package adda.item.tab.base.refractiveIndexAggregator;
 
+import adda.Context;
 import adda.base.AddaOption;
 import adda.base.IAddaOption;
 import adda.base.boxes.BoxBase;
@@ -10,6 +11,11 @@ import adda.base.models.ModelBase;
 import adda.base.models.ModelBaseAddaOptionsContainer;
 import adda.item.tab.base.refractiveIndex.RefractiveIndexBox;
 import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
+import adda.item.tab.internals.dipoleShape.DipoleShapeEnum;
+import adda.item.tab.internals.dipoleShape.DipoleShapeModel;
+import adda.item.tab.internals.formulation.FormulationModel;
+import adda.item.tab.internals.formulation.InteractionEnum;
+import adda.item.tab.internals.formulation.PolarizationEnum;
 import adda.item.tab.shape.granules.GranulesModel;
 import adda.item.tab.shape.selector.ShapeSelectorModel;
 import adda.utils.Binder;
@@ -73,7 +79,9 @@ public class RefractiveIndexAggregatorModel extends ModelBaseAddaOptionsContaine
         SwingUtilities.invokeLater(() -> {
             shapeBoxes.forEach(BoxBase::init);
             granulBox.init();
-            ((RefractiveIndexModel) granulBox.getModel()).setEnabledAnisotrop(false);
+            final RefractiveIndexModel refractiveIndexModel = (RefractiveIndexModel) granulBox.getModel();
+            refractiveIndexModel.getValidationErrors().put(RefractiveIndexModel.IS_ENABLED_ANISOTROP_FIELD_NAME, StringHelper.toDisplayString("<html>Anisotropy refractive index <br>does`t compatible with granules"));
+            refractiveIndexModel.setEnabledAnisotrop(false);
             surfaceBox.init();
             ((RefractiveIndexModel) surfaceBox.getModel()).setEnabledAnisotrop(false);
 
@@ -207,7 +215,52 @@ public class RefractiveIndexAggregatorModel extends ModelBaseAddaOptionsContaine
             if (sender instanceof RefractiveIndexModel) {
                 notifyObservers();
             }
+
+            if (sender instanceof FormulationModel && !FormulationModel.SCATTERING_QUANTITIES_FIELD_NAME.equals(event.getPropertyName())) {
+                crossValidation();
+            }
+
+            if (sender instanceof DipoleShapeModel) {
+                crossValidation();
+            }
         }
+    }
+
+    private void crossValidation() {
+        FormulationModel formulationModel = (FormulationModel) Context.getInstance().getChildModelFromSelectedBox(FormulationModel.class);
+        DipoleShapeModel dipoleShapeModel = (DipoleShapeModel) Context.getInstance().getChildModelFromSelectedBox(DipoleShapeModel.class);
+        String error = "";
+        boolean isEnableAnisotropy = true;
+        if (formulationModel.getPolarization() == PolarizationEnum.cldr) {
+            isEnableAnisotropy = false;
+            error += StringHelper.toDisplayString("<html>Anisotropy refractive index <br>does`t compatible with CLDR polarizability formulation</html>");
+        }
+        if (formulationModel.getInteraction() == InteractionEnum.so) {
+            isEnableAnisotropy = false;
+            error += StringHelper.toDisplayString("<html>Anisotropy refractive index <br>does`t compatible with SO interaction</html>");
+        }
+        if (dipoleShapeModel.getEnumValue() == DipoleShapeEnum.Rect) {
+            isEnableAnisotropy = false;
+            error += StringHelper.toDisplayString("<html>Anisotropy refractive index <br>does`t compatible with non cubic dipoles</html>");
+        }
+
+
+
+        setEnableAnisotropyExternal(error, isEnableAnisotropy);
+    }
+
+    private void setEnableAnisotropyExternal(String error, boolean isEnableAnisotropy) {
+        boolean finalIsEnableAnisotropy = isEnableAnisotropy;
+        String finalError = error;
+        shapeBoxes
+                .forEach(box -> {
+                    RefractiveIndexModel refractiveIndexModel = (RefractiveIndexModel) box.getModel();
+
+                    //!!! error must set before disabling
+                    refractiveIndexModel.getValidationErrors().put(RefractiveIndexModel.IS_ENABLED_ANISOTROP_FIELD_NAME, finalError);
+                    refractiveIndexModel.setEnabledAnisotrop(finalIsEnableAnisotropy);
+
+                });
     }
 
     private void notifyObservers() {

@@ -54,8 +54,6 @@ public class MainForm {
     }
 
 
-
-
     public MainForm() {
         treePanel.setMinimumSize(new Dimension(200, 200));
         treePanel.setMaximumSize(new Dimension(200, 9999999));
@@ -149,7 +147,7 @@ public class MainForm {
         actualCommandLinePanel = new JPanel();
         actualCommandLinePanel.setLayout(new BorderLayout(0, 0));
         actualCommandLinePanel.setBackground(new Color(-855310));
-        tabbedPane1.addTab("Actual command line", actualCommandLinePanel);
+        tabbedPane1.addTab("ADDA command line", actualCommandLinePanel);
         final JScrollPane scrollPane2 = new JScrollPane();
         scrollPane2.setBackground(new Color(-855310));
         scrollPane2.setHorizontalScrollBarPolicy(31);
@@ -164,8 +162,16 @@ public class MainForm {
         infoPanel.setBackground(new Color(-855310));
         tabbedPane1.addTab("Info", infoPanel);
         consolePanel = new JPanel();
-        consolePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        consolePanel.setLayout(new BorderLayout(0, 0));
         tabbedPane1.addTab("Console", consolePanel);
+        final JScrollPane scrollPane3 = new JScrollPane();
+        scrollPane3.setBackground(new Color(-1));
+        scrollPane3.setEnabled(false);
+        scrollPane3.setHorizontalScrollBarPolicy(31);
+        consolePanel.add(scrollPane3, BorderLayout.CENTER);
+        scrollPane3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
+        consoleTextArea = new JTextArea();
+        scrollPane3.setViewportView(consoleTextArea);
         shortcutPanel = new JPanel();
         shortcutPanel.setLayout(new BorderLayout(0, 0));
         gbc = new GridBagConstraints();

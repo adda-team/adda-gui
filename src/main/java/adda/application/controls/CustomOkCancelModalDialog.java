@@ -10,13 +10,13 @@ import java.awt.*;
 import java.awt.event.*;
 
 public abstract class CustomOkCancelModalDialog extends JDialog implements IModelObserver {
-    private JPanel wrapperPanel;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    protected JPanel wrapperPanel;
+    protected JButton buttonOK;
+    protected JButton buttonCancel;
 
 
-    private JPanel contentPanel;
-    private boolean isOkPressed = false;
+    protected JPanel contentPanel;
+    protected boolean isOkPressed = false;
     protected IModel model;
 
     public boolean isOkPressed() {

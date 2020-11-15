@@ -32,9 +32,6 @@ public class RefractiveIndexModel extends ModelBaseAddaOptionsContainer implemen
     @Viewable("anisotropy")
     protected boolean isAnisotrop = false;
 
-
-
-
     protected double realX = REAL_DEFAULT;
     protected double imagX = IMAG_DEFAULT;
 
@@ -90,10 +87,6 @@ public class RefractiveIndexModel extends ModelBaseAddaOptionsContainer implemen
         }
     }
 
-
-
-
-
     public double getRealY() {
         return realY;
     }
@@ -106,9 +99,6 @@ public class RefractiveIndexModel extends ModelBaseAddaOptionsContainer implemen
     }
 
 
-
-
-
     public double getRealZ() {
         return realZ;
     }
@@ -119,7 +109,6 @@ public class RefractiveIndexModel extends ModelBaseAddaOptionsContainer implemen
             notifyObservers(REAL_Z_FIELD_NAME, realZ);
         }
     }
-
 
 
     public double getImagX() {
@@ -141,7 +130,6 @@ public class RefractiveIndexModel extends ModelBaseAddaOptionsContainer implemen
     }
 
 
-
     public boolean isAnisotrop() {
         return isAnisotrop;
     }
@@ -153,8 +141,6 @@ public class RefractiveIndexModel extends ModelBaseAddaOptionsContainer implemen
         }
     }
 
-
-
     public double getImagY() {
         return imagY;
     }
@@ -165,10 +151,6 @@ public class RefractiveIndexModel extends ModelBaseAddaOptionsContainer implemen
             notifyObservers(IMAG_Y_FIELD_NAME, imagY);
         }
     }
-
-
-
-
 
     public boolean isEnabledAnisotrop() {
         return isEnabledAnisotrop;

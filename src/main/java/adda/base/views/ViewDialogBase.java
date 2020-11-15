@@ -28,10 +28,12 @@ public abstract class ViewDialogBase extends ViewBase {
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
         this.outerPanel = outerPanel;
+
         this.outerPanel.add(this.panel);
 
         JPanel additionalPanel = new JPanel();
-        additionalPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        additionalPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        additionalPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.additionalPanel = additionalPanel;
         this.outerPanel.add(this.additionalPanel);
 
@@ -50,6 +52,7 @@ public abstract class ViewDialogBase extends ViewBase {
 
         JPanel overviewPanel = new JPanel();
         overviewPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        overviewPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.overviewPanel = overviewPanel;
         additionalPanel.add(this.overviewPanel);
 

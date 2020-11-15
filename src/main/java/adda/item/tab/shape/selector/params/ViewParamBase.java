@@ -11,8 +11,10 @@ public class ViewParamBase extends ViewBase {
     @Override
     protected void initPanel() {
         JPanel panel = new JPanel();
-//        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setLayout(new VerticalLayout(-1));
+        panel.setPreferredSize(new Dimension(260, 155));
+        panel.setMaximumSize(new Dimension(260, 155));
         this.panel = panel;
     }
     @Override
@@ -25,11 +27,11 @@ public class ViewParamBase extends ViewBase {
         super.initFromModelInner(model);
 
         //todo rework me!
-        panel.add(Box.createVerticalGlue());
-        panel.add(Box.createVerticalGlue());
-        panel.add(Box.createVerticalGlue());
-        panel.add(Box.createVerticalGlue());
-        panel.add(Box.createVerticalGlue());
-        panel.add(Box.createVerticalGlue());
+//        panel.add(Box.createVerticalGlue());
+//        panel.add(Box.createVerticalGlue());
+//        panel.add(Box.createVerticalGlue());
+//        panel.add(Box.createVerticalGlue());
+//        panel.add(Box.createVerticalGlue());
+//        panel.add(Box.createVerticalGlue());
     }
 }

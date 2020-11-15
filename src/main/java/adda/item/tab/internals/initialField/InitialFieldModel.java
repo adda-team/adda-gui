@@ -1,8 +1,13 @@
 package adda.item.tab.internals.initialField;
 
+import adda.Context;
 import adda.base.AddaOption;
 import adda.base.IAddaOption;
+import adda.base.events.IModelPropertyChangeEvent;
+import adda.base.models.IModel;
+import adda.base.models.IModelObserver;
 import adda.item.tab.TabEnumModel;
+import adda.item.tab.shape.surface.SurfaceModel;
 import adda.utils.StringHelper;
 
 import java.util.Arrays;
@@ -22,5 +27,23 @@ public class InitialFieldModel extends TabEnumModel<InitialFieldEnum> {
     protected List<IAddaOption> getAddaOptionsInner() {
         IAddaOption addaOption = new AddaOption(INIT_FIELD, enumValue.toString(), StringHelper.toDisplayString(enumValue));
         return Arrays.asList(addaOption);
+    }
+
+
+    @Override
+    public boolean validate() {
+
+        boolean isValid = true;
+        String error = "";
+        if (enumValue == InitialFieldEnum.wkb) {
+            SurfaceModel surfaceModel = (SurfaceModel) Context.getInstance().getChildModelFromSelectedBox(SurfaceModel.class);
+            if (surfaceModel.isUseSurface()) {
+                isValid = false;
+                error = StringHelper.toDisplayString("WKB initial field for the iterative solver  does`t compatible with 'surface' option");
+            }
+        }
+
+        validationErrors.put(ENUM_VALUE_FIELD_NAME, error);
+        return isValid;
     }
 }

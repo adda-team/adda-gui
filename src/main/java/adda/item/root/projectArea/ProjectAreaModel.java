@@ -2,6 +2,7 @@ package adda.item.root.projectArea;
 
 import adda.Context;
 import adda.Main;
+import adda.base.models.IModel;
 import adda.base.models.ModelBase;
 import adda.item.tab.options.OptionsModel;
 import adda.utils.OutputDisplayer;
@@ -10,10 +11,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ProjectAreaModel extends ModelBase {
 
@@ -22,6 +20,16 @@ public class ProjectAreaModel extends ModelBase {
 
     protected boolean isRunning;
     protected boolean isActive;
+
+    protected List<IModel> nestedModelList = Collections.emptyList();
+
+    public List<IModel> getNestedModelList() {
+        return nestedModelList;
+    }
+
+    public void setNestedModelList(List<IModel> nestedModelList) {
+        this.nestedModelList = nestedModelList;
+    }
 
     public boolean isActive() {
         return isActive;

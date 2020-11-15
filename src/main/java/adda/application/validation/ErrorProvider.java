@@ -62,6 +62,7 @@ public abstract class ErrorProvider extends InputVerifier {
      */
 
     volatile BalloonTip balloonTip;
+    RoundedBalloonStyle style = new RoundedBalloonStyle(5, 5, Color.WHITE, Color.RED);
 
     @Override
     public boolean verify(JComponent c) {
@@ -79,7 +80,7 @@ public abstract class ErrorProvider extends InputVerifier {
             c.setBorder(new IconBorder(error.getImage(), originalBorder));
             c.setBackground(error.getColor());
             //c.setToolTipText(error.getMessage());
-            RoundedBalloonStyle style = new RoundedBalloonStyle(5, 5, Color.WHITE, Color.RED);
+
             if (balloonTip != null) {
                 balloonTip.closeBalloon();
             }

@@ -1,5 +1,6 @@
 package adda.item.root.projectArea;
 
+import adda.Context;
 import adda.base.IAddaOption;
 import adda.base.IAddaOptionsContainer;
 import adda.base.annotation.*;
@@ -9,19 +10,28 @@ import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.models.IModelObserver;
 import adda.item.tab.base.BaseTabBox;
+import adda.item.tab.base.beam.BeamModel;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorBox;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.item.tab.base.size.SizeBox;
 import adda.item.tab.base.size.SizeModel;
 import adda.item.tab.internals.InternalsTabBox;
+import adda.item.tab.internals.dipoleShape.DipoleShapeModel;
 import adda.item.tab.internals.formulation.FormulationModel;
+import adda.item.tab.internals.initialField.InitialFieldModel;
 import adda.item.tab.options.OptionsBox;
 import adda.item.tab.options.OptionsModel;
 import adda.item.tab.output.OutputTabBox;
+import adda.item.tab.output.beam.BeamSaveModel;
 import adda.item.tab.output.granul.GranulSaveModel;
+import adda.item.tab.output.internalField.InternalFieldSaveModel;
+import adda.item.tab.output.polarization.PolarizationSaveModel;
+import adda.item.tab.output.radiationForce.RadiationForceSaveModel;
 import adda.item.tab.shape.ShapeTabBox;
 import adda.item.tab.shape.granules.GranulesModel;
+import adda.item.tab.shape.orientation.OrientationModel;
 import adda.item.tab.shape.selector.ShapeSelectorModel;
+import adda.item.tab.shape.surface.SurfaceModel;
 import adda.utils.Binder;
 
 import javax.swing.*;
@@ -78,6 +88,7 @@ public class ProjectAreaBox extends BoxBase {
     private void bindChildren() {
         List<IModel> models = new ArrayList<>();
         getRecursiveModelList(this, models);
+        ((ProjectAreaModel) model).setNestedModelList(models);
 
         //bind all adda options to OptionsModel
         //OptionsModel MUST be in children, in other way exception will signal about it
@@ -137,10 +148,27 @@ public class ProjectAreaBox extends BoxBase {
         refractiveIndexAggregatorModel.setShapeModel(shapeSelectorModel);
         refractiveIndexAggregatorModel.setGranulesModel(granulesModel);
 
-
         //sync granul refractive indexes
         Binder.bindBoth(granulesModel, refractiveIndexAggregatorModel);
 
+
+
+        FormulationModel formulationModel = (FormulationModel) models.stream()
+                .filter(entity -> entity instanceof FormulationModel)
+                .findFirst()
+                .get();
+
+        //constraint refractive indexes and polarization (or interaction)
+        Binder.bindBoth(formulationModel, refractiveIndexAggregatorModel);
+
+
+        DipoleShapeModel dipoleShapeModel = (DipoleShapeModel) models.stream()
+                .filter(entity -> entity instanceof DipoleShapeModel)
+                .findFirst()
+                .get();
+
+        //constraint refractive indexes and rect_dip
+        Binder.bindBoth(dipoleShapeModel, refractiveIndexAggregatorModel);
 
         SizeModel sizeModel = (SizeModel) models.stream()
                 .filter(entity -> entity instanceof SizeModel)
@@ -148,6 +176,61 @@ public class ProjectAreaBox extends BoxBase {
                 .get();
 
         Binder.bind(sizeModel, granulesModel);
+
+
+        SurfaceModel surfaceModel = (SurfaceModel) models.stream()
+                .filter(entity -> entity instanceof SurfaceModel)
+                .findFirst()
+                .get();
+
+        RadiationForceSaveModel radiationForceSaveModel = (RadiationForceSaveModel) models.stream()
+                .filter(entity -> entity instanceof RadiationForceSaveModel)
+                .findFirst()
+                .get();
+
+        Binder.bindBoth(radiationForceSaveModel, surfaceModel);
+
+        BeamModel beamModel = (BeamModel) models.stream()
+                .filter(entity -> entity instanceof BeamModel)
+                .findFirst()
+                .get();
+
+        Binder.bindBoth(beamModel, surfaceModel);
+
+
+        InitialFieldModel initialFieldModel = (InitialFieldModel) models.stream()
+                .filter(entity -> entity instanceof InitialFieldModel)
+                .findFirst()
+                .get();
+
+        Binder.bindBoth(initialFieldModel, surfaceModel);
+
+        OrientationModel orientationModel = (OrientationModel) models.stream()
+                .filter(entity -> entity instanceof OrientationModel)
+                .findFirst()
+                .get();
+
+        BeamSaveModel beamSaveModel = (BeamSaveModel) models.stream()
+                .filter(entity -> entity instanceof BeamSaveModel)
+                .findFirst()
+                .get();
+
+        Binder.bindBoth(orientationModel, beamSaveModel);
+
+        InternalFieldSaveModel internalFieldSaveModel = (InternalFieldSaveModel) models.stream()
+                .filter(entity -> entity instanceof InternalFieldSaveModel)
+                .findFirst()
+                .get();
+
+        Binder.bindBoth(orientationModel, internalFieldSaveModel);
+
+        PolarizationSaveModel polarizationSaveModel = (PolarizationSaveModel) models.stream()
+                .filter(entity -> entity instanceof PolarizationSaveModel)
+                .findFirst()
+                .get();
+
+        Binder.bindBoth(orientationModel, polarizationSaveModel);
+
 
     }
 

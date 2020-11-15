@@ -11,6 +11,8 @@ public interface IModel extends Cloneable {
 
     boolean validate();
 
+    boolean isVisibleIfDisabled();
+
     Map<String, String> getValidationErrors();
 
     Map<String, Class> getViewableProperties();

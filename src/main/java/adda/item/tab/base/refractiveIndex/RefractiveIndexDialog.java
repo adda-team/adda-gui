@@ -38,7 +38,6 @@ public class RefractiveIndexDialog extends CustomOkCancelModalDialog {
             panel.add(getZeroLabel());
 
 
-
             JComplexNumberInput oy = createComplexNumberInput(realPart -> {
                 refractiveIndexModel.setRealY(realPart);
                 return null;
@@ -83,6 +82,7 @@ public class RefractiveIndexDialog extends CustomOkCancelModalDialog {
                     if (!StringHelper.isEmpty(complexNumberInput.getRealPartText())) {
                         realFunc.apply(complexNumberInput.getRealPart());
                     }
+                    buttonOK.setEnabled(complexNumberInput.verify());
                 })
         );
 
@@ -91,6 +91,7 @@ public class RefractiveIndexDialog extends CustomOkCancelModalDialog {
                     if (!StringHelper.isEmpty(complexNumberInput.getImagPartText())) {
                         imagFunc.apply(complexNumberInput.getImagPart());
                     }
+                    buttonOK.setEnabled(complexNumberInput.verify());
                 })
         );
         return complexNumberInput;

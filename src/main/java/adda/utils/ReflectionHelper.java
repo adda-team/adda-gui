@@ -113,7 +113,9 @@ public class ReflectionHelper {
                     Optional<Method> optionalSetter = Arrays.stream(toMethods).filter(x -> x.getName().equals(setterName)).findFirst();
                     if (optionalSetter.isPresent()) {
                         Method setter = optionalSetter.get();
-                        if ((setter.getParameterTypes().length == 1) && (setter.getParameterTypes()[0] == method.getReturnType())) {
+                        if ((setter.getParameterTypes().length == 1)
+                                && (setter.getParameterTypes()[0] == method.getReturnType() || (setter.getParameterTypes()[0].getSuperclass() != null && setter.getParameterTypes()[0].getSuperclass() == method.getReturnType()))
+                        ) {
                             to.getClass().getMethod(setterName, method.getReturnType()).invoke(to, method.invoke(from));
                         }
                     }

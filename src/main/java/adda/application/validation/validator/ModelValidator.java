@@ -18,15 +18,22 @@ public class ModelValidator extends ErrorProvider {
         this.propertyName = propertyName;
     }
 
+    public ModelValidator(JComponent c, IModel model, String propertyName) {
+        super(c);
+        this.model = model;
+        this.propertyName = propertyName;
+    }
+
     @Override
     protected Error ErrorDefinition(JComponent c) {
         String str = "";
         if (c instanceof JTextField) {
             str = ((JTextField) c).getText();
+            if (str.isEmpty()) {
+                return new Error(Error.ERROR, "This field cannot be empty");
+            }
         }
-        if (str.isEmpty()) {
-            return new Error(Error.ERROR, "This field cannot be empty");
-        }
+
 
         if (model != null
                 && !model.validate()

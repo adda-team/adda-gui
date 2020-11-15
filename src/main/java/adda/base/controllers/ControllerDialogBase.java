@@ -73,6 +73,7 @@ public abstract class ControllerDialogBase extends ControllerBase {
         ComboBoxItem selectedItem = (ComboBoxItem) comboBox.getSelectedItem();
         if (selectedItem != null) {
             processValue(comboBox, selectedItem.getKey());
+
         }
     }
 
@@ -89,7 +90,7 @@ public abstract class ControllerDialogBase extends ControllerBase {
         if (StringHelper.isEmpty(numericField.getText())) return;
         processValue(numericField, numericField.getDouble());
     }
-    protected void processValue(Component component, Object value) {
+    protected void processValue(JComponent component, Object value) {
         //invokeLater for fix combobox close list issue
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -121,6 +122,9 @@ public abstract class ControllerDialogBase extends ControllerBase {
                         ReflectionHelper.setPropertyValue(model, component.getName(), value);
                         isDialogModelDisabled = false;
                     }
+                }
+                if (component.getInputVerifier() != null) {
+                    component.getInputVerifier().verify(component);
                 }
             }
         });

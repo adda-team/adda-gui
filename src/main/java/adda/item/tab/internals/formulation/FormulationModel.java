@@ -1,14 +1,23 @@
 package adda.item.tab.internals.formulation;
 
+import adda.Context;
 import adda.base.AddaOption;
 import adda.base.IAddaOption;
+import adda.base.boxes.IBox;
+import adda.base.events.IModelPropertyChangeEvent;
+import adda.base.models.IModel;
+import adda.base.models.IModelObserver;
+import adda.item.root.projectArea.ProjectAreaBox;
+import adda.item.root.projectArea.ProjectAreaModel;
 import adda.item.tab.TabEnumModel;
+import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
+import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.utils.StringHelper;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class FormulationModel  extends TabEnumModel<FormulationEnum> {
+public class FormulationModel  extends TabEnumModel<FormulationEnum>  implements IModelObserver {
 
 
     public static final String POLARIZATION_FIELD_NAME = "polarization";
@@ -128,5 +137,51 @@ public class FormulationModel  extends TabEnumModel<FormulationEnum> {
         setScatteringQuantities(ScatteringQuantitiesEnum.igt_so);
     }
 
+
+    @Override
+    public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
+        if (sender instanceof RefractiveIndexAggregatorModel) {
+            //notify view for revalidation
+            notifyObservers(SCATTERING_QUANTITIES_FIELD_NAME, polarization);
+        }
+    }
+
+
+    @Override
+    public boolean validate() {
+        boolean isValid = true;
+        if (polarization == PolarizationEnum.cldr || interaction == InteractionEnum.so) {
+            IBox box = Context.getInstance().getWorkspaceModel().getFocusedBox();
+            if (box instanceof ProjectAreaBox) {
+                RefractiveIndexAggregatorModel refractiveIndexAggregatorModel =
+                        (RefractiveIndexAggregatorModel) Context.getInstance().getChildModelFromSelectedBox(RefractiveIndexAggregatorModel.class);
+
+
+                int max = refractiveIndexAggregatorModel.getShapeModel().getShapeDomainInfos().size();
+
+                for (int i = 0; i < max; i++) {
+                    if (((RefractiveIndexModel) refractiveIndexAggregatorModel.getShapeBoxes().get(i).getModel()).isAnisotrop()) {
+                        isValid = false;
+                        String error = "";
+                        if (polarization == PolarizationEnum.cldr) {
+                            validationErrors.put(POLARIZATION_FIELD_NAME, StringHelper.toDisplayString("<html>Anisotropy refractive index <br>does`t compatible with CLDR polarizability formulation</html>"));
+                            validationErrors.put(ENUM_VALUE_FIELD_NAME, StringHelper.toDisplayString("<html>Anisotropy refractive index <br>does`t compatible with CLDR polarizability formulation</html>"));
+                        }
+
+                        if (interaction == InteractionEnum.so) {
+                            validationErrors.put(INTERACTION_FIELD_NAME, StringHelper.toDisplayString("<html>Anisotropy refractive index <br>does`t compatible with SO interaction</html>"));
+                            validationErrors.put(ENUM_VALUE_FIELD_NAME, StringHelper.toDisplayString("<html>Anisotropy refractive index <br>does`t compatible with SO interaction</html>"));
+                        }
+                        break;
+                    }
+                }
+            }
+        } else {
+            validationErrors.put(POLARIZATION_FIELD_NAME, "");
+            validationErrors.put(INTERACTION_FIELD_NAME, "");
+            validationErrors.put(ENUM_VALUE_FIELD_NAME, "");
+        }
+        return isValid;
+    }
 }
 

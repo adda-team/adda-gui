@@ -1,8 +1,13 @@
 package adda;
 
 import adda.application.MainForm;
+import adda.base.boxes.IBox;
+import adda.base.models.IModel;
+import adda.item.root.projectArea.ProjectAreaBox;
+import adda.item.root.projectArea.ProjectAreaModel;
 import adda.item.root.projectTree.ProjectTreeModel;
 import adda.item.root.workspace.WorkspaceModel;
+import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.settings.formatters.json.JsonFormatter;
 import adda.settings.formatters.plaintext.PlainTextFormatter;
 import adda.settings.serializer.AddaSerializer;
@@ -73,6 +78,20 @@ public class Context {
             }
         }
         return localInstance;
+    }
+
+    public IModel getChildModelFromSelectedBox(Class<?> clazz) {
+
+        IBox box = getWorkspaceModel().getFocusedBox();
+        if (box instanceof ProjectAreaBox) {
+            return  ((ProjectAreaModel) box.getModel())
+                            .getNestedModelList()
+                            .stream()
+                            .filter(model -> model != null && model.getClass().equals(clazz))
+                            .findFirst()
+                            .get();
+        }
+        return null;
     }
 
 

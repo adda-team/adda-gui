@@ -53,6 +53,7 @@ public class ControllerBase implements IController {
         for (Component component : components) {
             if (component.getClass().equals(JComboBox.class)) {
                 JComboBox comboBox = (JComboBox) component;
+                comboBox.setInputVerifier(new ModelValidator(Context.getInstance().getMainFrame(), comboBox, model, comboBox.getName()));
                 comboBox.addActionListener(actionEvent -> {
                     processComboBox(comboBox);
                 });
@@ -128,12 +129,17 @@ public class ControllerBase implements IController {
     }
 
     protected void processDoubleField(JNumericField numericField) {
-        numericField.getInputVerifier().verify(numericField);
+        final InputVerifier inputVerifier = numericField.getInputVerifier();
+        if (inputVerifier != null) {
+            inputVerifier.verify(numericField);
+        }
         if (StringHelper.isEmpty(numericField.getText())) return;
         double value = numericField.getDouble();
         if (validate(numericField, value)) {
             ReflectionHelper.setPropertyValue(model, numericField.getName(), value);
-            numericField.getInputVerifier().verify(numericField);
+            if (inputVerifier != null) {
+                inputVerifier.verify(numericField);
+            }
         }
     }
 
@@ -148,6 +154,10 @@ public class ControllerBase implements IController {
         ComboBoxItem selectedItem = (ComboBoxItem) comboBox.getSelectedItem();
         if (selectedItem != null && validate(comboBox, selectedItem)) {
             ReflectionHelper.setPropertyValue(model, comboBox.getName(), selectedItem.getKey());
+
+            if (comboBox.getInputVerifier() != null) {
+                comboBox.getInputVerifier().verify(comboBox);
+            }
         }
     }
 

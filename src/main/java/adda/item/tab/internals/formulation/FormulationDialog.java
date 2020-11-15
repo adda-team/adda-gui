@@ -1,5 +1,7 @@
 package adda.item.tab.internals.formulation;
 
+import adda.Context;
+import adda.application.validation.validator.ModelValidator;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.application.controls.ComboBoxItem;
@@ -47,19 +49,21 @@ public class FormulationDialog extends CustomOkCancelModalDialog {
 
 
         setComboBoxData(polarizationComboBox, formulationModel.polarization);
+        polarizationComboBox.setInputVerifier(new ModelValidator(polarizationComboBox, model, FormulationModel.POLARIZATION_FIELD_NAME));
         polarizationComboBox.addActionListener(e -> {
             ComboBoxItem selectedItem = (ComboBoxItem) polarizationComboBox.getSelectedItem();
             if (selectedItem != null) {
-                formulationModel.polarization = (PolarizationEnum) selectedItem.getKey();
+                formulationModel.setPolarization((PolarizationEnum) selectedItem.getKey());
             }
         });
 
         shellCountPanel.setVisible(formulationModel.interaction == InteractionEnum.igt);
         setComboBoxData(interactionComboBox, formulationModel.interaction);
+        interactionComboBox.setInputVerifier(new ModelValidator(interactionComboBox, model, FormulationModel.INTERACTION_FIELD_NAME));
         interactionComboBox.addActionListener(e -> {
             ComboBoxItem selectedItem = (ComboBoxItem) interactionComboBox.getSelectedItem();
             if (selectedItem != null) {
-                formulationModel.interaction = (InteractionEnum) selectedItem.getKey();
+                formulationModel.setInteraction((InteractionEnum) selectedItem.getKey());
                 shellCountPanel.setVisible(formulationModel.interaction == InteractionEnum.igt);
             }
         });
@@ -96,7 +100,9 @@ public class FormulationDialog extends CustomOkCancelModalDialog {
 
     @Override
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
-
+        polarizationComboBox.getInputVerifier().verify(polarizationComboBox);
+        interactionComboBox.getInputVerifier().verify(interactionComboBox);
+        buttonOK.setEnabled(model.validate());
     }
 
 

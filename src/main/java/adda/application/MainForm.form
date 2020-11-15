@@ -71,7 +71,7 @@
                 <children>
                   <grid id="79897" binding="actualCommandLinePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
                     <constraints>
-                      <tabbedpane title="Actual command line"/>
+                      <tabbedpane title="ADDA command line"/>
                     </constraints>
                     <properties>
                       <background color="-855310"/>

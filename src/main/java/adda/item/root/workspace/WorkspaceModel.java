@@ -20,6 +20,7 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
     public Map<ProjectTreeNode, IBox> getBoxes() {
         return Collections.unmodifiableMap(boxes);
     }
+
     public IBox getFocusedBox() {
         return focusedBox;
     }
@@ -62,6 +63,8 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
         setFocusedBox(box);
     }
 
+
+
     public void setFocusedBox(IBox focusedBox) {
         if((this.focusedBox != null && !this.focusedBox.equals(focusedBox))
                 || (this.focusedBox == null && focusedBox != null)) { //todo if condition to func
@@ -86,7 +89,6 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
                 IBox focusedBox;
                 if (boxes.containsKey(projectTreeModel.getSelectedPath())) {
                     focusedBox = boxes.get(projectTreeModel.getSelectedPath());
-
                 } else {
                     //todo get selected item type then get right box (may be fabric method)
 

@@ -47,12 +47,12 @@ public class IconBorder extends AbstractBorder {
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         originalBorder.paintBorder(c, g, x, y, width, height);
-        Insets insets = getBorderInsets(c);
-        int by = (c.getHeight() / 2) - (icon.getIconHeight() / 2);
-        int w = Math.max(2, insets.left);
-        int bx = x + width - (icon.getIconHeight() + (w * 2)) + 2;
-        g.translate(bx, by);
-        icon.paintIcon(c, g, x, y);
+//        Insets insets = getBorderInsets(c);
+//        int by = (c.getHeight() / 2) - (icon.getIconHeight() / 2);
+//        int w = Math.max(2, insets.left);
+//        int bx = x + width - (icon.getIconHeight() + (w * 2)) + 2;
+//        g.translate(bx, by);
+//        icon.paintIcon(c, g, x, y);
     }
 
     /**
