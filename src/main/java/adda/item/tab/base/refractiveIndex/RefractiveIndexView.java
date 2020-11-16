@@ -150,9 +150,9 @@ public class RefractiveIndexView extends ViewDialogBase {
         if (model instanceof RefractiveIndexModel) {
             RefractiveIndexModel refractiveIndexModel = (RefractiveIndexModel) model;
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-            panel.add(new JLabel(String.format("OX: %s + i%s", StringHelper.toDisplayString(refractiveIndexModel.getRealX()), StringHelper.toDisplayString(refractiveIndexModel.getImagX()))));//todo localization
-            panel.add(new JLabel(String.format("OY: %s + i%s", StringHelper.toDisplayString(refractiveIndexModel.getRealY()), StringHelper.toDisplayString(refractiveIndexModel.getImagY()))));//todo localization
-            panel.add(new JLabel(String.format("OZ: %s + i%s", StringHelper.toDisplayString(refractiveIndexModel.getRealZ()), StringHelper.toDisplayString(refractiveIndexModel.getImagZ()))));//todo localization
+            panel.add(new JLabel(String.format("xx: %s + i%s", StringHelper.toDisplayString(refractiveIndexModel.getRealX()), StringHelper.toDisplayString(refractiveIndexModel.getImagX()))));//todo localization
+            panel.add(new JLabel(String.format("yy: %s + i%s", StringHelper.toDisplayString(refractiveIndexModel.getRealY()), StringHelper.toDisplayString(refractiveIndexModel.getImagY()))));//todo localization
+            panel.add(new JLabel(String.format("zz: %s + i%s", StringHelper.toDisplayString(refractiveIndexModel.getRealZ()), StringHelper.toDisplayString(refractiveIndexModel.getImagZ()))));//todo localization
         }
         return panel;
     }

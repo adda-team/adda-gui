@@ -1,11 +1,8 @@
-package adda.item.tab.internals.dipoleShape;
+package adda.item.tab.shape.dipoleShape;
 
 import adda.application.controls.CustomOkCancelModalDialog;
-import adda.base.controllers.ControllerBase;
 import adda.base.controllers.ControllerDialogBase;
 import adda.base.models.IModel;
-import adda.item.tab.base.propagation.PropagationDialog;
-import adda.item.tab.base.propagation.PropagationModel;
 
 public class DipoleShapeController extends ControllerDialogBase {
     @Override

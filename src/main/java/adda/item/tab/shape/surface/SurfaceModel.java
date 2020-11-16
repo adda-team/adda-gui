@@ -8,15 +8,11 @@ import adda.base.annotation.Viewable;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.models.IModelObserver;
-import adda.base.models.ModelBase;
 import adda.base.models.ModelBaseAddaOptionsContainer;
 import adda.item.tab.base.beam.BeamEnum;
 import adda.item.tab.base.beam.BeamModel;
-import adda.item.tab.internals.dipoleShape.DipoleShapeEnum;
-import adda.item.tab.internals.dipoleShape.DipoleShapeModel;
-import adda.item.tab.internals.formulation.FormulationModel;
-import adda.item.tab.internals.formulation.InteractionEnum;
-import adda.item.tab.internals.formulation.PolarizationEnum;
+import adda.item.tab.base.size.SizeMeasureEnum;
+import adda.item.tab.base.size.SizeModel;
 import adda.item.tab.internals.initialField.InitialFieldEnum;
 import adda.item.tab.internals.initialField.InitialFieldModel;
 import adda.item.tab.output.radiationForce.RadiationForceSaveModel;
@@ -57,7 +53,7 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IMode
     protected double imagPart = 0.00001;
 
 
-    String measure = "um";//todo sync with SizeModel
+    String measure = StringHelper.toDisplayString(SizeMeasureEnum.um);//todo sync with SizeModel
 
 
     public String getMeasure() {
@@ -214,6 +210,9 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IMode
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
         if (sender instanceof RadiationForceSaveModel || sender instanceof BeamModel || sender instanceof InitialFieldModel) {
             setUseSurfaceEnabled(validate());
+        }
+        if (sender instanceof SizeModel) {
+            setMeasure(StringHelper.toDisplayString(((SizeModel) sender).getMeasure()));
         }
     }
 }

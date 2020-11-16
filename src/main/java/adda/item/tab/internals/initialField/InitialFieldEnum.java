@@ -6,13 +6,13 @@ public enum InitialFieldEnum {
     @DisplayString("Auto")
     auto,
 
-    @DisplayString("Incedent field")
+    @DisplayString("Incident field")
     inc,
 
 //    @DisplayString("Read from file")
 //    read,
 
-    @DisplayString("Wentzel–Kramers–Brillouin")
+    @DisplayString("Wentzel-Kramers-Brillouin")
     wkb,
 
     @DisplayString("Zero")

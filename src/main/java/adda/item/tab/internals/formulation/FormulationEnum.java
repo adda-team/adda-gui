@@ -9,7 +9,7 @@ public enum FormulationEnum {
     @DisplayString("Filtered coupled dipoles")
     FCD,
 
-    @DisplayString("Integrating Green's tensor (SO)")
+    @DisplayString("Integrated Green's tensor (SO)")
     IGT_SO,
 
     @DisplayString("Custom")

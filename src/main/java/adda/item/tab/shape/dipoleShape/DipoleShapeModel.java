@@ -1,4 +1,4 @@
-package adda.item.tab.internals.dipoleShape;
+package adda.item.tab.shape.dipoleShape;
 
 import adda.Context;
 import adda.base.AddaOption;
@@ -7,19 +7,13 @@ import adda.base.boxes.IBox;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.models.IModelObserver;
-import adda.base.models.ModelBase;
 import adda.item.root.projectArea.ProjectAreaBox;
-import adda.item.root.projectArea.ProjectAreaModel;
 import adda.item.tab.TabEnumModel;
 import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
-import adda.item.tab.internals.formulation.InteractionEnum;
-import adda.item.tab.internals.formulation.PolarizationEnum;
-import adda.item.tab.internals.iterativeSolver.IterativeSolverEnum;
 import adda.utils.StringHelper;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class DipoleShapeModel extends TabEnumModel<DipoleShapeEnum> implements IModelObserver {
@@ -28,7 +22,7 @@ public class DipoleShapeModel extends TabEnumModel<DipoleShapeEnum> implements I
     public static final String SCALE_Y_FIELD_NAME = "scaleY";
     public static final String SCALE_Z_FIELD_NAME = "scaleZ";
     public static final String DELIMITER = " ";
-    public static final String FORMAT = "<x>:%s, <y>:%s, <z>:%s";
+    public static final String FORMAT = "x:%s, y:%s, z:%s";
 
     protected double scaleZ = 1;
     protected double scaleY = 1;

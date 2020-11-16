@@ -27,7 +27,7 @@ public class LambdaModel extends ModelBaseAddaOptionsContainer implements IModel
 
     double previousLambda = DEFAULT_LAMBDA;
 
-    String measure = "um";//todo sync with SizeModel
+    String measure =  StringHelper.toDisplayString(SizeMeasureEnum.um);//todo sync with SizeModel
 
     boolean isEnabled = true;//todo sync with SizeModel
 

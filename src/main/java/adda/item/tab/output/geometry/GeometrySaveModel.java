@@ -19,7 +19,7 @@ public class GeometrySaveModel extends BooleanFlagModel {
     public static final String SAVE = "save";
     @BindEnableFrom("flag")
     @Viewable(order = 100)
-    GeometrySaveEnum geometrySaveEnum = GeometrySaveEnum.adda;
+    GeometrySaveEnum geometrySaveEnum = GeometrySaveEnum.default_geometry;
 
     public GeometrySaveModel() {
         this.setLabel("Geometry");//todo localization
@@ -45,15 +45,22 @@ public class GeometrySaveModel extends BooleanFlagModel {
     @Override
     public void applyDefaultState() {
         setFlag(false);
-        setGeometrySaveEnum(GeometrySaveEnum.adda);
+        setGeometrySaveEnum(GeometrySaveEnum.default_geometry);
     }
 
     @Override
     protected List<IAddaOption> getAddaOptionsInner() {
-        return Arrays.asList(
-                new AddaOption(getAddaCommand(), null, StringHelper.toDisplayString(SAVE)),
-                new AddaOption(SG_FORMAT, geometrySaveEnum.toString(), StringHelper.toDisplayString(geometrySaveEnum))
-        );
+
+        if (geometrySaveEnum == GeometrySaveEnum.default_geometry) {
+            return Arrays.asList(
+                    new AddaOption(getAddaCommand(), null, StringHelper.toDisplayString(SAVE))
+            );
+        } else {
+            return Arrays.asList(
+                    new AddaOption(getAddaCommand(), null, StringHelper.toDisplayString(SAVE)),
+                    new AddaOption(SG_FORMAT, geometrySaveEnum.toString(), StringHelper.toDisplayString(geometrySaveEnum))
+            );
+        }
     }
 
 

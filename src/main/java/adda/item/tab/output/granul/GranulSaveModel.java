@@ -18,7 +18,7 @@ public class GranulSaveModel extends BooleanFlagModel implements IModelObserver 
     public static final String STORE_GRANS = "store_grans";
 
     public GranulSaveModel() {
-        this.setLabel("Granul centers");//todo localization
+        this.setLabel("Granule centers");//todo localization
     }
 
     @Override

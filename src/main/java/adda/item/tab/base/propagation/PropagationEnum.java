@@ -4,13 +4,13 @@ import adda.base.annotation.DisplayString;
 
 public enum PropagationEnum {
 
-    @DisplayString("Along OX")
+    @DisplayString("Along x-axis")
     ox,
 
-    @DisplayString("Along OY")
+    @DisplayString("Along y-axis")
     oy,
 
-    @DisplayString("Along OZ")
+    @DisplayString("Along z-axis")
     oz,
 
     @DisplayString("Custom")

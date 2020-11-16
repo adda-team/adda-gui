@@ -3,7 +3,7 @@ package adda.item.tab.shape.orientation;
 import adda.application.controls.CustomOkCancelModalDialog;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
-import adda.item.tab.internals.dipoleShape.DipoleShapeModel;
+import adda.item.tab.shape.dipoleShape.DipoleShapeModel;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.styles.RoundedBalloonStyle;
 

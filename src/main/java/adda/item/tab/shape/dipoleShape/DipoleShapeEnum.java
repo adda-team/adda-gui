@@ -1,4 +1,4 @@
-package adda.item.tab.internals.dipoleShape;
+package adda.item.tab.shape.dipoleShape;
 
 import adda.base.annotation.DisplayString;
 

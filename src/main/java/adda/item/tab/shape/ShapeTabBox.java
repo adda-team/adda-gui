@@ -3,9 +3,8 @@ package adda.item.tab.shape;
 import adda.application.controls.VerticalLayout;
 import adda.base.annotation.*;
 import adda.base.boxes.BoxBase;
-import adda.item.tab.internals.formulation.FormulationBox;
+import adda.item.tab.shape.dipoleShape.DipoleShapeBox;
 import adda.item.tab.shape.granules.GranulesBox;
-import adda.item.tab.shape.jagged.JaggedBox;
 import adda.item.tab.shape.orientation.OrientationBox;
 import adda.item.tab.shape.selector.ShapeSelectorBox;
 import adda.item.tab.shape.surface.SurfaceBox;
@@ -27,7 +26,8 @@ public class ShapeTabBox extends BoxBase {
         addChild(new OrientationBox());
         addChild(new GranulesBox());
         addChild(new SurfaceBox());
-        addChild(new JaggedBox());
+        addChild(new DipoleShapeBox());
+
     }
 
     @Override

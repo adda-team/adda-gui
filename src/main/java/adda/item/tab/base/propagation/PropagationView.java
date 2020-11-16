@@ -1,11 +1,7 @@
 package adda.item.tab.base.propagation;
 
 import adda.base.models.IModel;
-import adda.base.views.ViewBase;
 import adda.base.views.ViewDialogBase;
-import adda.item.tab.internals.dipoleShape.DipoleShapeDialog;
-import adda.item.tab.internals.dipoleShape.DipoleShapeEnum;
-import adda.item.tab.internals.dipoleShape.DipoleShapeModel;
 
 import javax.swing.*;
 

@@ -1,11 +1,8 @@
 package adda.item.tab.internals.formulation;
 
 import adda.application.controls.CustomOkCancelModalDialog;
-import adda.base.controllers.ControllerBase;
 import adda.base.controllers.ControllerDialogBase;
 import adda.base.models.IModel;
-import adda.item.tab.internals.dipoleShape.DipoleShapeDialog;
-import adda.item.tab.internals.dipoleShape.DipoleShapeModel;
 
 public class FormulationController extends ControllerDialogBase {
     @Override

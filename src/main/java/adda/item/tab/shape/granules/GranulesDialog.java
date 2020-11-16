@@ -41,7 +41,7 @@ public class GranulesDialog extends CustomOkCancelModalDialog {
             });
             panel.add(surroundWithPanel(spinner));
 
-            panel.add(new JLabel(StringHelper.toDisplayString("diameter") + ", " + granulesModel.getMeasure()));
+            panel.add(new JLabel(StringHelper.toDisplayString("diameter")));
 
             JNumericField diameterField = new JNumericField();
             diameterField.setMaxLength(20);
@@ -60,7 +60,9 @@ public class GranulesDialog extends CustomOkCancelModalDialog {
                 }
             }));
 
-            panel.add(surroundWithPanel(diameterField));
+            final JPanel wrapper = surroundWithPanel(diameterField);
+            wrapper.add(new JLabel(granulesModel.getMeasure()));
+            panel.add(wrapper);
 
             panel.add(new JLabel("shape domain"));
 

@@ -7,16 +7,16 @@ public enum PolarizationEnum {
     @DisplayString("Corrected LDR")
     cldr,
 
-    @DisplayString("Clausius–Mossotti")
+    @DisplayString("Clausius-Mossotti")
     cm,
 
-    @DisplayString("Digitized Green’s function")
+    @DisplayString("Digitized Green's function")
     dgf,
 
     @DisplayString("Filtered Coupled Dipoles")
     fcd,
 
-    @DisplayString("Integrating Green's tensor (SO)")
+    @DisplayString("Integrated Green's tensor (SO)")
     igt_so,
 
     @DisplayString("Lakhtakia")
@@ -25,11 +25,11 @@ public enum PolarizationEnum {
     @DisplayString("LDR")
     ldr,
 
-    @DisplayString("Non-local")
-    nloc,
-
-    @DisplayString("Non-local AV")
-    nloc_av,
+//    @DisplayString("Non-local")
+//    nloc,
+//
+//    @DisplayString("Non-local AV")
+//    nloc_av,
 
     @DisplayString("Radiative Reaction Correction")
     rrc,

@@ -7,7 +7,7 @@ public enum ScatteringQuantitiesEnum {
     @DisplayString("Draine")
     dr,
 
-    @DisplayString("Integrating Green's tensor (SO)")
+    @DisplayString("Integrated Green's tensor (SO)")
     igt_so,
 
     @DisplayString("Second Order (SO)")

@@ -1,22 +1,16 @@
 package adda.item.root.projectArea;
 
-import adda.Context;
-import adda.base.IAddaOption;
 import adda.base.IAddaOptionsContainer;
 import adda.base.annotation.*;
 import adda.base.boxes.BoxBase;
 import adda.base.boxes.IBox;
-import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
-import adda.base.models.IModelObserver;
 import adda.item.tab.base.BaseTabBox;
 import adda.item.tab.base.beam.BeamModel;
-import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorBox;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
-import adda.item.tab.base.size.SizeBox;
 import adda.item.tab.base.size.SizeModel;
 import adda.item.tab.internals.InternalsTabBox;
-import adda.item.tab.internals.dipoleShape.DipoleShapeModel;
+import adda.item.tab.shape.dipoleShape.DipoleShapeModel;
 import adda.item.tab.internals.formulation.FormulationModel;
 import adda.item.tab.internals.initialField.InitialFieldModel;
 import adda.item.tab.options.OptionsBox;
@@ -35,10 +29,7 @@ import adda.item.tab.shape.surface.SurfaceModel;
 import adda.utils.Binder;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @BindModel
@@ -189,6 +180,7 @@ public class ProjectAreaBox extends BoxBase {
                 .get();
 
         Binder.bindBoth(radiationForceSaveModel, surfaceModel);
+        Binder.bind(sizeModel, surfaceModel);
 
         BeamModel beamModel = (BeamModel) models.stream()
                 .filter(entity -> entity instanceof BeamModel)

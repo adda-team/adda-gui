@@ -3,15 +3,15 @@ package adda.item.tab.output.scatteringMatrix;
 import adda.base.annotation.DisplayString;
 
 public enum ScatteringMatrixEnum {
-    @DisplayString("Mueller matrix")//todo localization
+    @DisplayString("Mueller")//todo localization
     muel,
 
-    @DisplayString("Amplitude matrix")//todo localization
+    @DisplayString("Amplitude")//todo localization
     ampl,
 
-    @DisplayString("Mueller and amplitude matrix")//todo localization
+    @DisplayString("Mueller and amplitude")//todo localization
     both,
 
-    @DisplayString("Without matrix")//todo localization
+    @DisplayString("None")//todo localization
     none
 }

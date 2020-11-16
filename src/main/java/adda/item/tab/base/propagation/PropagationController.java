@@ -1,10 +1,8 @@
 package adda.item.tab.base.propagation;
 
 import adda.application.controls.CustomOkCancelModalDialog;
-import adda.base.controllers.ControllerBase;
 import adda.base.controllers.ControllerDialogBase;
 import adda.base.models.IModel;
-import adda.item.tab.internals.dipoleShape.DipoleShapeEnum;
 
 public class PropagationController extends ControllerDialogBase {
     @Override

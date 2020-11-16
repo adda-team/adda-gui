@@ -1,10 +1,7 @@
-package adda.item.tab.internals.dipoleShape;
+package adda.item.tab.shape.dipoleShape;
 
 import adda.base.models.IModel;
-import adda.base.views.ViewBase;
 import adda.base.views.ViewDialogBase;
-import adda.item.tab.base.refractiveIndex.RefractiveIndexDialog;
-import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
 
 import javax.swing.*;
 

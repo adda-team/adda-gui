@@ -27,11 +27,10 @@ public class SurfaceDialog extends CustomOkCancelModalDialog {
 
         JPanel panel = new JPanel(new GridLayout(2, 2));
         panel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        final JLabel label = new JLabel(StringHelper.toDisplayString("Distance from particle center") + ", " + surfaceModel.getMeasure());
-        label.setVerticalAlignment(JLabel.TOP);
+        final JLabel label = new JLabel(StringHelper.toDisplayString("Distance from particle center"));
+        label.setVerticalAlignment(JLabel.CENTER);
         label.setHorizontalAlignment(JLabel.RIGHT);
-        panel.add(label);
-
+        panel.add(surroundWithPanel(label));
 
         JNumericField distanceField = new JNumericField();
         distanceField.setMaxLength(20);
@@ -49,8 +48,9 @@ public class SurfaceDialog extends CustomOkCancelModalDialog {
                 processDistance(distanceField, surfaceModel);
             }
         }));
-
-        panel.add(surroundWithPanel(distanceField));
+        JPanel wrapper = surroundWithPanel(distanceField);
+        wrapper.add(new JLabel(surfaceModel.getMeasure()));
+        panel.add(wrapper);
 
         final JLabel refractiveIndexLabel = new JLabel(StringHelper.toDisplayString("Refractive index "));
         refractiveIndexLabel.setVerticalAlignment(JLabel.TOP);

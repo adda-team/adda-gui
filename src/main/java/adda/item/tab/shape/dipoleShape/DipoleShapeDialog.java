@@ -1,10 +1,9 @@
-package adda.item.tab.internals.dipoleShape;
+package adda.item.tab.shape.dipoleShape;
 
 import adda.application.controls.CustomOkCancelModalDialog;
 import adda.application.controls.JNumericField;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
-import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
 import adda.item.tab.shape.orientation.OrientationDialog;
 import adda.utils.ListenerHelper;
 import adda.utils.StringHelper;
@@ -13,8 +12,6 @@ import net.java.balloontip.styles.RoundedBalloonStyle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.net.URL;
 
 public class DipoleShapeDialog extends CustomOkCancelModalDialog {

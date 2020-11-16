@@ -1,4 +1,4 @@
-package adda.item.tab.internals.dipoleShape;
+package adda.item.tab.internals.jagged;
 
 import adda.base.annotation.*;
 import adda.base.boxes.BoxBase;
@@ -6,9 +6,9 @@ import adda.base.boxes.BoxBase;
 @BindModel
 @BindView
 @BindController
-public class DipoleShapeBox extends BoxBase {
+public class JaggedBox extends BoxBase {
 
-    public DipoleShapeBox() {
+    public JaggedBox() {
         needInitSelf = true;
     }
 }

@@ -1,4 +1,4 @@
-package adda.item.tab.shape.jagged;
+package adda.item.tab.internals.jagged;
 
 import adda.base.annotation.BindEnableFrom;
 import adda.base.annotation.Viewable;

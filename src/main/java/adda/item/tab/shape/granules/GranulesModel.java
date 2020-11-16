@@ -9,6 +9,7 @@ import adda.base.models.IModel;
 import adda.base.models.IModelObserver;
 import adda.base.models.ModelBase;
 import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
+import adda.item.tab.base.size.SizeEnum;
 import adda.item.tab.base.size.SizeMeasureEnum;
 import adda.item.tab.base.size.SizeModel;
 import adda.item.tab.output.granul.GranulSaveModel;
@@ -50,7 +51,7 @@ public class GranulesModel extends RefractiveIndexModel implements IModelObserve
 
     protected ShapeSelectorModel shapeModel;
 
-    String measure = "um";//todo sync with SizeModel
+    String measure = StringHelper.toDisplayString(SizeMeasureEnum.um);//todo sync with SizeModel
 
     public GranulesModel() {
         setLabel("Granules");
