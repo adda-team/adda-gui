@@ -130,7 +130,7 @@ public class HelpProvider {
                 return StringHelper.toDisplayString("The discrete dipole approximation (DDA) is<br>" +
                         "a general method to calculate scattering and absorption of electromagnetic<br>" +
                         "waves by particles of arbitrary geometry. In this method the volume of the<br>" +
-                        "scatterer is divided into small cubical subvolumes (“dipoles”). Dipole<br>" +
+                        "scatterer is divided into small cubical subvolumes ('dipoles'). Dipole<br>" +
                         "interactions are approximated ba");
 
             case "using_the_manual":
@@ -193,7 +193,7 @@ public class HelpProvider {
             case "the_computational_grid":
                 return StringHelper.toDisplayString("ADDA embeds a scatterer in a rectangular computational box, which is<br>" +
                         "divided into identical cubes (as required for the FFT acceleration, §12.2).<br>" +
-                        "Each cube is called a “dipole”; its size should be much smaller than a<br>" +
+                        "Each cube is called a 'dipole'; its size should be much smaller than a<br>" +
                         "wavelength. The flexibility of the DDA method lies in its ability to naturally<br>" +
                         "s");
 
@@ -237,8 +237,8 @@ public class HelpProvider {
             case "single_orientation":
                 return StringHelper.toDisplayString("Any particle orientation with respect to<br>" +
                         "the laboratory reference frame can be specified by three Euler angles (&#945;,&#946;,&#947;). ADDA uses a notation based on [38],<br>" +
-                        "which is also called “zyz&#8209;notation”<br>" +
-                        "or “y&#8209;convention”. In short,<br>" +
+                        "which is also called 'zyz&#8209;notation'<br>" +
+                        "or 'y&#8209;convention'. In short,<br>" +
                         "coordinate axes attached to the particle are fir");
 
             case "orientation_averaging":
@@ -383,7 +383,7 @@ public class HelpProvider {
             case "sparse_mode":
                 return StringHelper.toDisplayString("For cases when N &gt;&gt; Nreal,<br>" +
                         "e.g. for very sparse (porous) aggregates, FFT may not provide desired<br>" +
-                        "acceleration. Specially for such cases there is a compilation mode of ADDA, named “sparse mode”. It is a direct implementation of matrix–vector<br>" +
+                        "acceleration. Specially for such cases there is a compilation mode of ADDA, named 'sparse mode'. It is a direct implementation of matrix–vector<br>" +
                         "product in the DDA without FFT. Its main advantage");
 
             case "parallel_performance":
