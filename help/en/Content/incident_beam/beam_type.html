@@ -1,0 +1,302 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Beam type </title>
+    </head>
+    <body>
+        <h1>Beam type</h1>
+
+<p><span>Additionally to the default plane wave </span><span><span>ADDA</span></span><span> supports several types of finite size incident beams, specified by the
+command line option</span></p>
+
+<p><span>-beam &lt;type&gt;
+[&lt;args]</span></p>
+
+<div>
+
+<table>
+ <tr>
+  <td>
+  <p><a><span>Table </span></a><span><span><span>2</span></span></span><span>. Incident beam
+  types. All numeric arguments are in &#956;m, the coordinates are specified in
+  the laboratory reference frame (§</span><span>6.1</span><span>)
+  except for </span><span><span>read</span></span><span>.</span></p>
+  <div>
+  <table>
+   <tr>
+    <td>
+    <p><span>&lt;type&gt;</span></p>
+    </td>
+    <td>
+    <p><span>&lt;args&gt;</span></p>
+    </td>
+    <td>
+    <p><span>Description</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>barton5</span></p>
+    </td>
+    <td>
+    <p><i><span>w</span></i><sub><span>0</span></sub><span>, [<i>x</i>, <i>y</i>, <i>z</i>]</span></p>
+    </td>
+    <td>
+    <p><span>Fifth-order approximation of Gaussian beam</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>davis3</span></p>
+    </td>
+    <td>
+    <p><i><span>w</span></i><sub><span>0</span></sub><span>, [<i>x</i>, <i>y</i>, <i>z</i>]</span></p>
+    </td>
+    <td>
+    <p><span>Third-order approximation of Gaussian beam</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>dipole</span></p>
+    </td>
+    <td>
+    <p><i><span>x</span></i><span>, <i>y</i>, <i>z</i></span></p>
+    </td>
+    <td>
+    <p><span>Point dipole</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>lminus</span></p>
+    </td>
+    <td>
+    <p><i><span>w</span></i><sub><span>0</span></sub><span>, [<i>x</i>, <i>y</i>, <i>z</i>]</span></p>
+    </td>
+    <td>
+    <p><span>First-order approximation of Gaussian beam</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>plane</span></p>
+    </td>
+    
+    <td>
+    <p><span>Plane wave</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>read</span></p>
+    </td>
+    <td>
+    <p><span>filenameY, [filenameX]</span></p>
+    </td>
+    <td>
+    <p><span>Arbitrary beam from file</span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p><span>where available types are listed in </span><span>Table <span>2</span></span><span> and
+are discussed in details below. The default is the </span><span><span>plane</span></span><span> wave, while </span><span>lminus</span><span>[40]</span><span>,
+</span><span>davis3</span><span>[41]</span><span>,
+and </span><span>barton5</span><span>[42]</span><span>are approximations of the Gaussian beam up to the 1<sup>st</sup>, 3<sup>rd</sup>,
+and 5<sup>th</sup> order of the beam confinement factor (<i>s</i> = 1/<i>kw</i><sub>0</sub>),
+respectively. Four arguments specified in the command line specify width (<i>w</i><sub>0</sub>) and <i>x</i>, <i>y</i>, <i>z</i> coordinates of the center of the beam (in
+laboratory reference frame, §</span><span>6.1</span><span>) respectively.</span><span> barton5</span><span> is recommended for all calculations involving Gaussian beams;
+others are left mainly for comparison purposes. However, for tightly focused
+beams even </span><span>barton5</span><span> may be not accurate enough.<a><span><span><span><span><span>[40]</span></span></span></span></span></a></span></p>
+
+<p><span>For a plane wave incidence</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>13</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <b>k</b> = <i>k</i><b>a</b>
+and |<b>e</b><sup>0</sup>| = 1. For all beam types </span><span><span>ADDA</span></span><span> assumes unity amplitude of the electric field in the focal point of
+the beam (in Gaussian-CGS system of units, i.e. 1 statV/cm), which implies
+time-averaged irradiance in the beam focal point<i> I</i><sub>0</sub> = <i>c</i>/(8<i>&#960;</i>). Total power of the
+beam for </span><span>barton5</span><span> is </span><span>[42]</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>14</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>For lower-order
+approximations (</span><span>lminus</span><span> and </span><span>davis3</span><span>) corresponding small terms in the parentheses in Eq. </span><span>(<span>14</span>)</span><span>
+should be omitted. Some of the particle symmetries (§</span><span>6.7</span><span>) may
+be cancelled according to the coordinates of the beam center.</span></p>
+
+<p><span>In the surface mode (§</span><span>7</span><span>) the
+incident beam consists of three parts: incoming (), reflected () and transmitted (). Incoming plane wave far from particle and surface is given
+by Eq. </span><span>(<span>13</span>)</span><span>, but
+with <b>k</b> replaced by <b>k</b><sub>in</sub> = m<sub>in</sub><i>k</i><b>a</b>,
+where <i>m</i><sub>in</sub> is the
+refractive index of the “incoming” medium – either 1 (above surface) or <i>m</i><sub>s</sub> (below surface). In
+particular, the incoming field has unity amplitude and zero phase in the
+particle center. This may lead to counterintuitive very large amplitudes of the
+incoming field at the surface, if it propagates from the highly absorbing
+substrate and particle is far from the substrate. Reflected and transmitted
+counterparts are calculated using standard Fresnel formulae </span><span>[43]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>15</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>16</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <b>e</b><i><sub>s</sub></i>,
+<b>e</b><i><sub>p</sub></i>
+are unit vector for <i>s</i>- (parallel to
+the surface) and <i>p</i>&#8209;polarizations
+respectively; <i>r<sub>s</sub></i>, <i>r<sub>p</sub></i>, <i>t<sub>s</sub></i>, <i>t<sub>p</sub></i>
+are (complex) amplitude reflection and transmission coefficients for both
+polarizations, <b>k</b><i><sub>r</sub></i> = <i>k</i>(<i>a<sub>x</sub></i>,<i>a<sub>y</sub></i>,&#8722;<i>a<sub>z</sub></i>)
+and</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>17</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where the complex
+square root is considered with branch cut along the negative real axis.
+Generally, <b>k</b><i><sub>t</sub></i> is a complex (bi-)vector, which corresponds to
+inhomogeneous wave.<a><span><span><span><span>[41]</span></span></span></span></a>
+Moreover, in some cases </span><span>&#8465;</span><span>(<i>k<sub>t</sub></i><sub>,<i>z</i></sub>) &lt; 0, which may
+seem counterintuitive, but is physically correct, given the scale of beam
+amplitude as exp(i<b>k</b><i><sub>t</sub></i>&#8729;<b>r</b>) in Eq. </span><span>(<span>16</span>)</span><span> and
+infinite lateral extent of the plane wave.<a><span><span><span><span>[42]</span></span></span></span></a>
+Vectors <b>e</b><i><sub>p</sub></i> depend on particular part of the incident wave
+(specified by the superscript <i>X</i>
+below), but conform to the following general definition:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>18</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>For homogeneous <b>k</b><i><sub>X</sub></i>
+(always the case for incoming and reflected parts) is a real unit vector (as
+is also the case for <b>e</b><i><sub>s</sub></i>), but for inhomogeneous
+(general-case) <b>k</b><i><sub>t</sub></i> is a complex vector,
+satisfying . The second term in exponents in Eqs. </span><span>(<span>15</span>)</span><span>, </span><span>(<span>16</span>)</span><span> is
+due to the shift of surface relative to the origin.</span></p>
+
+<p><span>The total <i>incident</i>
+field (acting on the particle) in the surface mode is or , when field propagates from above (<i>a<sub>z</sub></i> &lt; 0) or below (<i>a<sub>z</sub></i> &gt; 0) the surface respectively. Unfortunately,
+Gaussian beams are currently not supported in the surface mode.</span><sup><span>40</span></sup><span>
+Irradiance of the incoming plane wave at the particle center is <i>I</i><sub>0</sub> = </span><span>&#8476;</span><span>(<i>m</i><sub>in</sub>)<i>c</i>/(8<i>&#960;</i>), which may be
+different from that in the free-space case. Here and further </span><span>&#8476;</span><span> and </span><span>&#8465;</span><span> denote real and imaginary part of the complex number, respectively.</span></p>
+
+<p><span>Another option is the point-dipole incident
+field (</span><span><span>dipole</span></span><span>). Location of the dipole <b>r</b><sub>0</sub>
+is given by the argument to </span><span><span>&#8209;beam</span></span><span>, while its orientation (direction) is <b>a</b> (given by </span><span><span>&#8209;prop</span></span><span>, §</span><span>9.1</span><span>),
+both in laboratory reference frame (§</span><span>6.1</span><span>). The
+dipole polarization (dipole moment) is assumed equal to unit electric field,
+integrated over the cube with size 1/<i>k</i>,
+i.e. <b>p</b><sub>0</sub> = <i>k</i><sup>&#8722;3</sup><b>a</b> statV/cm. Then</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>19</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <b>G&#773;</b> is defined in §</span><span>10.2</span><span>, and
+|<b>E</b><sup>inc</sup>| is comparable to 1
+at distance 1/<i>k</i> from <b>r</b><sub>0</sub>. The main purpose of such
+incident field is to calculate decay rate enhancement (§</span><span>11.5</span><span>),
+however all other scattering quantities may also be calculated with certain
+caveats. The normalization of the field is different from the standard one,
+described above, so most of the results will be scaled. In other words,
+definition of <i>I</i><sub>0</sub> is
+ambiguous in this case, but </span><span><span>ADDA</span></span><span> still assumes <i>I</i><sub>0</sub> = <i>c</i>/(8<i>&#960;</i>). Also, only the single incident polarization
+should be simulated (§</span><span>9.3</span><span>).
+Since the dipole field is singular, its position must not coincide with any of
+the dipoles of the particle (otherwise NAN will be produced in the output).
+Moreover, the physical problem corresponding to dipole placed inside the
+particle (between the discretization dipoles) is ambiguous, and applicability
+of existing algorithms to such problem is unclear. However, placing a dipole
+into the cavity inside the particle is perfectly valid. Point-dipole incident field
+can also be used in the surface mode, then <b>G&#773;</b>
+is replaced by <b>G&#773;</b> + <b>R&#773;</b> (§</span><span>10.3</span><span>) in
+Eq. </span><span>(<span>19</span>)</span><span>.
+However, the dipole must be located above the surface and absorption in the
+substrate is not fully accounted for calculation of decay rate enhancement (§</span><span>11.5</span><span>).</span></p>
+
+<p><span>Adding of a new beam is straightforward for
+anyone who is familiar with C programming language.<a><span><span><span><span>[43]</span></span></span></span></a>
+Moreover, arbitrary beam can be read from file, using</span></p>
+
+<p><span>-beam read &lt;filenameY&gt; [&lt;filenameX&gt;]</span></p>
+
+<p><span>Normally two files are required for <i>y</i>&#8209;
+and <i>x</i>&#8209;polarizations respectively (§</span><span>9.1</span><span>), but
+a single filename is sufficient if only<i> y</i>&#8209;polarization is used (§</span><span>9.3</span><span>). For
+that “</span><span>&#8209;sym
+enf</span><span>” should be explicitly specified, since “</span><span>&#8209;beam read</span><span>” breaks the symmetry by itself. In contrast to other beam options,
+read incident field should be specified in a <i>particle</i> reference frame,
+see §</span><span>B.7</span><span> for
+file format. </span><span><span>ADDA</span></span><span> cannot determine amplitude or whereabouts of the beam read from
+file, so it always assumes unity amplitude of the incoming field in its center
+(focus) and (in the surface mode) <i>m</i><sub>in</sub> = 1.
+If not correct, this will introduce the scaling of the scattering quantities (§</span><span>11</span><span>).</span></p>
+
+
+    </body>
+</html>

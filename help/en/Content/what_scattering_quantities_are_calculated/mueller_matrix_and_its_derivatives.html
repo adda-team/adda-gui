@@ -1,0 +1,191 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Mueller matrix and its derivatives </title>
+    </head>
+    <body>
+        <h1>Mueller matrix and its derivatives</h1>
+
+<p><span><span>ADDA</span></span><span> calculates the complete Mueller scattering matrix </span><span>[53]</span><span>
+for a set of scattering angles. The Mueller matrix is 4?4 real matrix, which relates
+the Stokes vector of scattered and incoming waves (the latter is different from
+incident field in the surface mode, §</span><span>9.2</span><span>):</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>54</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where the exponent is
+non-trivial only for scattering into the absorbing substrate. The definitions
+of the Stokes vector through the electric fields can be found in textbooks </span><span>[53,58]</span><span>. In
+particular, this definition contains the refractive index of the medium <i>m</i> as factor </span><span>&#8476;</span><span>(<i>m</i>) </span><span>[58]</span><span>. The
+Mueller matrix can be obtained from the amplitude matrix (§</span><span>11.3</span><span>) using
+the well-known formulae </span><span>[53]</span><span>.
+However, in the surface mode (§</span><span>7</span><span>) the result
+of this formulae need to additionally multiplied by </span><span>&#8476;</span><span>(<i>m</i><sub>sca</sub>)/</span><span>&#8476;</span><span>(<i>m</i><sub>in</sub>) due to
+the corresponding factors discussed above – see, e.g., Eq. </span><span>(<span>56</span>)</span><span> below.
+In other words, the Mueller matrix relates the irradiances of the waves, not
+just squared norms of the electric fields.</span></p>
+
+<p><span>Note also that
+the Mueller matrix is dimensionless and not normalized.<a><span><span><span><span>[53]</span></span></span></span></a>
+Moreover, it is defined with respect to the scattering reference frame opposed
+to the laboratory reference frame used in definition of the Stokes phase matrix
+</span><span>[58]</span><span>.</span></p>
+
+<p><span>By default scattering in a single scattering
+plane (§</span><span>11.1</span><span>) is
+calculated and the result is saved in file </span><span><span>mueller</span></span><span> (§</span><span>C.5</span><span>). To calculate
+the Mueller matrix in one scattering plane </span><span><span>ADDA</span></span><span> simulates two incident
+polarizations, except when the particle is symmetric with respect to the
+rotation by 90° over the propagation vector of incident radiation (§</span><span>6.7</span><span>). In
+the latter case one incident polarization and two scattering planes are used
+instead.</span></p>
+
+<p><span>More advanced options are available to
+calculate scattering at any set of angles. If any of the two command line
+options</span></p>
+
+<p><span>-store_scat_grid</span></p>
+
+<p><span>-phi_integr &lt;arg&gt;</span></p>
+
+<p><span>is specified, the Mueller matrix is
+calculated for a set of angles, specified, by default, in file </span><span>scat_params.dat</span><span> (§</span><span>B.4</span><span>). The
+first flag indicates that values of the Mueller matrix for all calculated
+angles should be saved to file </span><span>mueller_scatgrid</span><span> (§</span><span>C.5</span><span>),
+while the second flag turns on the integration of Mueller matrix over <i>&#966;</i><span> with different multipliers</span>. The latter is defined by </span><span>&lt;arg&gt;</span><span>, an integer from 1 to 31, each bit of which, from lowest to
+highest, corresponds to multipliers 1, cos(2<i>&#966;</i>),
+sin(2<i>&#966;</i>), cos(4<i>&#966;</i>), and sin(4<i>&#966;</i>) respectively.<a><span><span><span><span>[54]</span></span></span></span></a>
+Integration results are saved to files </span><span>mueller_integr</span><span>, </span><span>mueller_integr_c2</span><span>, </span><span>mueller_integr_s2</span><span>, </span><span>mueller_integr_c4</span><span>, and </span><span>mueller_integr_s4</span><span> respectively (§</span><span>C.5</span><span>). It
+is important to note that the results of the integration are divided by the
+width of the <i>&#966;</i> interval (2<i>&#960;</i> by default), i.e. actually
+averaging over <i>&#966;</i> takes place. If
+both above-mentioned command line options are specified, both complete-grid and
+integrated results are saved to hard disk.</span></p>
+
+<p><span>The format of the input file is very flexible
+(see §</span><span>B.4</span><span> for
+details) allowing one to use either values uniformly spaced in some interval or
+any set of values, which is explicitly specified, for <i>&#952;</i> and <i>&#966;</i>
+independently. Even an arbitrary set of (<i>&#952;</i>,<i>&#966;</i>) pairs can be used. However, if
+integration over <i>&#966;</i> is used, a
+set of <i>&#966;</i> values must comply with
+the Romberg integration (§</span><span>12.6</span><span>). A different
+file describing a set of angles can be used if specified as an argument to the
+command line option</span></p>
+
+<p><span>-scat_grid_inp &lt;filename&gt;</span></p>
+
+<p><span>When a grid of scattering angles is calculated
+(either for saving or integrating over <i>&#966;</i>)
+the scattering in a single scattering plane is by default <i>not</i> calculated. However, </span><span><span>ADDA</span></span><span> may be forced to calculate
+it by specifying command line option </span><span><span>&#8209;yz</span></span><span> or </span><span><span>&#8209;scat_plane</span></span><span> (§</span><span>11.1</span><span>).</span></p>
+
+<p><span>The Mueller matrix contains the complete intensity-based
+information about angle-resolved scattering for any incident polarization, but
+other quantities are also commonly used, e.g. differential scattering cross
+section. Depending on the incident polarization it can be calculated as [cf.
+Eq. </span><span>(<span>47</span>)</span><span>]:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>55</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where plus and minus correspond to incident
+polarization along the <i>x</i>- and <i>y</i>&#8209;axis respectively, and <i>&#966;</i> is the azimuthal angle of the
+scattering direction (relative to the <i>x</i>&#8209;axis),
+and |…| is used since <i>k</i><sub>sca</sub>
+is generally complex. “unpol” denotes unpolarized incident light. Eq. </span><span>(<span>55</span>)</span><span> is
+derived from formulae given in </span><span>[53]</span><span>.</span></p>
+
+<p><span>In other applications, the following
+scattering intensities are of interest:</span></p>
+
+<table>
+ <tr>
+  
+  <td>
+  <p><a><span>(</span></a><span><span><span>56</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where ||&#8214; and </span><span><span>^</span></span><span> denote respectively parallel and perpendicular components (relative
+to the scattering frame) of the incident and scattered fields. <i>S</i><sub>1</sub>–<i>S</i><sub>4</sub>
+are elements of the amplitude matrix (§</span><span>11.3</span><span>). Corresponding
+differential cross sections can be obtained from scattering intensities through
+division by [cf. Eq. </span><span>(<span>55</span>)</span><span>]. We
+generalized Eq. </span><span>(<span>56</span>)</span><span> and
+others below to the surface mode, but we are not aware of such non-free-space
+uses.</span></p>
+
+<p><span>In applications involving preferential
+direction it is customary to denote two components of the incident and
+scattered fields as vertical (v) and horizontal (h). The correspondence between
+those and ||, </span><span><span>^</span></span><span> depends on a particular application.
+For instance, if all considered scattering planes contain the <i>z</i>&#8209;axis,
+|| and </span><span><span>^</span></span><span> correspond to v and h respectively </span><span>[60]</span><span>.</span></p>
+
+<p><span>Another related quantity is (radar)
+backscattering cross section. The name itself is somewhat misleading, since it
+denotes not the integral quantity (as in §</span><span>11.4</span><span>) but
+the differential scattering cross section at exact backscattering direction
+multiplied by 4<i>&#960;</i> </span><span>[53]</span><span>.
+It can be decomposed into different components, as in Eq. </span><span>(<span>56</span>)</span><span>, , where <i>&#945;</i> and <i>&#946;</i> can be replaced by
+||, </span><span><span>^</span></span><span>, v, h, <i>x</i> or <i>y</i> (see,
+e.g., </span><span>[61]</span><span>).
+Moreover, the expressions can be simplified using the symmetry fact <i>S</i><sub>12</sub> = <i>S</i><sub>21</sub>
+for <i>&#952;</i> = 180° </span><span>[62]</span><span>.
+Therefore, one can obtain the following cross section using the values in file </span><span><span>mueller</span></span><span> for <i>&#952;</i> = 180°, usually in the last line:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>57</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><a><span>where the
+alternating signs before <i>S</i><sub>12</sub>
+are for <i>yz</i> (<i>&#966;</i> = 90°) and <i>xz</i>
+(<i>&#966;</i> = 0°) scattering
+planes respectively. Linear depolarization ratio (at backscattering) is defined
+through these cross-sections </span></a><span><span>[61]</span></span><span><span>, while circular
+polarization ratio <i>&#956;</i><sub>c</sub>
+can be defined as </span></span><span><span>[63]</span></span><span><span> (for any <i>&#966;</i>):</span></span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span><span>.</span></span></p>
+  </td>
+  
+  <td>
+  <p><span><span>(</span></span><span><span><span>58</span></span></span><span><span>)</span></span></p>
+  </td>
+  
+ </tr>
+</table>
+
+
+    </body>
+</html>

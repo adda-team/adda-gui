@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Granule generator </title>
+    </head>
+    <body>
+        <h1>Granule generator</h1>
+
+<p><span>Granule
+generator is enabled by the command line option</span></p>
+
+<p><span>-granul &lt;vol_frac&gt; &lt;diam&gt;
+[&lt;dom_number&gt;]</span></p>
+
+<p><span>which specifies that one particle domain
+should be randomly filled with spherical granules with specified diameter </span><span>&lt;diam&gt;</span><span> and volume fraction </span><span>&lt;vol_frac&gt;</span><span>. The domain
+number to fill is given by the last optional argument (default is the first
+domain). Total number of domains is then increased by one; the last is assigned
+to the granules. Suffix “</span><span>_gran</span><span>” is added to the shape
+name and all particle symmetries (§</span><span>6.7</span><span>) are
+cancelled.</span></p>
+
+<div>
+
+<table>
+ <tr>
+  <td>
+  
+  <p><a><span>Fig. </span></a><span><span><span>3</span></span></span><span>. Examples of
+  predefined shapes. Most shapes are depicted by projections on the <i>xz</i>&#8209;plane. A blue arrow around
+  the z&#8209;axis denotes axisymmetry.</span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p><span>A simplest algorithm is used: to place
+randomly a sphere and see whether it fits in the given domain together with all
+previously placed granules. The only information that is used about some of the
+previously place granules is dipoles occupied by them, therefore intersection
+of two granules is checked through the dipoles, which is not exact, especially
+for small granules. However it should not introduce errors larger than those
+caused by the discretization of granules. Moreover, it allows considering
+arbitrary complex domains, which is described only by a set of occupied
+dipoles. This algorithm is unsuitable for high volume fractions, it becomes
+very slow and for some volume fractions may fail at all (depending on the size
+of the granules critical volume fractions is 30–50%). Moreover, statistical
+properties of the obtained granules distribution may be not perfect; however,
+it seems good enough for most applications. To generate random numbers </span><span><span>ADDA</span></span><span> uses the Mersenne twister,<a><span><span><span><span>[32]</span></span></span></span></a>
+which combines high speed with good statistical properties </span><span>[35]</span><span>.
+The granule generator was used to simulate light scattering by granulated
+spheres by Yurkin <i>et al.</i> </span><span>[36]</span><span>.</span></p>
+
+<p><span>If volume correction (§</span><span>6.3</span><span>) is
+used, the diameter of the granules is slightly adjusted to give exact <i>a priori</i> volume fraction. <i>A posteriori</i> volume fraction is
+determined based on the total number of dipoles occupied by granules and is
+saved to </span><span>log</span><span> (§</span><span>C.4</span><span>). It
+is not recommended to use granule diameter smaller than the size of the dipole,
+since then the dipole grid cannot adequately represent the granules, even
+statistically. </span><span><span>ADDA</span></span><span> will show a warning in that case; however, it will perform
+simulation for any granule size.</span></p>
+
+<p><span>Currently the granule generator does not take
+into account </span><span>&#8209;jagged</span><span> option, which is planned to be fixed in the future.<a><span><span><span><span>[33]</span></span></span></span></a>
+For now one may save a geometry file for a particle model scaled to <i>J</i> = 1 and then load it using
+any desired <i>J</i>. The same trick can be
+used to fill different particle domains and/or using different sizes of
+granules. To do it the complete operation should be decomposed into elementary
+granule fills, which should be interweaved with saving and loading of geometry
+files.</span></p>
+
+<p><span>Coordinates of the granules (its centers) can
+be saved to a file </span><span>granules</span><span> (§</span><span>C.12</span><span>)
+specifying command line option</span></p>
+
+<p><span>-store_grans</span></p>
+
+<p><span>This provides more accurate information
+about the granulated particle than its dipole representation, which can be used
+e.g. to refine discretization.</span></p>
+
+
+    </body>
+</html>

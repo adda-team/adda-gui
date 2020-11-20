@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Incident polarization </title>
+    </head>
+    <body>
+        <h1>Incident polarization</h1>
+
+<p><span>Usually, </span><span><span>ADDA</span></span><span> performs simulation for
+two incident polarizations <b>e</b><sup>0</sup> (§</span><span>11.1</span><span>),
+which are then used to compute amplitude and Mueller scattering matrices (§</span><span>11.2</span><span>, §</span><span>11.3</span><span>). The
+latter can then be used to calculate the result for any incident polarization.
+Symmetry can sometimes be used to effectively avoid a second simulation (§</span><span>6.7</span><span>).</span></p>
+
+<p><span>However, in certain applications one needs
+only the result for a single specific incident polarization, or the incident
+beam (e.g. point-dipole one) does not have a clear meaning of polarization at
+all. Currently, </span><span><span>ADDA</span></span><span> cannot handle such cases in a proper way,<a><span><span><span><span>[44]</span></span></span></span></a>
+but one can use “</span><span>&#8209;sym enf</span><span>” to perform a single run
+for <i>y</i>&#8209;polarization (§</span><span>6.7</span><span>).
+Then the scattering quantities that are produced for each incident polarization
+independently (they have Y in the filename) will be correct. But the scattering
+matrices albeit computed by </span><span><span>ADDA</span></span><span> are expected to be wrong, and can be turned off by &quot;</span><span><span>&#8209;scat_matr none</span></span><span>&quot; (§</span><span>11.3</span><span>).
+Still, one can obtain the scattered intensity from the amplitude matrix, but
+the particular formulae depend on the scattering direction (§</span><span>11.1</span><span>, §</span><span>11.3</span><span>). For
+example, for default propagation direction and scattering in the <i>yz</i>&#8209;plane <i>S</i><sub>2</sub> and <i>S</i><sub>4</sub>
+correspond to parallel and perpendicular components of the scattered fields
+(with respect to the scattering plane).</span></p>
+
+
+    </body>
+</html>

@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Radiation forces </title>
+    </head>
+    <body>
+        <h1>Radiation forces</h1>
+
+<p><span>Radiation force for the whole scatterer and
+for each dipole can also be calculated by </span><span><span>ADDA</span></span><span>. If the command line
+option</span></p>
+
+<p><span>-Cpr</span></p>
+
+<p><span>is specified, the radiation force
+(pressure) cross section <b>C</b><sub>pr</sub>
+and efficiency <b>Q</b><sub>pr</sub> (vectors)
+are calculated and saved into file</span><span> CrossSec</span><span> (§</span><span>C.7</span><span>). Total
+time-averaged force <b>F</b><sub>rad</sub> acting on the particle is
+proportional to <b>C</b><sub>pr</sub> </span><span>[67,68]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>66</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <i>w</i><sub>rad</sub> is
+time-averaged energy density (or pressure) of the electric field, <b>E</b><sub>0</sub>
+and <i>I</i><sub>0</sub> are the electric field amplitude (complex vector) and the
+time-averaged irradiance of the incident beam. For non-plane beams (§</span><span>9.2</span><span>), <b>E</b><sub>0</sub>
+and <i>I</i><sub>0</sub> are considered in the focal point of a beam. The
+formula connecting <i>w</i><sub>rad</sub> and <b>E</b><sub>0</sub> is given for
+Gaussian-CGS system of units, which is used throughout </span><span><span>ADDA</span></span><span>. In SI “1/8<i>&#960;</i>” should be replaced by “<i>&#949;</i><sub>0</sub>/2”.
+However, the relation between <i>w</i><sub>rad</sub> and <i>I</i><sub>0</sub>
+is the same for both systems. It is important to note, that Eq. </span><span>(<span>66</span>)</span><span>
+explicitly contains the refractive index of the surrounding medium <i>m</i><sub>0</sub>.
+Hence, <b>C</b><sub>pr</sub> calculated for
+equivalent scattering problem of particle in the vacuum (§</span><span>4</span><span>) is
+the correct one, but <b>F</b><sub>rad</sub>
+should be additionally multiplied by <i>m</i><sub>0</sub> (for the same <i>I</i><sub>0</sub>).
+Relation between <i>I</i><sub>0</sub> and the total beam power is discussed in
+§</span><span>9.2</span><span>.</span></p>
+
+<p><span>To save the radiation forces on each dipole
+into file </span><span>RadForce</span><span> (§</span><span>C.8</span><span>) use</span></p>
+
+<p><span>-store_force</span></p>
+
+<p><span>This option implies </span><span><span>&#8209;Cpr</span></span><span> and can be used, e.g., to study internal stress inside the particle
+or forces and/or torques acting on separate parts of a multi-particle system.
+Unfortunately, currently there is no automatic way to calculate optical torque
+on the particle (or on each dipole separately). However, there exist a
+workaround.<a><span><span><span><span>[62]</span></span></span></span></a> It
+is important to note that these dipole-wise radiation forces are given in the particle
+reference frame, while integral quantities, saved in </span><span>CrossSec</span><span>, are given in either laboratory or incident-wave reference frame (§</span><span>11.1</span><span>).</span></p>
+
+<p><span>The calculation of optical force on each
+dipole implicitly assumes unity amplitude of the incident beam (|<b>E</b><sub>0</sub>| = 1 statV/cm).
+Hence, the unit of force in file </span><span>RadForce</span><span> is 10<sup>&#8722;8</sup> dyne
+when all lengths are measured in µm (see §</span><span>2</span><span>). For
+other value of |<b>E</b><sub>0</sub>|, the result should be multiplied by |<b>E</b><sub>0</sub>|<sup>2</sup>.
+For instance, if |<b>E</b><sub>0</sub>| = 1 V/m the unit of
+force is 1.11?10<sup>&#8722;22</sup> N. Moreover, to account for
+surrounding medium one should multiply the result of the “scaled” problem by and <i>m</i><sub>0</sub>
+for the same <b>E</b><sub>0</sub> and <i>I</i><sub>0</sub> respectively.</span></p>
+
+<p><span>For a plane incident wave <b>C</b><sub>pr</sub>
+can also be calculated from momentum conservation </span><span>[67]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>67</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where the two terms correspond
+to momentum extracted from the incident wave and contained in the scattered
+wave, respectively. The same distinction also applies to force on each dipole </span><span>[7]</span><span>,
+and they are calculated separately by </span><span><span>ADDA</span></span><span>. For convenience, these
+two resulting vectors are also saved to file </span><span>CrossSec</span><span>, when </span><span><span>&#8209;Cpr</span></span><span> is used. They can be directly compared to the values, obtained by
+the default approach (§</span><span>11.4</span><span>).
+Unfortunately, Eq. </span><span>(67)</span><span> holds
+neither for non-plane beams nor for the surface mode, in particular, momentum
+extracted from the incident wave is no more directly proportional to <i>C</i><sub>ext</sub>
+(extracted energy).</span></p>
+
+<p><span>It is important to note that calculation of
+radiation forces is still under development. There are three major drawbacks of
+the current implementation:</span></p>
+
+<p><span><span>·</span></span><span>It cannot be used in
+combination with non-plane beams (§</span><span>9.2</span><span>), due
+to more complex expressions for “extinction” force.<a><span><span><span><span>[63]</span></span></span></span></a></span></p>
+
+<p><span><span>·</span></span><span>It is computationally
+inefficient with speed , also it occupies </span><span>&#119978;</span><span>(<i>N</i><sub>real</sub>)
+extra memory in parallel mode.<a><span><span><span><span>[64]</span></span></span></span></a>
+It is planned to rewrite this implementation according to Hoekstra <i>et al.</i> </span><span>[7]</span><span>,
+which will make it </span><span>&#119978;</span><span>(<i>N</i>ln<i>N</i>) – usually even faster than calculation
+of <b>g</b><i>C</i><sub>sca</sub> by
+integration of the scattered field (§</span><span>11.4</span><span>).
+However, currently the fastest ways to obtain <b>C</b><sub>pr</sub> for a <i>plane</i>
+incident wave is through Eq. </span><span>(67)</span><span>
+without calculating the radiation forces at all.</span></p>
+
+<p><span><span>·</span></span><span>It is not compatible with the
+surface mode (§</span><span>7</span><span>).<a><span><span><span><span>[65]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

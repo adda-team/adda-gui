@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Definition of scattering plane and angles </title>
+    </head>
+    <body>
+        <h1>Definition of scattering plane and angles</h1>
+
+<p><span>Currently two definitions for scattering
+plane and angles are employed in </span><span><span>ADDA</span></span><span>. In the free-space mode
+all scattering angles (polar <i>&#952;</i>
+and azimuthal <i>&#966;</i>, the latter is
+counted from the <i>x</i>&#8209;axis) are
+specified in the incident-wave reference frame (§</span><span>6.1</span><span>). For
+default propagation direction (<b>a</b> = <b>e</b><i><sub>z</sub></i>,
+§</span><span>9.1</span><span>) this
+reference frame coincides with the laboratory reference frame. Two incident
+polarizations are used: along the <i>x</i><span>&#8209;</span> and <i>y</i><span>&#8209;</span>axes. Those
+are perpendicular (</span><span><span>^</span></span><span>) and
+parallel (||) polarizations </span><span>[53]</span><span>
+respectively with respect to the default scattering plane (<i>yz</i>). If the beam propagates along non-default direction, these
+polarizations are transformed simultaneously with the propagation vector – all
+three vectors, defining the incident-wave reference frame, are rotated by two
+spherical angles (first <i>&#952;</i>&#8209;rotation
+around the <i>y</i>&#8209;axis, then <i>&#966;</i>&#8209;rotation around the
+original <i>z</i>&#8209;axis) so that <b>e</b><i><sub>z</sub></i>
+is transformed into <b>a</b>.<a><span><span><span><span>[51]</span></span></span></span></a>
+Those rotated vectors are shown in the </span><span><span>log</span></span><span> (§</span><span>C.4</span><span>).</span></p>
+
+<p><span>By contrast, in the surface mode (§</span><span>7</span><span>) the
+scattering angles <i>&#952;</i> and <i>&#966;</i> are defined with respect to the
+laboratory reference frame, which is in turn aligned with the surface.<a><span><span><span><span>[52]</span></span></span></span></a>
+The default scattering plane is the one passing through <b>a</b> and <b>e</b><i><sub>z</sub></i><span>, i.e. the one with </span><i>&#966;</i>
+equal to that of vector <b>a</b>.
+Scattering angle <i>&#952;</i> coincides
+with the corresponding spherical angle, i.e. it is counted from <b>e</b><i><sub>z</sub></i>
+(<i>not</i> from <b>a</b>) in the direction of <b>a</b>.
+For propagation directions <b>a</b> = ±<b>e</b><i><sub>z</sub></i>
+the scattering plane is the <i>xz</i>&#8209;plane
+(<i>&#966;</i> = 0°), in contrast
+to <i>yz</i>&#8209;plane (<i>&#966;</i> = 90°) above. So the
+two definitions of the default scattering plane and incident polarizations differ
+even for <b>a</b> = <b>e</b><i><sub>z</sub></i>.Moreover, <i>y</i>- and <i>x</i>&#8209;polarizations
+are then perpendicular (</span><span><span>^</span></span><span>, <i>s</i>) and parallel (||, <i>p</i>) to the scattering plane.</span></p>
+
+<p><span>While the definition of scattering angles is fully
+determined by the mode (free-space or surface), the default scattering plane
+can be chosen by command lines</span></p>
+
+<p><span>-yz</span></p>
+
+<p><span>-scat_plane</span></p>
+
+<p><span>which corresponds to
+the <i>yz</i>&#8209;plane or through-<b>e</b><i><sub>z</sub></i>
+plane, respectively, and overrides the default setting. Only one of these two
+options can be used at a time. Moreover, when a grid of scattering angles is
+calculated (either for saving or integrating over <i>&#966;</i>, §</span><span>11.2</span><span>) the
+scattering in the scattering plane is by default <i>not</i> calculated. However, </span><span><span>ADDA</span></span><span> may be forced to
+calculate it by specifying one of the above options.</span></p>
+
+<p><span>The range of [0°,180°] in the scattering plane
+is equally divided into <i>N<sub>&#952;</sub></i>
+intervals, the latter is defined through the command line option</span></p>
+
+<p><span>-ntheta &lt;arg&gt;</span></p>
+
+<p><span>By default <i>N<sub>&#952;</sub></i> is from 90 to 720 depending on the size of the
+computational grid (§</span><span>6.2</span><span>). If
+the particle is not symmetric (§</span><span>6.7</span><span>) and
+orientation averaging (§</span><span>8.2</span><span>) is
+not used, the range is extended to 360°. Totally <i>N<sub>&#952;</sub></i> + 1 or 2<i>N<sub>&#952;</sub></i> + 1 points are calculated.</span></p>
+
+
+    </body>
+</html>

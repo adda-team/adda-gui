@@ -1,0 +1,142 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Construction of a dipole set </title>
+    </head>
+    <body>
+        <h1>Construction of a dipole set</h1>
+
+<p><span>After defining the computational grid (§</span><span>6.2</span><span>) each
+dipole of the grid should be assigned a refractive index (a void dipole is
+equivalent to a dipole with refractive index equal to 1). This can be done
+automatically for a number of predefined shapes or in a very flexible way by
+specifying scatterer geometry in a separate input file. For predefined shapes (§</span><span>6.4</span><span>) the
+dipole is assigned to the scatterer if and only if its center falls inside the
+shape, see </span><span>Fig. <span>2</span></span><span>(a)
+for an example. When the scatterer consists of several domains, e.g. a coated
+sphere, the same rule applies to each domain. By default, </span><span><span>ADDA</span></span><span> slightly corrects the dipole size (or equivalently dpl) to ensure
+that the volume of the dipole representation of the particle is exactly correct
+[</span><span>Fig. <span>2</span></span><span>(b)],
+i.e. exactly corresponds to <i>x</i>. This
+is believed to increase the accuracy of the DDA, especially for small
+scatterers </span><span>[10]</span><span>.
+However, it introduces a minor inconvenience that the size of the computational
+grid is not exactly equal to the size of the particle. The volume correction
+can be turned off by command line option</span></p>
+
+<p><span>-no_vol_cor</span></p>
+
+<div>
+
+<table>
+ <tr>
+  <td>
+  
+  <p><a><span><span>Fig. </span></span></a><span><span><span><span>2</span></span></span></span><span><span>. An example of dipole
+  assignment for a sphere (2D projection). Assigned dipoles are gray and void
+  dipoles are white. (a) initial assignment; (b) after volume correction; (c) </span></span><span><span>with “</span></span><span><span>&#8209;jagged</span></span><span><span>” option enabled (<i>J</i> = 2)
+  and the same total grid dimension.</span></span><span> Adapted from </span><span>[1]</span><span>.</span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p><span>In this case </span><span><span>ADDA</span></span><span> tries to match the size of the particle using specified <i>kD<sub>x</sub></i> or calculating it from
+specified <i>x</i> (if shape permits).
+Moreover, </span><span><span>ADDA</span></span><span> then determines the “real” value of <i>x</i> numerically from the volume of the dipole representation. Its
+value is shown in </span><span><span>log</span></span><span> file (§</span><span>C.4</span><span>) and
+is further used in </span><span><span>ADDA</span></span><span>, e.g. for normalization of cross sections (§</span><span>11.4</span><span>),
+although it may slightly differ from specified or analytically derived <i>x</i>.</span></p>
+
+<p><span>To read particle geometry from a file, specify
+the file name as an argument to the command line option</span></p>
+
+<p><span>-shape read &lt;filename&gt;</span></p>
+
+<p><span>This file specifies all the dipoles in the
+simulation grid that belongs to the particle (possibly several domains with
+different refractive indices). Supported formats include </span><span><span>ADDA</span></span><span> text formats and </span><span><span>DDSCAT</span></span><span> 6 and 7 shape formats (see
+§</span><span>B.5</span><span> for
+details). Dimensions of the computational grid are then initialized
+automatically. Packages </span><span><span>misc/pip</span></span><span> and </span><span><span>misc/hyperfun</span></span><span> allow one to transform a variety of common 3D shape formats to one
+readable by </span><span><span>ADDA</span></span><span>. It is also possible to add support for new shape format directly
+into </span><span><span>ADDA</span></span><span>.<a><span><span><span><span>[28]</span></span></span></span></a></span></p>
+
+<p><span>Sometimes it is useful to describe particle
+geometry in a coarse way by larger dipoles (cubes), but then use smaller
+dipoles for the simulation itself.<a><span><span><span><span>[29]</span></span></span></span></a>
+</span><span><span>ADDA</span></span><span> enables this by the command line option</span></p>
+
+<p><span>-jagged &lt;arg&gt;</span></p>
+
+<p><span>that specifies a multiplier <i>J</i>. Large cubes (<i>J</i>?<i>J</i>?<i>J</i> dipoles) are used [</span><span>Fig. <span>2</span></span><span>(c)]
+for construction of the dipole set. Cube centers are tested for belonging to a
+particle’s domain. All grid dimensions are multiplied by <i>J</i>. When particle geometry is read from file it is considered to be
+a configuration of big cubes, each of them is further subdivided into <i>J</i><sup>3</sup> dipoles.</span></p>
+
+<p><span><span>ADDA</span></span><span> includes a granule generator, which can randomly fill any specified
+domain with granules of a predefined size. It is described in details in §</span><span>6.5</span><span>.</span></p>
+
+<p><span>The last parameter to completely specify a
+scatterer is its refractive index. Refractive indices are given on the command
+line</span></p>
+
+<p><span>-m {&lt;m1Re&gt; &lt;m1Im&gt;
+[…]|&lt;m1xxRe&gt; &lt;m1xxIm&gt; &lt;m1yyRe&gt; &lt;m1yyIm&gt; &lt;m1zzRe&gt;
+&lt;m1zzIm&gt; […]}</span></p>
+
+<p><span>Each pair of arguments specifies the real
+and imaginary part<a><span><span><span><span>[30]</span></span></span></span></a>
+of the refractive index of the corresponding domain (first pair corresponds to
+domain number 1, etc.). Command line option</span></p>
+
+<p><span>-anisotr</span></p>
+
+<p><span>can be used to specify that a refractive
+index is anisotropic. In that case three refractive indices correspond to one
+domain. They are the diagonal elements of the refractive index tensor in the
+particle reference frame (§</span><span>6.1</span><span>).
+Currently </span><span><span>ADDA</span></span><span> supports only diagonal refractive index tensors; moreover, the
+refractive index must change discretely. Anisotropy cannot be used with either CLDR
+polarizability (§</span><span>10.1</span><span>) or
+SO formulations (§</span><span>10.1</span><span>, §</span><span>10.2</span><span>, §</span><span>10.4</span><span>),
+since they are derived assuming isotropic refractive index, and cannot be
+easily generalized. Use of anisotropic refractive index cancels the rotation
+symmetry if its <i>x</i> and <i>y</i>&#8209;components differ. Limited
+testing of this option was performed for Rayleigh anisotropic spheres.</span></p>
+
+<p><span>The maximum number of different refractive
+indices (particle domains) is defined at compilation time by the parameter </span><span>MAX_NMAT</span><span> in the file </span><span>const.h</span><span>. By default it is
+set to 15. The number of the domain in the geometry file (§</span><span>B.5</span><span>)
+exactly corresponds to the number of the refractive index. Numbering of domains
+for the predefined shapes is described in §</span><span>6.4</span><span>. If
+no refractive index is specified, it is set to 1.5, but this default option
+works only for single-domain isotropic scatterers. Currently </span><span><span>ADDA</span></span><span> produces an error if any of the given refractive index equals to 1.
+It is planned to improve this behavior to accept such refractive index and
+automatically make corresponding domain void. This can be used, for instance,
+to generate spherical shell shape using standard option </span><span>–shape coated</span><span>. For now, one may set refractive index to the value very close to 1
+for this purpose, e.g. equal to 1.00001.</span></p>
+
+<p><span><span>ADDA</span></span><span> saves the constructed dipole set to a file if the command line
+option</span></p>
+
+<p><span>-save_geom [&lt;filename&gt;]</span></p>
+
+<p><span>is specified,
+where </span><span>&lt;filename&gt;</span><span> is an optional argument. If it is not specified, </span><span><span>ADDA</span></span><span> names the output file </span><span>&lt;type&gt;.&lt;ext&gt;</span><span>. </span><span>&lt;type&gt;</span><span> is shape name – a first argument to the </span><span>&#8209;shape</span><span> command line option, see above and §</span><span>6.4</span><span>,
+possibly with addition of </span><span>_gran</span><span> (§</span><span>6.5</span><span>). </span><span>&lt;ext&gt;</span><span> is determined by the format (</span><span><span>geom</span></span><span> for </span><span><span>ADDA</span></span><span> and </span><span><span>dat</span></span><span> for </span><span><span>DDSCAT</span></span><span> formats), which itself is determined by the command line option</span></p>
+
+<p><span>-sg_format {text|text_ext|ddscat6|ddscat7}</span></p>
+
+<p><span>First two are </span><span><span>ADDA</span></span><span> default formats for single- and multi-domain particles
+respectively. </span><span><span>DDSCAT</span></span><span> 6 and 7 format, which differ by a single line, are described in §</span><span>B.5</span><span>. </span><span>text</span><span> is
+automatically changed to </span><span>text_ext</span><span> for multi-domain particles. Output formats are compatible with the
+input ones (see §</span><span>C.11</span><span> for
+details). The values of refractive indices are not saved (only domain numbers).
+This option can be combined with </span><span>&#8209;prognosis</span><span>, then no
+DDA simulation is performed but the geometry file is generated.</span></p>
+
+
+    </body>
+</html>

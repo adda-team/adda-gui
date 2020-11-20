@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Extensions of the DDA </title>
+    </head>
+    <body>
+        <h1>Extensions of the DDA</h1>
+
+<p><span>In its original form the DDA is derived for
+finite particles (or a set of several finite particles) in vacuum. However, it
+is also applicable to finite particles embedded in a homogeneous non-absorbing dielectric
+medium (refractive index <i>m</i><sub>0</sub>).
+To account for the medium one should replace the particle (and environment) refractive
+index <i>m</i> by the relative refractive
+index <i>m</i>/<i>m</i><sub>0</sub>, and the wavelength in the vacuum <i>&#955;</i> by the wavelength in the medium <i>&#955;</i>/<i>m</i><sub>0</sub>. All the scattering quantities produced by DDA
+simulations with such modified <i>m</i> and <i>&#955;</i> are then the correct ones for the
+initial scattering problem. The only exception is the radiative force per each
+dipole which should be additionally scaled in the presence of the medium (see §</span><span>11.6</span><span>).</span></p>
+
+<p><span>While </span><span><span>ADDA</span></span><span> can handle particles
+near an infinite surface (§</span><span>7</span><span>), it
+is not directly applicable to other infinite environments, such as multi-layer
+substrates, waveguides, or particles crossing the infinite surface. However, a
+number of approximate methods are still available:</span></p>
+
+<p><span><span>·</span></span><span>One could consider the environment
+only by its influence on the incident field; let us denote the modified
+incident field as . This may be accurate enough if the particle is far from the
+elements of the environment (e.g., boundary of the substrate) and/or the refractive
+index of the environment is close to unity. Field need then to be given
+to </span><span><span>ADDA</span></span><span> through a file (§</span><span>9.2</span><span>).</span></p>
+
+<p><span><span>·</span></span><span>Another approach is to take a
+large computational box around the particle, and explicitly discretize the environment
+that falls into it </span><span>[25]</span><span>. This
+is rigorous in the limit of infinite size of computational box, but requires
+much larger computer resources than that for the initial problem. It also
+requires one to specify the shape files for all different sizes of the
+computational box.</span></p>
+
+<p><span>The problem with the latter approach is the
+diffraction of the plane wave on the edges of the computational domain. It can
+be alleviated by using a Gaussian beam with a width smaller than the
+computational domain but larger than all structural features of the problem (e.g.,
+particles above or inside the multi-layered substrate) </span><span>[26]</span><span>.</span></p>
+
+<p><span>A combination of these two approaches was
+proposed by D’Agostino<i> et al.</i> </span><span>[27]</span><span> to
+decrease spurious boundary effects for infinite plane substrate, but can be
+generalized to arbitrary environment. The total near- of far-field <b>E</b>(<b>r</b>)
+is replaced by an adjusted field <b>E</b><sup>adj</sup>(<b>r</b>)</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>3</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <b>E</b><sup>env</sup>(<b>r</b>) is the result of a DDA simulation
+for the truncated environment alone (without particles) with the free-space incident
+field. It is expected that <b>E</b><sup>adj</sup>(<b>r</b>) will converge to the correct
+solution with increasing computational domain faster than <b>E</b>(<b>r</b>).</span></p>
+
+<p><span>Another useful
+extension of the DDA is introduction of periodic boundary conditions </span><span>[28,29]</span><span>,
+which is relevant to photonic crystals and similar applications. This requires
+relatively simple modification of the algorithm and it was recently implemented
+in the </span><span><span>DDSCAT</span></span><span> 7 </span><span>[30]</span><span>.
+However, </span><span><span>ADDA</span></span><span> does <i>not</i> yet support this
+feature.</span></p>
+
+
+    </body>
+</html>

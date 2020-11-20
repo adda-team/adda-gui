@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Amplitude matrix </title>
+    </head>
+    <body>
+        <h1>Amplitude matrix</h1>
+
+<p><span>An alternative
+approach to characterize the scattering process is by 2?2 dimensionless complex
+matrix, the amplitude scattering matrix, which </span><span>relates
+scattered and incoming electric fields (the latter is different from incident
+field in the surface mode, §</span><span>9.2</span><span>):</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>59</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where </span><span><span>^</span></span><span> and || denote perpendicular and parallel components of the field,
+respectively, with respect to the scattering plane (§</span><span>11.1</span><span>). The
+definition for the free space corresponds to that in </span><span>[53]</span><span>,<a><span><span><span><span>[55]</span></span></span></span></a>
+while </span><span>the generalization to the surface mode is in line
+with that used previously for 2D case </span><span>[64]</span><span>.</span><span> Thus, the elements of the amplitude
+scattering matrix are closely related to <b>F</b>(<b>n</b>) – cf. Eq. </span><span>(<span>42</span>)</span><span>. Compared to the intensity-based Mueller
+matrix the amplitude matrix contains also the phase of the field, but it can be
+measured only by limited number of experimental set-ups, mainly in microwave
+frequency domain.</span></p>
+
+<p><span><span>ADDA</span></span><span> can calculate the amplitude matrix when enabled by the command line
+option</span></p>
+
+<p><span>-scat_matr {muel|ampl|both|none}</span></p>
+
+<p><span>which allows one to specify whether the
+Mueller matrix (</span><span><span>muel</span></span><span>, the default choice), the amplitude matrix (</span><span><span>ampl</span></span><span>), </span><span><span>both</span></span><span>, or </span><span><span>none</span></span><span> should be calculated and saved to file.</span></p>
+
+<p><span>The set of angles to calculate the amplitude
+matrix are determined the same way as for the Mueller matrix (§</span><span>11.2</span><span>). In
+particular, by default a uniform grid in the scattering plane (§</span><span>11.1</span><span>) is
+used and the result is saved into file </span><span><span>ampl</span></span><span> (§</span><span>C.6</span><span>). When
+</span><span><span>&#8209;store_scat_grid</span></span><span> is used, the amplitude matrix for a grid of scattering angles is
+saved to file </span><span><span>ampl_scatgrid</span></span><span> (§</span><span>C.6</span><span>). However,
+there is one important difference – no averaging of the amplitude matrix is
+performed neither over orientation (</span><span><span>–orient avg</span></span><span>) nor over the
+azimuthal scattering angle (</span><span><span>–phi_integr</span></span><span>).<a><span><span><span><span>[56]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

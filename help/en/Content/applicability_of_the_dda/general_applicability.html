@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> General applicability </title>
+    </head>
+    <body>
+        <h1>General applicability</h1>
+
+<p><span>The principal advantage of the DDA is that
+it is completely flexible regarding the geometry of the scatterer, being
+limited only by the need to use a dipole size <i>d</i> small compared to both any structural length in the scatterer and
+the wavelength <i>&#955;</i>. A large number
+of studies devoted to the accuracy of DDA results exist, e.g. </span><span>[8,10–19]</span><span>.
+Most of them are reviewed in </span><span>[2]</span><span>;
+here we only give a brief overview. The DDA is a “numerically exact” method,
+i.e. it can reach any required accuracy given sufficient computational
+resources. However, the required resources are not necessarily practically
+acceptable.</span></p>
+
+<p><span>The rule of thumb for particles in free space with
+size comparable to the wavelength is: “10 dipoles per wavelength inside the
+scatterer”, i.e. size of one dipole is </span></p>
+
+<table>
+ <tr>
+  <td>
+  <table>
+   <tr>
+    <td>
+    <p><span>,</span></p>
+    </td>
+    <td>
+    <p><a><span>(</span></a><span><span><span>1</span></span></span><span><span>)</span></span></p>
+    </td>
+   </tr>
+  </table>
+  
+  </td>
+  
+ </tr>
+</table>
+
+<p><span>where <i>m</i>
+is refractive index of the scatterer. That is the default for </span><span><span>ADDA</span></span><span> (§</span><span>6.2</span><span>). The
+expected accuracy of cross sections is then several percent (for moderate <i>m</i>, see below). With increasing <i>m</i> the number of dipoles that is used to
+discretize the particle increases; moreover, the convergence of the iterative
+solver (§</span><span>12.1</span><span>)
+becomes slower. Additionally, the accuracy of the simulation with default
+dipole size deteriorates, and smaller, hence more dipoles must be used to
+improve it. Therefore, it is accepted that the refractive index should satisfy</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>2</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>Larger <i>m</i>
+<i>can</i> also be simulated accurately. In
+that case, however, the required computer resources rapidly increase with <i>m</i>. Fortunately, state-of-the-art DDA
+formulations (§</span><span>10</span><span>) can alleviate
+this problem and render larger refractive indices accessible to DDA simulations.
+Note however that the application of the DDA in this large-<i>m</i> regime is investigated
+much less thoroughly than for moderate refractive indices, and therefore
+warrants further studies.</span></p>
+
+<p><span>When considering
+larger scatterers (volume-equivalent size parameter <i>x</i> &gt; 10) the rule of thumb still applies. However, it
+does not describe well the dependence on <i>m</i>.
+When employing the rule of thumb, errors do not significantly depend on <i>x</i>, but do significantly increase with <i>m</i> </span><span>[8]</span><span>.
+However, simulation data for large scatterers is also limited; therefore, it is
+hard to propose any simple method to set dipole size. The maximum reachable <i>x</i> and <i>m</i> are mostly determined by the available computer resources (§</span><span>5</span><span>).</span></p>
+
+<p><span>The DDA is also applicable to particles
+smaller than the wavelength, e.g. nanoparticles. In some respects, it is even
+simpler than for larger particles, since many convergence problem for large <i>m</i> are not present for small scatterers.
+However, in this regime there is an additional requirement for <i>d</i> – it should allow for an adequate
+description of the shape of the particle. Although this requirement is relevant
+for any scatterers, it is usually automatically satisfied for larger scatterers
+by Eq. </span><span>(<span>1</span>)</span><span>. For
+instance, for a sphere (or similar compact shape) it is recommended to use at
+least 10 dipoles along the smallest dimension, no matter how small is the
+particle. Smaller dipoles are required for irregularly shaped particles and/or
+large refractive index. The accuracy of the DDA for gold nanoparticles was
+studied in </span><span>[20]</span><span>.</span></p>
+
+<p><span>To conclude, it is hard to estimate <i>a priori</i> the accuracy of DDA simulation for
+a particular particle shape, size, and refractive index, although the papers
+cited above do give a hint. If one runs a single DDA simulation, there is no
+better alternative than to use rule of thumb and hope that the accuracy will be
+similar to that of the spheres, which can be found in one of the benchmark
+papers (e.g. </span><span>[8,13,18]</span><span>).
+However, if one plans a series of simulations for similar particles, especially
+outside of the usual DDA application domain [Eq. </span><span>(<span>2</span>)</span><span>], it
+is highly recommended to perform an accuracy study. For that one should choose
+a single test particle and perform DDA simulations with different <i>d</i>, both smaller and larger than proposed
+by the rule of thumb. The estimate of <i>d</i>
+required for a particular accuracy can be obtained from a variation of results
+with decreasing <i>d</i>. You may also make the estimation much more rigorous
+by using an extrapolation technique, as proposed by Yurkin <i>et al.</i> </span><span>[21]</span><span>
+and applied in </span><span>[20,22,23]</span><span>.</span></p>
+
+<p><span>Finally, it is important to note that the
+price paid for versatility of the DDA is its large computational costs, even
+for “simple” scatterers. Thus, in certain cases other (more specialized)
+methods will clearly be superior to the DDA. A review of relevant comparative
+studies is given in </span><span>[2]</span><span>.
+Additionally, it was recently shown that the DDA performs exceptionally well
+for large index-matching particles (e.g. biological cells in a liquid medium).
+In this regime the DDA is 10 to 100 times faster than a (general-purpose)
+finite-difference time-domain method when required to reach the same accuracy </span><span>[22]</span><span>, and
+is comparable in speed to the discrete sources method for red blood cells </span><span>[24]</span><span>,
+where the latter method explicitly employs the axisymmetry of the problem.</span></p>
+
+
+    </body>
+</html>

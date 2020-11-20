@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Integral scattering quantities </title>
+    </head>
+    <body>
+        <h1>Integral scattering quantities</h1>
+
+<p><span>All scattering quantities described in this
+section are saved to several files (§</span><span>C.7</span><span>),
+corresponding to each of two incident polarizations (</span><span>CrossSec&#8209;X</span><span> and </span><span>CrossSec&#8209;Y</span><span>) and to
+orientation-averaged results (</span><span>CrossSec</span><span>). For the latter
+the result is calculated for unpolarized incident light. However, it is equal
+to that for any incident polarization, if the full range of Euler angle <i>&#945;</i> is used for averaging (§</span><span>8.2</span><span>). </span><span><span>ADDA</span></span><span> always calculates <i>C</i><sub>ext</sub>
+and <i>C</i><sub>abs</sub> (together with
+corresponding efficiencies <i>Q</i><sub>ext</sub>,
+<i>Q</i><sub>abs</sub>).<a><span><span><span><span>[57]</span></span></span></span></a>
+Optionally, it can calculate scattering cross section <i>C</i><sub>sca</sub> (and efficiency <i>Q</i><sub>sca</sub>)
+and normalized and non-normalized asymmetry vectors – <b>g</b> and <b>g</b><i>C</i><sub>sca</sub> respectively. <i>C</i><sub>sca</sub> and <b>g</b> are defined by Eqs. </span><span>(<span>47</span>)</span><span> and </span><span>(<span>48</span>)</span><span>
+respectively, the <i>z</i>&#8209;component
+of <b>g</b> is the usual asymmetry
+parameter &lt;cos<i>&#952;</i>&gt;. Values
+of cross sections are in units of µm<sup>2</sup>. All the efficiencies are
+calculated by dividing the corresponding cross section over the area of the geometrical
+cross section of the sphere with volume equal to that of dipole representation
+of the particle, .<a><span><span><span><span>[58]</span></span></span></span></a>
+Optional calculation of <i>C</i><sub>sca</sub>,
+<b>g</b><i>C</i><sub>sca</sub>
+and <b>g</b> can be enabled, respectively, by
+command line options</span></p>
+
+<p><span>-Csca</span></p>
+
+<p><span>-vec</span></p>
+
+<p><span>-asym</span></p>
+
+<p><span>If <b>g</b>
+is calculated <i>C</i><sub>sca</sub> and <b>g</b><i>C</i><sub>sca</sub>
+are also calculated automatically.<a><span><span><span><span>[59]</span></span></span></span></a>
+The calculation of <b>g</b> and <i>C</i><sub>sca</sub> is performed by
+integration over the whole solid angle, using a grid of scattering angles. The
+grid is specified by default in file </span><span>alldir_params.dat</span><span>
+(see §</span><span>B.3</span><span> for
+format) in a form suitable for the Romberg integration (§</span><span>12.6</span><span>).
+Integration points for <i>&#952;</i> are
+spaced uniformly in values of cos<i>&#952;</i>.
+Different grid file can be specified through the command line option</span></p>
+
+<p><span>-alldir_inp &lt;filename&gt;</span></p>
+
+<p><span>In most cases <i>C</i><sub>sca</sub> can be accurately
+calculated as <i>C</i><sub>ext</sub> &#8722; <i>C</i><sub>abs</sub>, without using </span><span>&#8209;Csca</span><span>
+option. As discussed in §</span><span>10.4</span><span>
+accuracy of this method can be improved when <i>C</i><sub>sca</sub> <span>&lt;</span>&lt; <i>C</i><sub>abs</sub> by using smaller <i>&#949;</i> (§</span><span>12.1</span><span>).
+Whether this is more computationally effective than using </span><span>&#8209;Csca</span><span> or
+not depends on the particular problem. For instance, <i>C</i><sub>ext</sub> and <i>C</i><sub>abs</sub>
+may coincide in (almost) all digits saved to file for particles much smaller
+than the wavelength, leaving integration of scattered fields over the solid
+angle as the only viable option. However, in this case the integration can be
+done analytically (in the free-space mode), using formulae for the Rayleigh
+regime. For a general non-symmetric particle formulae are cumbersome. However,
+if total particle polarizability is a diagonal tensor in the laboratory
+reference frame (e.g. general ellipsoid with axes along coordinate axes), then starting
+from chapter 5.7 of </span><span>[53]</span><span>
+one can derive:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>60</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where plus and minus
+correspond to incident polarization along the <i>y</i>- and <i>x</i>&#8209;axis
+respectively. Mueller matrix elements are considered at the forward direction
+in the <i>yz</i>&#8209;plane (§</span><span>11.1</span><span>),
+i.e. they can be found in the second line of the </span><span>mueller</span><span> file (§</span><span>11.2</span><span>).</span></p>
+
+<p><span>When absorbing substrate is present (§</span><span>7</span><span>) the default
+definition of <i>C</i><sub>sca</sub> is
+unphysical (§</span><span>10.4</span><span>). A
+more adequate approach may be to integrate the scattered field only in the
+upper hemisphere, which can be done by changing the range of <i>&#952;</i> to [0°,90°] in </span><span>alldir_params.dat</span><span> (§</span><span>B.3</span><span>).</span></p>
+
+<p><span>Currently </span><span><span>ADDA</span></span><span> provides no built-in
+functionality for automatically scanning over a wavelength spectrum. However, a
+simple workaround is to execute </span><span><span>ADDA</span></span><span> for each wavelength
+independently, using a script, and then collect the output data.<a><span><span><span><span>[60]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

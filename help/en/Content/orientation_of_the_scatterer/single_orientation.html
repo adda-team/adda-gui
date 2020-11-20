@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Single orientation </title>
+    </head>
+    <body>
+        <h1>Single orientation</h1>
+
+<p><span>Any particle orientation with respect to
+the laboratory reference frame can be specified by three Euler angles (<i>&#945;</i>,<i>&#946;</i>,<i>&#947;</i>). </span><span><span>ADDA</span></span><span> uses a notation based on </span><span>[38]</span><span>,
+which is also called “<i>zyz</i>&#8209;notation”
+or “<i>y</i>&#8209;convention”. In short,
+coordinate axes attached to the particle are first rotated by the angle <i>&#945;</i> over the <i>z</i>&#8209;axis, then by the angle <i>&#946;</i>
+over the current position of the <i>y</i>&#8209;axis
+(the line of nodes), and finally by the angle <i>&#947;</i> over the new position of the <i>z</i>&#8209;axis (</span><span>Fig. <span>5</span></span><span>). These
+angles are specified in degrees as three arguments to the command line option</span></p>
+
+<p><span>-orient &lt;alpha&gt; &lt;beta&gt;
+&lt;gamma&gt;</span></p>
+
+<p><span><span>ADDA</span></span><span> simulates light scattering in the particle reference frame (§</span><span>6.1</span><span>), therefore
+rotation of the particle is equivalently represented as an inverse rotation of the
+incident wave propagation direction and polarization (§</span><span>9.1</span><span>),
+position of the beam center (if relevant, §</span><span>9.2</span><span>), and
+scattering plane (angles, §</span><span>11.1</span><span>). The
+information about the orientation of a scatterer is saved to the </span><span>log</span><span> (§</span><span>C.4</span><span>).
+Particle rotation cannot be used in the surface mode.<a><span><span><span><span>[39]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

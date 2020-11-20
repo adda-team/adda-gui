@@ -11,10 +11,17 @@ import adda.item.root.shortcut.ShortcutsBox;
 import adda.item.root.workspace.WorkspaceBox;
 import com.formdev.flatlaf.FlatLightLaf;
 
+import javax.help.CSH;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Main {
 //    static {
@@ -35,6 +42,8 @@ public class Main {
                         InstantiationException*/ e) {
                     e.printStackTrace();
                 }
+
+
 
                 JFrame frame = new JFrame("   ADDA GUI");
                 MainForm app = new MainForm();
@@ -80,6 +89,11 @@ public class Main {
                     ImageIcon img = new ImageIcon(imgURL);
                     frame.setIconImage(img.getImage());
                 }
+                final HelpBroker helpBroker = Context.getInstance().getHelpBroker();
+                helpBroker.enableHelpKey(app.getMainPanel(), "introduction", helpBroker.getHelpSet());
+
+
+
 
             }
         });
@@ -119,7 +133,11 @@ public class Main {
 
         JMenu helpMenu = new JMenu("Help");
 
-        helpMenu.add(new JMenuItem("Open help system"));
+        final JMenuItem openHelpSystem = new JMenuItem("Open help system");
+
+        openHelpSystem.addActionListener(new CSH.DisplayHelpFromSource(Context.getInstance().getHelpBroker()));
+
+        helpMenu.add(openHelpSystem);
         helpMenu.add(new JMenuItem("About"));
 
         menuBar.add(helpMenu);

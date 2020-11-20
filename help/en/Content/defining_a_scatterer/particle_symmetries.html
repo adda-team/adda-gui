@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Particle symmetries </title>
+    </head>
+    <body>
+        <h1>Particle symmetries</h1>
+
+<p><span>Symmetries of a light-scattering problem
+are used in </span><span><span>ADDA</span></span><span> to reduce simulation time. All the symmetries are defined for the
+default incident beam (§</span><span>9</span><span>). If
+the particle is symmetric with respect to reflection over the <i>xz</i>&#8209;plane (<i>yz</i>&#8209;plane), only half of the scattering <i>yz</i>&#8209;plane (<i>xz</i>&#8209;plane)
+is considered (scattering angle from 0° to 180°, §</span><span>11.1</span><span>). If the
+particle is symmetric with respect to rotation by 90° over the <i>z</i>&#8209;axis, the Mueller matrix in the <i>yz</i>&#8209;plane (§</span><span>11.1</span><span>) can
+be calculated from the calculation of the internal fields for just one incident
+polarization (<i>y</i>&#8209;polarization is
+used). The second polarization is then equivalent to the first one but with
+scattering in the <i>xz</i>&#8209;plane (in
+negative direction of <i>x</i>&#8209;axis). Analogous
+scheme is used for another scattering plane (§</span><span>11.1</span><span>). The
+symmetries are automatically determined for all the predefined shapes (§</span><span>6.4</span><span>).
+Some or all of them are automatically cancelled if not default beam type and/or
+direction (§</span><span>9</span><span>),
+anisotropic refractive index (§</span><span>6.3</span><span>), or
+granule generator (§</span><span>6.5</span><span>) are
+used.</span></p>
+
+<p><span>Use of symmetry can be controlled by the command
+line option:</span></p>
+
+<p><span>-sym {auto|no|enf}</span></p>
+
+<p><span>First option corresponds to the default
+behavior described before, while </span><span>no</span><span> and </span><span>enf</span><span> specify to never use or enforce symmetry respectively. Use the
+latter with caution, as it may lead to erroneous results. It may be useful if
+the scattering problem is symmetric, but </span><span><span>ADDA</span></span><span> do not recognize it
+automatically, e.g. for particles that are read from file or when non-default
+incident beam is used, which does not spoil the symmetry of the problem (e.g. plane
+wave propagating along the <i>x</i>&#8209;axis
+for a cubical scatterer). It is important to note that not the scatterer but
+its dipole representation should be symmetric;<a><span><span><span><span>[38]</span></span></span></span></a>
+otherwise the accuracy of the result will generally be slightly worse than that
+when symmetry is not enforced. The final symmetries determined by </span><span><span>ADDA</span></span><span> are saved to log (§</span><span>C.4</span><span>),
+where </span><span><span>X</span></span><span>, </span><span><span>Y</span></span><span>, </span><span><span>Z</span></span><span> denote symmetries along the corresponding axes (i.e. with respect
+to reflection over the <i>xy</i>-, <i>xz</i>-, and <i>yz</i>&#8209;planes respectively) and </span><span><span>R</span></span><span>
+denotes symmetry with respect to rotation by 90° over the <i>z</i>&#8209;axis. Alternatively, </span><span><span>ADDA</span></span><span> specifies that
+symmetries are either cancelled or enforced by user.</span></p>
+
+<p><span>Particle symmetries can also be used to
+decrease the range of orientation/scattering angles for different
+averagings/integrations. However, it is user’s responsibility to decide how a particular
+symmetry can be employed. This is described in the descriptions of
+corresponding input parameters files (§</span><span>B.2</span><span>, §</span><span>B.3</span><span>, §</span><span>B.4</span><span>).</span></p>
+
+
+    </body>
+</html>

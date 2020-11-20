@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Introduction </title>
+    </head>
+    <body>
+        <h1>Introduction</h1>
+
+<p><span>The discrete dipole approximation (DDA) is
+a general method to calculate scattering and absorption of electromagnetic
+waves by particles of arbitrary geometry. In this method the volume of the
+scatterer is divided into small cubical subvolumes (“dipoles”). Dipole
+interactions are approximated based on the integral equation for the electric
+field </span><span>[2]</span><span>.
+Initially the DDA (sometimes referred to as the “coupled dipole approximation”)
+was proposed by Purcell and Pennypacker </span><span>[3]</span><span>
+replacing the scatterer by a set of point dipoles (hence the name of the
+technique). Although the final equations are essentially the same, derivations
+based on the integral equations give more mathematical insight into the
+approximation, while the model of point dipoles is physically clearer. For an
+extensive review of the DDA, including both theoretical and computational
+aspects, the reader is referred to </span><span>[2]</span><span>and references therein.</span></p>
+
+<p><span><span>ADDA</span></span><span> is a C implementation of the DDA. The development was conducted by Hoekstra
+and coworkers </span><span>[4–7]</span><span> since 1990 at the University of Amsterdam. From the very beginning
+the code was intended to run on a multiprocessor system or a multicore
+processor (parallelizing a <i>single</i> DDA
+simulation).<a><span><span><span><span><span>[1]</span></span></span></span></span></a> The code was significantly rewritten
+and improved by Yurkin </span><span>[8]</span><span>,
+also at the University of Amsterdam, and publicly released in 2006. Since then </span><span><span>ADDA</span></span><span> is the open-source code developed by an international team.<a><span><span><span><span>[2]</span></span></span></span></a>
+Originally coined “Amsterdam DDA”, the code name has been officially
+abbreviated to reflect this change.</span></p>
+
+<p><span><span>ADDA</span></span><span> is intended to be a versatile tool, suitable for a wide variety of
+applications ranging from interstellar dust and atmospheric aerosols to
+biological cells and nanoparticles; its applicability is limited only by
+available computer resources (§</span><span>4</span><span>). As
+provided, </span><span><span>ADDA</span></span><span> should be usable for many applications without modification, but
+the program is written in a modular form, so that modifications, if required,
+should be fairly straightforward.<a><span><span><span><span><span>[3]</span></span></span></span></span></a></span></p>
+
+<p><span>This code is openly available to others in the
+hope that it will prove a useful tool. We ask only that:</span></p>
+
+<p><span><span>·</span></span><span>If you publish results obtained
+using </span><span><span>ADDA</span></span><span>, you should acknowledge the source of the code. A general reference
+</span><span>[1]</span><span>
+is recommended for that.<a><span><span><span><span>[4]</span></span></span></span></a></span></p>
+
+<p><span><span>·</span></span><span>If you discover any errors in
+the code or documentation, please submit it to the </span><span><span>ADDA</span></span><span> issue tracker.<a><span><span><span><span><span>[5]</span></span></span></span></span></a></span></p>
+
+<p><span><span>·</span></span><span>You comply with the “copyleft”
+agreement (more formally, the GNU General Public License v.3<a><span><span><span><span><span>[6]</span></span></span></span></span></a>) of the Free Software Foundation:
+you may copy, distribute, and/or modify the software identified as coming under
+this agreement. If you distribute copies of this software, you must give the
+recipients all the rights which you have. See the file </span><span>LICENSE</span><span> distributed with the </span><span><span>ADDA</span></span><span> software.</span></p>
+
+<p><span>We strongly encourage you to identify
+yourself as a user of </span><span><span>ADDA</span></span><span> by subscribing to </span><span><span>adda-announce</span></span><span> Google group<a>;</a><a><span><span><span><span><span><span>[7]</span></span></span></span></span></span></a>
+this will enable the developers to notify you of any bugs, corrections, or
+improvements in </span><span><span>ADDA</span></span><span>. If you have a question about </span><span><span>ADDA</span></span><span>, which you think is common,
+please look into the FAQ<a><span><span><span><span><span>[8]</span></span></span></span></span></a> before searching for the answer in
+this manual. If neither of these helps, direct your questions to </span><span><span>adda-discuss</span></span><span> Google group.<a><span><span><span><span><span>[9]</span></span></span></span></span></a> The archive of this group is
+available,<a><span><span><span><span><span>[10]</span></span></span></span></span></a> so you may try to find an answer to
+your question before posting it. However, this also means that you should <i>not</i> include (potentially) confidential
+information in your message; in that case contact one of the developers
+directly. We also advise users, interested in different aspects of </span><span><span>ADDA</span></span><span> usage, to join this group and to participate in discussions
+initiated by other people.<a><span><span><span><span>[11]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

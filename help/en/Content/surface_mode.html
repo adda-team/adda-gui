@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Surface Mode </title>
+    </head>
+    <body>
+        <h1>Surface Mode</h1>
+
+<p><span>Apart from the default
+free-space mode, </span><span><span>ADDA</span></span><span> is applicable to particles (finite systems of scatterers) located
+above the plane surface parallel to the <i>xy</i>&#8209;plane
+</span><span>[37]</span><span>. This
+is enabled by command line option:</span></p>
+
+<p><span>-surf &lt;h&gt; {&lt;mre&gt;
+&lt;mim&gt;|inf}</span></p>
+
+<p><span>where <i>h</i> is the distance from surface to the
+particle center (in </span><span>&#956;</span><span>m). Following argument(s) specify the refractive index of the
+substrate (below the surface), assuming that the vacuum is above the surface.
+It is done either by two values (real and imaginary parts of the complex value)
+or as effectively infinite </span><span><span>inf</span></span><span> which corresponds to perfectly reflective surface (§</span><span>7</span><span>). The
+case of particle fully submerged into the <i>non-absorbing</i>
+substrate can also be handled by rescaling all refractive indices (including
+the vacuum above the substrate) by <i>m</i><sub>s</sub>
+(§</span><span>4.2</span><span>) and
+rotating the reference frame appropriately.</span></p>
+
+<p><span>Details of the
+implementation are described in other sections of the manual. There are,
+however, a number of important caveats:</span></p>
+
+<p><span><span>·</span></span><span>Significant additional time for
+initialization is required (§</span><span>5</span><span>, §</span><span>12.7</span><span>);</span></p>
+
+<p><span><span>·</span></span><span>The surface mode is
+incompatible with radiation forces (§</span><span>11.6</span><span>),
+Gaussian incident beam (§</span><span>9.2</span><span>), WKB
+initial field for the iterative solver (§</span><span>12.1</span><span>), and
+rotation of particle (§</span><span>8</span><span>).</span></p>
+
+<p><span><span>·</span></span><span>DDA accuracy, including
+required discretization (§</span><span>4.1</span><span>), in the
+surface mode is poorly studied and may strongly depend on the refractive index
+and location of substrate.</span></p>
+
+<p><span><span>·</span></span><span>Definitions of common
+light-scattering quantities, like Mueller scattering matrices or cross
+sections, are somewhat ambiguous when beam is incoming from or scattered into
+the substrate. See corresponding sections for specific definitions employed by </span><span><span>ADDA</span></span><span> (§</span><span>10.4</span><span>, §</span><span>11</span><span>). It
+is even more ambiguous for absorbing substrate. Still, above-the-substrate
+quantities are well-defined in all cases.</span></p>
+
+
+    </body>
+</html>

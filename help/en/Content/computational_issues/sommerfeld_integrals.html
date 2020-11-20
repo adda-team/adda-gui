@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Sommerfeld integrals </title>
+    </head>
+    <body>
+        <h1>Sommerfeld integrals</h1>
+
+<p><span>The four Sommerfeld integrals used by </span><span><span>ADDA</span></span><span> to calculate reflection term (§</span><span>10.3</span><span>) are
+expressed through two essential integrals <i>V</i><sub>22</sub>
+and <i>U</i><sub>22</sub> </span><span>[52,83]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>72</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>which, in turn, can be evaluated by
+integration of either Bessel or Hankel functions with appropriate deformation
+of complex path:</span></p>
+
+<table>
+ <tr>
+  
+  <td>
+  <p><span>(</span><span><span>73</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span><span>ADDA</span></span><span> calculates Sommerfeld integrals using slightly modified routine
+from NEC2C,<a><span><span><span><span>[84]</span></span></span></span></a>
+which is a Fortran-to-C translation of </span><span>[52]</span><span>. This
+routine contains internal error control, and has been tested to produce
+consistent (within 0.1%) results in comparison with other codes </span><span>[84,85]</span><span>. Still,
+it should be regarded as a black box. While the accuracy is expected to be
+sufficient for most applications, it is hard to confidently put any numbers on
+it.</span></p>
+
+<p><span>To accelerate computations </span><span><span>ADDA</span></span><span> first computes a table of Sommerfeld integrals for all unique
+values of <i>&#961;</i> and <i>Z</i> required for dipoles on the computational
+grid, which takes time comparable to 200 iterations of the iterative solver<a><span><span><span><span>[85]</span></span></span></span></a>.
+Moreover, such table requires additional memory (§</span><span>5</span><span>).</span></p>
+
+
+    </body>
+</html>

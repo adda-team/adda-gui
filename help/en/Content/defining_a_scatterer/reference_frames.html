@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Reference frames </title>
+    </head>
+    <body>
+        <h1>Reference frames</h1>
+
+<p><span>Three different reference frames are used
+by </span><span><span>ADDA</span></span><span>: laboratory, particle, and incident wave reference frames. The
+laboratory reference frame is the default one, and all input parameters and
+other reference frames are specified relative to it. </span><span><span>ADDA</span></span><span> simulates light scattering in the particle reference frame, which
+naturally corresponds to particle geometry and symmetries, to minimize the size
+of the computational grid (§</span><span>6.2</span><span>),
+especially for elongated or oblate particles. In this reference frame the
+computational grid is built along the coordinate axes. The incident wave
+reference frame is defined by setting the <i>z</i>&#8209;axis
+along the propagation direction (more precisely, the argument of </span><span><span>&#8209;prop</span></span><span> option, §</span><span>9.1</span><span>). In
+some cases it is used for definition of scattering plane and angles (§</span><span>11.1</span><span>).</span></p>
+
+<p><span>The origins of all reference frames coincide
+with the center of the computational grid (§</span><span>6.2</span><span>). By
+default, both particle and incident wave reference frames coincide with the
+laboratory frame. However, they can be made different by rotating the particle
+(§</span><span>8</span><span>) or by
+</span><span><span>&#8209;prop</span></span><span> option (§</span><span>9.1</span><span>)
+respectively. If you are unsure about the dipole coordinates or the position of
+the reference frame relative to the particle, try saving the incident beam to
+the file (§</span><span>9</span><span>).
+Then, the resulting file (§</span><span>C.9</span><span>) will
+contain dipole coordinates in the particle reference frame.</span></p>
+
+
+    </body>
+</html>

@@ -1,0 +1,146 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> The computational grid </title>
+    </head>
+    <body>
+        <h1>The computational grid</h1>
+
+<p><span><span>ADDA</span></span><span> embeds a scatterer in a rectangular computational box, which is
+divided into identical cubes (as required for the FFT acceleration, §</span><span>12.2</span><span>).
+Each cube is called a “dipole”; its size should be much smaller than a
+wavelength. The flexibility of the DDA method lies in its ability to naturally
+simulate any arbitrarily shaped and/or inhomogeneous scatterer, because the
+optical properties (refractive index, §</span><span>6.3</span><span>) of
+each dipole can be set independently. There are a few parameters describing the
+computational grid: size of one dipole (cube) <i>d</i>, number of dipoles along each axis <i>n<sub>x</sub></i>, <i>n<sub>y</sub></i>,
+<i>n<sub>z</sub></i>, total size (in µm) of
+the grid along each axis <i>D<sub>x</sub></i>,
+<i>D<sub>y</sub></i>, <i>D<sub>z</sub></i>, volume-equivalent radius <i>r</i><sub>eq</sub>, and incident wavelength <i>&#955;</i>. However, they are not independent. </span><span><span>ADDA</span></span><span> allows one to specify all three grid dimensions <i>n<sub>x</sub></i>, <i>n<sub>y</sub></i>, <i>n<sub>z</sub></i>
+as arguments to the command line option</span></p>
+
+<p><span>-grid &lt;nx&gt; [&lt;ny&gt; &lt;nz&gt;]</span></p>
+
+<p><span>If omitted <i>n<sub>y</sub></i> and <i>n<sub>z</sub></i>
+are automatically determined by <i>n<sub>x</sub></i>
+based on the proportions of the scatterer (§</span><span>6.4</span><span>). When
+particle geometry is read from a file (§</span><span>6.3</span><span>) all
+grid dimensions are initialized automatically.<a><span><span><span><span>[26]</span></span></span></span></a>
+Because of the internal structure of the </span><span><span>ADDA</span></span><span> all the dimensions are currently
+limited to be even. If odd grid dimension is specified by any input method, it
+is automatically incremented. In this case </span><span><span>ADDA</span></span><span> produces a warning to
+avoid possible ambiguity. If the </span><span>&#8209;jagged</span><span> option is used
+the grid dimension is effectively multiplied by the specified number (§</span><span>6.3</span><span>).</span></p>
+
+<p><span>One can also specify the size parameter of the entire grid <i>kD<sub>x</sub></i> (<i>k</i> is the free space wave vector) or <i>x</i> = <i>kr</i><sub>ef</sub>,
+using three command line options:</span></p>
+
+<p><span>-lambda &lt;arg&gt;</span></p>
+
+<p><span>-size &lt;arg&gt;</span></p>
+
+<p><span>-eq_rad &lt;arg&gt;</span></p>
+
+<p><span>which specify (in µm) <i>&#955;</i>, <i>D<sub>x</sub></i>, and
+<i>r</i><sub>ef</sub> respectively. By
+default <i>&#955;</i> = 2<i>&#960;</i> µm, then </span><span>&#8209;size</span><span> determines <i>kD<sub>x</sub></i>
+and </span><span>&#8209;eq_rad</span><span> sets <i>x</i>. The last two are related
+by</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><a><span><span><span><span>,</span></span></span></span></a></p>
+  </td>
+  
+  <td>
+  <p><span><span><span><span><a><span>(</span></a></span></span></span></span><span><span><span><span><span><span><span>7</span></span></span></span></span></span></span><span><span><span><span><span><span>)</span></span></span></span></span></span></p>
+  </td>
+  
+ </tr>
+</table>
+
+<p><span><span><span><span><span>where <i>f</i><sub>vol</sub> is ratio of particle to computational grid volumes,
+which is known analytically for many shapes available in </span></span></span></span></span><span><span><span><span><span><span>ADDA</span></span><span> (§</span></span></span></span></span><span><span><span><span><span>6.4</span></span></span></span></span><span><span><span><span><span>). It
+is important to note that <i>D<sub>x</sub></i>
+denotes the size of <i>possibly adjusted</i>
+computational grid. Although </span></span></span></span></span><span><span><span><span><span><span>ADDA</span></span><span> will warn user of possible ambiguities, it is not recommended to
+use </span></span></span></span></span><span><span><span><span><span>&#8209;
+size</span><span> command line option for shapes read from file,
+when inherent <i>n<sub>x</sub></i> of this
+shape is not guaranteed to be even. It may cause a modeled scatterer to be
+slightly smaller than originally intended. Some shapes define the absolute
+particle size themselves (§</span></span></span></span></span><span><span><span><span><span>6.4</span></span></span></span></span><span><span><span><span><span>).
+However, the size given in the command line (by either </span></span></span></span></span><span><span><span><span><span>&#8209;size</span><span> or </span></span></span></span></span><span><span><span><span><span>&#8209;eq_rad</span><span>)
+overrides the internal specification and the shape is scaled accordingly.</span></span></span></span></span></p>
+
+<p><span><span><span><span><span>The size parameter of the
+dipole is specified by the parameter “dipoles per lambda” (dpl)</span></span></span></span></span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span><span><span><span><span>,</span></span></span></span></span></p>
+  </td>
+  
+  <td>
+  <p><span><span><span><span><a><span>(</span></a></span></span></span></span><span><span><span><span><span><span><span>8</span></span></span></span></span></span></span><span><span><span><span><span><span>)</span></span></span></span></span></span></p>
+  </td>
+  
+ </tr>
+</table>
+
+<p><span><span><span><span><span>which is given to the command line option</span></span></span></span></span></p>
+
+<p><span><span><span><span><span>-dpl &lt;arg&gt;</span></span></span></span></span></p>
+
+<p><span><span><span><span><span>dpl does not need to be an
+integer; any real number can be specified.</span></span></span></span></span></p>
+
+<p><span><span><span><span><span><span>ADDA</span></span><span> will accept at most two parameters from: dpl, <i>n<sub>x</sub></i>, <i>kD<sub>x</sub></i>,
+and <i>x</i> since they depend on each other
+by Eq. </span></span></span></span></span><span><span><span><span><span>(<span>7</span>)</span></span></span></span></span><span><span><span><span><span> and</span></span></span></span></span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span><span><span><span><span>.</span></span></span></span></span></p>
+  </td>
+  
+  <td>
+  <p><span><span><span><span><a><span>(</span></a></span></span></span></span><span><span><span><span><span><span><span>9</span></span></span></span></span></span></span><span><span><span><span><span><span>)</span></span></span></span></span></span></p>
+  </td>
+  
+ </tr>
+</table>
+
+<p><span><span><span><span><span>Moreover, specifying a pair
+of <i>kD</i><sub>x</sub> and <i>x</i> is also not possible. If any other
+pair from these four parameters is given on the command line (<i>n<sub>x</sub></i> is also defined if
+particle geometry is read from file) the other two are automatically determined
+from the Eqs. </span></span></span></span></span><span><span><span><span><span>(<span>7</span>)</span></span></span></span></span><span><span><span><span><span> and </span></span></span></span></span><span><span><span><span><span>(<span>9</span>)</span></span></span></span></span><span><span><span><span><span>. If
+the latter is <i>n<sub>x</sub></i>, dpl is
+slightly increased (if needed) so that <i>n<sub>x</sub></i>
+exactly equals an even integer. There is one exception: a pair of <i>x</i> and dpl can only be used for shapes,
+for which <i>f</i><sub>vol</sub> can be
+determined analytically (§</span></span></span></span></span><span><span><span><span><span>6.4</span></span></span></span></span><span><span><span><span><span>),
+because numerical evaluation of <i>f</i><sub>vol</sub>
+is only possible when particle is already discretized with a certain <i>n<sub>x</sub></i>. If less than two
+parameters are defined dpl or/and grid dimension are set by default.</span></span></span></span></span><a><span><span><span><span><span><span><span><span><span>[27]</span></span></span></span></span></span></span></span></span></a><span><span><span><span><span> The default for dpl is 10|<i>m</i>|
+[cf. Eq. </span></span></span></span></span><span><span><span><span><span>(<span>1</span>)</span></span></span></span></span><span><span><span><span><span>],
+where <i>m</i> is the maximum (by absolute
+value) refractive index specified by the </span></span></span></span></span><span><span><span><span><span>&#8209;m</span><span>
+option (or the default one, §</span></span></span></span></span><span><span><span><span><span>6.3</span></span></span></span></span><span><span><span><span><span>). The
+default for <i>n<sub>x</sub></i> is 16
+(possibly multiplied by </span></span></span></span></span><span><span><span><span><span>&#8209;jagged</span><span> value). Hence, if only </span></span></span></span></span><span><span><span><span><span>&#8209;size</span><span> or </span></span></span></span></span><span><span><span><span><span>&#8209;eq_rad</span><span> is
+specified, </span></span></span></span></span><span><span><span><span><span><span>ADDA</span></span><span> will automatically discretize the particle, using the default dpl
+(with the exception discussed above for <i>x</i>).
+This procedure may lead to very small <i>n<sub>x</sub></i>,
+e.g. for nanoparticles, hence </span></span></span></span></span><span><span><span><span><span><span>ADDA</span></span><span> ensures that <i>n<sub>x</sub></i>
+is at least 16, when it is auto-set from default dpl. However, if dpl is
+specified in the command line, </span></span></span></span></span><span><span><span><span><span><span>ADDA</span></span><span> puts absolute trust in it and leaves all the consequences to the
+user.</span></span></span></span></span></p>
+
+
+    </body>
+</html>

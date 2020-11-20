@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Reflection term </title>
+    </head>
+    <body>
+        <h1>Reflection term</h1>
+
+<p><span>In contrast to <b>G&#773;</b> the reflection term <b>R&#773;</b>
+does not have full translational symmetry, but only the one parallel to the
+surface. In particular, <b>R&#773;</b> is a
+function of distance between evaluation point and the image of source:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>39</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <b>&#961;</b>
+is the distance along the surface. Also, it satisfies . The simplest option to calculate the reflection term is
+based on a single image dipole</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>40</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where is a projector on the <i>z</i>&#8209;axis, and . This approach is exact for perfectly conducting substrate
+(§</span><span>7</span><span>), and
+can be considered a fast approximation otherwise. The accuracy of the
+approximation improves with increasing <i>Z</i>
+and/or |<i>&#949;</i><sub>s</sub>|.</span></p>
+
+<p><span>The general rigorous approach to calculate <b>R&#773;</b> is based on Sommerfeld
+integrals </span><span>[52]</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>41</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where the scaling (factor
+of <i>k</i><sup>2</sup>) is the same as that
+used for <b>G&#773;</b> in Eq. </span><span>(<span>33</span>)</span><span>, and
+the integrals , , , and depend on <i>&#961;</i>, <i>Z</i>, and <i>&#949;</i><sub>s</sub>.
+Particular expressions for these integrals and computational aspects are
+discussed in §</span><span>12.7</span><span>.</span></p>
+
+<p><span>The choice of the reflection term is performed
+by the command line option</span></p>
+
+<p><span>-int_surf {img|som}</span></p>
+
+<p><span>where </span><span>img</span><span>
+and</span><span>
+som</span><span> correspond to single image and Sommerfeld
+integrals. By default, </span><span><span>som</span></span><span> is used, unless the substrate is perfectly conducting (then </span><span><span>img</span></span><span>). Adding a new option to calculate the reflection term is
+straightforward for anyone who is familiar with C programming language.<a><span><span><span><span>[48]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

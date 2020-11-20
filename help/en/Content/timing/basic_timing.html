@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Basic timing </title>
+    </head>
+    <body>
+        <h1>Basic timing</h1>
+
+<p><span>The basic timing of </span><span><span>ADDA</span></span><span> execution on a single processor is performed using standard ANSI C
+functions </span><span>clock</span><span> and </span><span>time</span><span>, which are completely portable. The
+drawbacks are low precision (1 s) of wall-time and low precision (0.01–0.1 s
+on most systems) and possible overflows (after 1 hour on some systems) of the processor
+timer. However, </span><span><span>ADDA</span></span><span> will use precise wall-timers (precision of order µs) when
+available, including both Windows and </span><span><span>POSIX</span></span><span> operating systems. Wall-time
+is used only for the total execution time and timing of checkpoints (§</span><span>12.5</span><span>), and
+for the rest processor time is measured. It makes timing more precise
+especially on desktop computers that are partly occupied by other tasks;
+however, for long simulations some timing results may become meaningless
+because of the timer overflow. The problem with </span><span><span>clock</span></span><span> overflows should not be relevant in 64-bit environment because of
+larger size of </span><span><span>clock_t</span></span><span> type (system dependent). This timing may also be inaccurate in
+OpenCL mode, since the standard doesn’t defines whether </span><span><span>clock</span></span><span> includes the time of GPU calculations. This can be assessed by
+comparing total processor and wall times, given in </span><span>log</span><span>
+(§</span><span>C.4</span><span>).<a><span><span><span><span>[86]</span></span></span></span></a></span></p>
+
+<p><span>In parallel mode all the times are wall-times
+measured by the high-precision </span><span>MPI_Wtime</span><span> function, which is
+a part of MPI standard. This solves above-mentioned problems of the ANSI C
+timers.</span></p>
+
+<p><span>Timing results are presented in the end of the
+</span><span>log</span><span> (§</span><span>C.4</span><span>) together
+with some statistics (total number of iterations, total number of planes where the
+scattered field is calculated). It covers all major parts of </span><span><span>ADDA</span></span><span> execution: initialization (including initialization of FFT, §</span><span>12.2</span><span>,
+building the interaction matrix, and constructing a dipole representation of
+the particle, §</span><span>6.3</span><span>), solution
+for the internal fields (including generation of incident beam, §</span><span>9</span><span>, and iterative
+solver, §</span><span>12.1</span><span>),
+calculation of the scattering quantities (scattered electric field and others,
+§</span><span>11</span><span>),
+input/output (including checkpoint loading/saving, §</span><span>12.5</span><span>),
+integration (§</span><span>12.6</span><span>).
+Some are divided into subsections. If </span><span>&#8209;prognosis</span><span>
+option is used, only the time for constructing a particle is shown.</span></p>
+
+<p><span>In parallel mode communication time (between
+different processors) is shown separately for some tasks, which can be used to
+estimate the parallel efficiency. To measure this time accurately
+synchronization is done before the communication takes place. Our experience
+shows that this should not decrease the performance of </span><span><span>ADDA</span></span><span>, except for the small effect in the granule generator (§</span><span>6.5</span><span>).</span></p>
+
+
+    </body>
+</html>

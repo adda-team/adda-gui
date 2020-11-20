@@ -1,0 +1,216 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Polarizability prescription </title>
+    </head>
+    <body>
+        <h1>Polarizability prescription</h1>
+
+<p><span>A
+number of expressions for the polarizability are known </span><span>[2]</span><span>. </span><span><span>ADDA</span></span><span> implements the following: the Clausius–Mossotti (CM), the radiative
+reaction correction (RR, </span><span>[45]</span><span>),
+formulation by Lakhtakia (LAK, </span><span>[46]</span><span>),
+digitized Green’s function (DGF, </span><span>[46]</span><span>),
+approximate integration of Green’s tensor over the dipole (IGT<sub>SO</sub>, </span><span>[47]</span><span>), the
+lattice dispersion relation (LDR, </span><span>[11]</span><span>),
+corrected LDR (CLDR, </span><span>[48]</span><span>), and
+the Filtered Coupled Dipoles (FCD). There are also a few prescriptions under
+development: non-local (NLOC and NLOC<sub>av</sub>) and second order (SO). The
+CM polarizability is the basic one, given by</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>22</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <b>I&#773;</b> is the identity
+tensor. Other polarizability formulations can be expressed through it, using
+the correction term <b>M&#773;</b> associated with finite size of the dipoles </span><span>[47]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>in particular, <b>M&#773;</b><sup>CM</sup> = 0.
+RR is a third-order (in <i>kd</i>)
+correction to the CM </span><span>[45]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>23</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>Following formulations add second-order
+corrections. LAK is based on replacing the cubical dipole by an equi-volume
+sphere with radius <i>a</i><sub>d</sub> = <i>d</i>(3/4<i>&#960;</i>)<sup>1/3</sup>
+and integrating Green’s tensor over it </span><span>[49]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>24</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>DGF is an approximation of LAK up to the
+third order of <i>kd</i></span><span>[46]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>, ,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>25</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>while IGT<sub>SO</sub> is the same-order
+approximation applied to the original cubical dipole </span><span>[47]</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>, .</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>26</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>LDR is based on consideration of infinite grid of point dipoles </span><span>[11]</span><span>: </span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>27</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p><span>, , , ,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>28</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <i>µ</i>
+denotes vector components. The LDR prescription can be averaged over all
+possible incident polarizations </span><span>[11]</span><span>,
+resulting in</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>29</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>Corrected LDR is independent on the
+incident polarization but leads to the diagonal polarizability tensor instead
+of scalar </span><span>[48]</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>30</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <i>&#948;<sub>µ&#957;</sub></i>
+is the Kronecker symbol. The FCD polarizability is obtained from the value of
+filtered Green’s tensor [Eq. </span><span>(<span>34</span>)</span><span>] for
+zero argument, leading to </span><span>[23]</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>31</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>Naturally, Eq. </span><span>(<span>31</span>)</span><span> is
+applicable only when <i>kd</i> &lt; <i>&#960;</i>, i.e. dpl &gt; 2. </span></p>
+
+<p><span>All polarizability formulations, except CLDR
+and SO, can be used together with anisotropic electric permittivity, given by a
+<i>diagonal</i> tensor . Polarizability is then also a diagonal tensor, calculated
+by the same formulae [Eqs. </span><span>(<span>22</span>)</span><span>–</span><span>(<span>31</span>)</span><span>] but
+separately for each component:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>32</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>The choice of the polarizability prescription
+is performed by command line option</span></p>
+
+<p><span>-pol &lt;type&gt; [&lt;arg&gt;]</span></p>
+
+<p><span>where </span><span>&lt;type&gt;</span><span> is one
+of the </span><span>cldr</span><span>, </span><span>cm</span><span>, </span><span>dgf</span><span>, </span><span>fcd</span><span>, </span><span>igt_so</span><span>, </span><span>lak</span><span>, </span><span>ldr</span><span>, </span><span><span>nloc</span></span><span>, </span><span><span>nloc_av</span></span><span>, </span><span>rrc</span><span>, </span><span>so</span><span>. </span><span>&lt;arg&gt;</span><span> is optional flag that can be only </span><span>avgpol</span><span> and only for
+LDR specifying that the LDR polarizability should be averaged over incident
+polarizations. Default is LDR without averaging. It is important to note that
+this is not the best option for all cases. Our experience shows that LDR may
+perform particularly badly (as compared to CM or RR) for very large refractive
+indices, and FCD (together with its interaction term, §</span><span>10.2</span><span>)
+becomes the best option </span><span>[23]</span><span>.</span></p>
+
+<p><span>Finally, other DDA improvements are known,
+which modify the polarizability (or permittivity) of the dipoles near the
+boundary. These improvements include weighted discretization </span><span>[50]</span><span> and
+spectral filtering of the permittivity that was proposed in combination with
+the FCD </span><span>[19]</span><span>. These
+ideas have not yet been implemented in </span><span><span>ADDA</span></span><span>.<a><span><span><span><span>[45]</span></span></span></span></a>
+However, adding new options is straightforward for anyone who is familiar with
+C programming language.<a><span><span><span><span>[46]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

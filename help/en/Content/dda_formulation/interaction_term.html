@@ -1,0 +1,142 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Interaction term </title>
+    </head>
+    <body>
+        <h1>Interaction term</h1>
+
+<p><span>A few
+formulations for the direct interaction term are known </span><span>[2]</span><span>. Currently,
+</span><span><span>ADDA</span></span><span> can use the simplest one (interaction of point dipoles), the FCD
+(in other words, filtered Green’s tensor </span><span>[19]</span><span>),
+quasistatic version of the FCD, the Integrated Green’s Tensor (IGT, </span><span>[14]</span><span>),
+approximation of IGT (IGT<sub>SO</sub>). There are also a few prescriptions
+under development: non-local (NLOC and NLOC<sub>av</sub>) and second order (SO).
+The interaction of point dipoles is described by the Green’s tensor of the free
+space:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>33</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <b>r</b><i><sub>i</sub></i> is the radius-vector of the
+dipole center, </span><b><span>R</span></b><span> = <b>r</b><i><sub>j</sub></i> &#8722; <b>r</b><i><sub>i</sub></i>,
+<i>R</i> = |<b>R</b>|, and <i>R</i></span><i><span>&#770;</span></i><i><span>R</span><span>&#770;</span></i><span> is a tensor defined as <i>R</i></span><i><span>&#770;</span></i><i><span>R</span><span>&#770;<sub>µ&#957;</sub></span></i><span> = <i>R<sub>µ</sub>R<sub>&#957;</sub></i>. The filtered
+Green’s tensor is defined </span><span>[19]</span><span> as</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>34</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <i>h<sub>r</sub></i> is filter impulse
+response:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>35</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><i><span>k</span></i><sub><span>F</span></sub><span> = <i>&#960;</i>/<i>d</i> – the wavenumber corresponding to the
+grid, and <i>g</i><sub>F</sub> is the filtered
+scalar Green’s function:</span></p>
+
+<table>
+ <tr>
+  
+  <td>
+  <p><span>(</span><span><span>36</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>To apply this formulation <i>k</i><sub>F</sub> must be larger than <i>k</i>, i.e. dpl &gt; 2.
+Quasistatic FCD is obtained in the limit <i>kR</i> </span><span><span>®</span></span><span> 0, which leads to a simpler expression </span><span>[51]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>37</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>Although it is just a special case of full
+FCD, it is implemented in </span><span><span>ADDA</span></span><span> as a separate option for testing and research purposes. Since FCD
+was originally designed for high refractive indices, we recommend using it especially
+in this regime. However, it also works fine for moderate refractive index,
+generally not worse than the standard approach of point dipoles </span><span>[23]</span><span>.</span></p>
+
+<p><span>The IGT directly accounts for the finiteness
+of the cubical dipole, by integrating over its volume <i>V<sub>j</sub></i> </span><span>[14]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>38</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>Implementation of the IGT in </span><span><span>ADDA</span></span><span> is based on the Fortran code kindly provided by IGT’s original
+authors </span><span>[14]</span><span>. IGT<sub>SO</sub>
+is based on approximate evaluation of Eq. </span><span>(<span>38</span>)</span><span>, up
+to second order of <i>kd</i>, using tabulated integrals. Thus it is almost as
+fast as Eq. </span><span>(<span>33</span>)</span><span> and
+almost as accurate as IGT. Both IGT and IGT<sub>SO</sub> are known to perform
+very good for small scatterers with large and almost real refractive indices.</span></p>
+
+<p><span>The choice of the interaction term is performed
+by the command line option</span></p>
+
+<p><span>-int &lt;type&gt; [&lt;arg1&gt;
+[&lt;arg2&gt;]]</span></p>
+
+<p><span>where </span><span>&lt;type&gt;</span><span> is one of the </span><span>fcd</span><span>, </span><span>fcd_st</span><span>, </span><span><span>igt</span></span><span>, </span><span>igt_so</span><span>, </span><span><span>nloc</span></span><span>, </span><span><span>nloc_av</span></span><span>, </span><span>poi</span><span>, </span><span>so</span><span>. Two optional arguments are relevant only for </span><span><span>igt</span></span><span>. </span><span><span>&lt;arg1&gt;</span></span><span> is the maximum distance (in dipole sizes), for which integration is
+performed. For larger distances simpler Eq. </span><span>(<span>33</span>)</span><span> is
+used. Using value of this parameter from 1 to 3 is recommended – then extra
+computational time for the IGT is rather small, while most of the accuracy gain
+is achieved (compared to the default IGT without distance limit). </span><span><span>&lt;arg2&gt;</span></span><span> specifies the relative error of the integration (minus its decimal
+logarithm). By default the same value as argument of </span><span><span>&#8209;eps</span></span><span> command line option (§</span><span>12.1</span><span>) is
+used. For IGT<sub>SO</sub> and SO formulation tables of precalculated integrals
+are used, they are automatically read from files in </span><span>tables/</span><span> (§</span><span>D.1</span><span>).</span></p>
+
+<p><span>The default formulation for interaction term
+is that of point dipoles (</span><span><span>poi</span></span><span>); however, it is expected to be inferior to </span><span><span>fcd</span></span><span> or </span><span><span>igt</span></span><span> in many cases. However, the latter have been studied in much less
+details. Moreover, counterparts of those advanced formulations are still
+lacking for the reflection term (§</span><span>10.3</span><span>), so
+predicting accuracy in the surface mode (§</span><span>7</span><span>) is
+even more problematic. Therefore, we recommend testing different formulations
+for a particular class of scattering problems of interest. Moreover, adding a new
+option to calculate the interaction term is straightforward for anyone who is
+familiar with C programming language.<a><span><span><span><span>[47]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

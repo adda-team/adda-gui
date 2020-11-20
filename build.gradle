@@ -23,6 +23,7 @@ dependencies {
     compile group: 'com.formdev', name: 'flatlaf', version: '0.35'
     compile group: 'net.contentobjects.jnotify', name: 'jnotify', version: '0.94'
     compile group: 'net.java.balloontip', name: 'balloontip', version: '1.2.4.1'
+    compile group: 'javax.help', name: 'javahelp', version: '2.0.05'
     compile fileTree(dir: 'lib', include: ['*'])
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'

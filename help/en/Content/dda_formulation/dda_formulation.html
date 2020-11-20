@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> DDA Formulation </title>
+    </head>
+    <body>
+        <h1>DDA Formulation</h1>
+
+<p><a><span><span>Since its introduction by
+Purcell and Pennypacker </span></span></a><span><span><span>[3]</span></span></span><span><span><span> the DDA
+has been constantly developed; therefore a number of different DDA formulations
+exist </span></span></span><span><span><span>[2]</span></span></span><span><span><span>. Here
+we only provide a short summary, focusing on those that are implemented in </span></span></span><span><span><span><span>ADDA</span></span><span>. All formulations are equivalent to the solution of the linear
+system to determine unknown dipole polarizations <b>P</b><i><sub>i</sub></i></span></span></span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span><span><span>,</span></span></span></p>
+  </td>
+  
+  <td>
+  <p><span><span><a><span>(</span></a></span></span><span><span><span><span><span>20</span></span></span></span></span><span><span><span><span>)</span></span></span></span></p>
+  </td>
+  
+ </tr>
+</table>
+
+<p><span><span><span>where is the incident
+electric field (§</span></span></span><span><span><span>9.2</span></span></span><span><span><span>), is the dipole
+polarizability (self-term), <b>H&#773;</b><i><sub>ij</sub></i>
+is the total interaction term (Green’s tensor of the environment), and indices <i>i</i> and <i>j</i> enumerate the dipoles. In the free-space mode <b>H&#773;</b><i><sub>ij</sub></i> = <b>G&#773;</b><i><sub>ij</sub></i> (direct
+interaction), while in the surface mode (§</span></span></span><span><span><span>7</span></span></span><span><span><span>) it
+additionally contains reflection term <b>R&#773;</b><i><sub>ij</sub></i>
+(<b>H&#773;</b><i><sub>ij</sub></i> = <b>G&#773;</b><i><sub>ij</sub></i>+<b> R&#773;</b><i><sub>ij</sub></i>). Moreover, we postulate </span></span></span><span><span><span>(but not ), i.e. the proper treatment of the corresponding self-action
+singularity is traditionally included in the expression for </span><span>(§</span></span></span><span><span><span>10.1</span></span></span><span><span><span>)</span></span></span><span><span><span>. </span><span>The
+(total) internal electric field <b>E</b><i><sub>i</sub></i> is the one present in a
+homogenous particle modeled by an array of dipoles, also known as macroscopic
+field </span></span></span><span><span><span>[44]</span></span></span><span><span><span>. It
+should be distinguished from the exciting electric field that is a sum of and the field due to
+all other dipoles (and substrate, if present), but excluding the field of the
+dipole <i>i</i> itself. Both total and
+exciting electric field can be determined once the polarizations are known:</span></span></span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span><span><span>,</span></span></span></p>
+  </td>
+  
+  <td>
+  <p><span><span><a><span>(</span></a></span></span><span><span><span><span><span>21</span></span></span></span></span><span><span><span><span>)</span></span></span></span></p>
+  </td>
+  
+ </tr>
+</table>
+
+<p><span><span><span>where <i>V</i><sub><span>d</span></sub> = <i>d</i><sup>3</sup> is the
+volume of a dipole and </span></span></span><span><span><i><span>&#967;<sub>i</sub></span></i></span></span><span><span><span> = (<i>&#949;<sub>i</sub></i> &#8722; 1)/4<i>&#960;</i> is the susceptibility of the
+medium at the location of the dipole <b>(</b><i>&#949;<sub>i</sub></i> – relative
+permittivity<b>)</b>. In the following we
+will also refer to <b>E</b> as internal
+fields (those inside the particle) in contrast to near- and far-fields, which
+are calculated from <b>E</b> or <b>P</b> together with other scattering
+quantities. Below we discuss different formulations for </span><span>the polarizability prescription (§</span></span></span><span><span><span>10.1</span></span></span><span><span><span>), direct
+interaction (§</span></span></span><span><span><span>10.2</span></span></span><span><span><span>) and
+reflection terms (§</span></span></span><span><span><span>10.3</span></span></span><span><span><span>), and
+formulae to calculate scattering quantities (§</span></span></span><span><span><span>10.4</span></span></span><span><span><span>). In
+addition to the published ones, </span></span></span><span><span><span><span>ADDA</span></span><span> contains options to use new theoretical improvements under
+development. We do not discuss them here, since they are still in the early
+research phase. However, you may try them at your own risk.</span></span></span></p>
+
+<p>
+  <ul>
+    <li>
+      <a href="polarizability_prescription.html">Polarizability prescription</a>
+    </li>
+    <li>
+      <a href="interaction_term.html">Interaction term</a>
+    </li>
+    <li>
+      <a href="reflection_term.html">Reflection term</a>
+    </li>
+    <li>
+      <a href="how_to_calculate_scattering_quantities.html">How to calculate scattering quantities</a>
+    </li>
+  </ul>
+</p>
+    </body>
+</html>

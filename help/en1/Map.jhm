@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+
+<!-- Image Files -->
+  
+  <mapID target="toplevelfolder" url="Images/toplevel.gif" />
+  <mapID target="category" url="Images/category.gif" />
+  <mapID target="topic" url="Images/topic.gif" />
+
+<!-- Topics -->
+
+  <mapID target="overview" url="Topics/overview.htm" />
+  <mapID target="colors" url="Topics/colors_view.htm" />
+  <mapID target="typefaces" url="Topics/typefaces_view.htm" />
+  <mapID target="online_help" url="Topics/online_help.htm" />
+
+  <mapID target="apply_colors" url="Topics/HowTo/apply_colors.htm" />
+  <mapID target="change_fonts" url="Topics/HowTo/change_fonts.htm" />
+  <mapID target="clear_text" url="Topics/HowTo/clear_text.htm" />
+  <mapID target="enter_text" url="Topics/HowTo/enter_text.htm" />
+  <mapID target="text_styles" url="Topics/HowTo/text_styles.htm" />
+  <mapID target="switch_views" url="Topics/HowTo/switch_views.htm" />
+
+<!-- Field Level Help -->
+
+  <mapID target="clear" url="FieldLevelHelp/Common/clear.htm" />
+  <mapID target="help" url="FieldLevelHelp/Common/help.htm" />
+  <mapID target="text" url="FieldLevelHelp/Common/text.htm" />
+  <mapID target="text_display" url="FieldLevelHelp/Common/text_display.htm" />
+  <mapID target="view" url="FieldLevelHelp/Common/show.htm" />
+  <mapID target="whats_this" url="FieldLevelHelp/Common/whats_this.htm" />
+
+  <mapID target="back_color" url="FieldLevelHelp/ColorsView/back_color.htm" />
+  <mapID target="fore_color" url="FieldLevelHelp/ColorsView/fore_color.htm" />
+
+  <mapID target="bold" url="FieldLevelHelp/TypefacesView/bold.htm" />
+  <mapID target="font" url="FieldLevelHelp/TypefacesView/font.htm" />
+  <mapID target="italic" url="FieldLevelHelp/TypefacesView/italic.htm" />
+
+</map>

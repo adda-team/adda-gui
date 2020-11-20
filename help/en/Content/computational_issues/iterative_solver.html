@@ -1,0 +1,352 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Iterative solver </title>
+    </head>
+    <body>
+        <h1>Iterative solver</h1>
+
+<p><span>The main computation of a DDA simulation,
+usually taking the major part the execution time, is finding a solution of a large
+system of linear equations. </span><span><span>ADDA</span></span><span> uses an alternative form of Eq. </span><span>(<span>20</span>)</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>68</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>Decomposition of is possible if and
+only if it is complex-symmetric. This is sufficient for the current version of </span><span><span>ADDA</span></span><span>, which supports only diagonal polarizability tensors. Since , the interaction matrix <b>A</b>
+is complex–symmetric and Jacobi-preconditioned (has unity diagonal). </span><span><span>ADDA</span></span><span> incorporates several different iterative methods for solution of
+Eq. </span><span>(68)</span><span>: Bi-conjugate
+gradient (Bi-CG) </span><span>[70,71]</span><span>,
+Bi-CG stabilized (Bi-CGStab) </span><span>[72]</span><span>,
+enhanced Bi-CGStab(2) </span><span>[73]</span><span>, conjugate
+gradient applied to normalized equations with minimization of the residual norm
+(CGNR) </span><span>[72]</span><span>, CSYM </span><span>[74]</span><span>, quasi minimal residual (QMR) </span><span>[70]</span><span> and its modification based on 2-term recurrence
+(QMR<sub>2</sub>) </span><span>[75]</span><span>. Adding
+of a new iterative solver is straightforward for anyone who is familiar with C
+programming language.<a><span><span><span><span>[66]</span></span></span></span></a></span></p>
+
+<p><span>Comparison of the iterative solvers in terms
+of matrix–vector products (MVPs) per iteration and required number of vectors
+(memory, see §</span><span>5</span><span>) is
+presented in </span><span>Table <span>3</span></span><span>. Some
+solvers employ the complex symmetric property of <b>A</b> to calculate only one
+MVP per iteration </span><span>[70]</span><span>.
+Our experience suggests that QMR is usually the fastest iterative solver,
+however in some cases Bi-CGStab may be faster (also their modern variants,
+namely QMR<sub>2</sub> and Bi-CGStab(2) respectively, may be preferred – see
+below). Performance of Bi-CG is comparable to that of QMR, but convergence behavior
+of the former is erratic, similar to that of Bi-CGStab. Still, Bi-CG may be
+preferred when memory is sparse. While being the slowest, CGNR is very simple
+and its convergence is guaranteed to be monotonic </span><span>[72]</span><span>.
+CSYM has the same properties, and is expected to be faster than CGNR, in terms
+of MVPs </span><span>[74]</span><span>. QMR<sub>2</sub>
+is expected to be faster than QMR in finite-precision arithmetic </span><span>[75]</span><span> and
+requires slightly less memory. Bi-CGStab(2) is expected to be faster than
+Bi-CGStab </span><span>[73]</span><span> in
+terms of MVPs, but requires slightly more memory.</span></p>
+
+<p><span>The iterative solver is chosen by the command
+line option </span></p>
+
+<p><span>-iter &lt;type&gt;</span></p>
+
+<p><span>where </span><span>&lt;type&gt;</span><span> is one of the values specified in </span><span>Table <span>3</span></span><span>. By
+default QMR is used. There are several options to choose the initial field, set
+by the command line option</span></p>
+
+<p><span>-init_field {auto|inc|read
+&lt;filenameY&gt; [&lt;filenameX&gt;]|wkb|zero}</span></p>
+
+<p><span>where </span><span><span>zero</span></span><span> vector is a general
+approach and </span><span><span>inc</span></span><span> (derived from the incident field, more precisely – equal to the
+right-hand-side of the linear system) may be closer to the exact solution for
+small index-matching particles. </span><span><span>wkb</span></span><span> is derived from the incident
+field corrected for phase shift during propagation in the particle (Wentzel–Kramers–Brillouin
+approximation </span><span>[76]</span><span>). It can be considered as an extension of </span><span><span>inc</span></span><span>, but currently it works only for default incident beam – plane wave
+propagating along the <i>z</i>&#8209;axis in particle reference frame (§</span><span>9</span><span>) and
+not in the surface mode (§</span><span>7</span><span>).<a><span><span><span><span>[67]</span></span></span></span></a>
+By default (</span><span><span>auto)</span></span><span><span>ADDA</span></span><span> automatically choses from </span><span><span>zero</span></span><span> and </span><span><span>inc</span></span><span> the one with lesser residual norm.<a><span><span><span><span>[68]</span></span></span></span></a>
+Finally, the starting field can also be </span><span><span>read</span></span><span> from files. Normally two
+files are required for <i>y</i>&#8209; and <i>x</i>&#8209;polarizations
+respectively (§</span><span>9.1</span><span>), but
+a single filename is sufficient if only<i> y</i>&#8209;polarization is used
+(e.g. due to symmetry). Incident field should be specified in a <i>particle</i>
+reference frame, see §</span><span>B.7</span><span> for
+file format. The choice of initial field is shown in the </span><span>log</span><span> (§</span><span>C.4</span><span>).</span></p>
+
+<div>
+
+<table>
+ <tr>
+  <td>
+  <p><a><span>Table </span></a><span><span><span>3</span></span></span><span>. Iterative
+  solvers.</span></p>
+  <div>
+  <table>
+   <tr>
+    <td>
+    <p><span>&lt;type&gt;</span></p>
+    </td>
+    <td>
+    <p><span>Name</span></p>
+    </td>
+    <td>
+    <p><span>Sym<sup>a</sup></span></p>
+    </td>
+    <td>
+    <p><span>MVPs per iteration</span></p>
+    </td>
+    <td>
+    <p><span># of vectors<sup>b</sup></span></p>
+    </td>
+    <td>
+    <p><span>Max stagnation</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>bcgs2</span></p>
+    </td>
+    <td>
+    <p><span>Bi-CGStab(2)</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+    <td>
+    <p><span>4</span></p>
+    </td>
+    <td>
+    <p><span>8</span></p>
+    </td>
+    <td>
+    <p><span>15 000</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>bicg</span></p>
+    </td>
+    <td>
+    <p><span>Bi-CG</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>4</span></p>
+    </td>
+    <td>
+    <p><span>50 000</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>bicgstab</span></p>
+    </td>
+    <td>
+    <p><span>Bi-CGStab</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+    <td>
+    <p><span>2</span></p>
+    </td>
+    <td>
+    <p><span>7</span></p>
+    </td>
+    <td>
+    <p><span>30 000</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>cgnr</span></p>
+    </td>
+    <td>
+    <p><span>CGNR</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+    <td>
+    <p><span>2</span></p>
+    </td>
+    <td>
+    <p><span>4</span></p>
+    </td>
+    <td>
+    <p><span>10</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>csym</span></p>
+    </td>
+    <td>
+    <p><span>CSYM</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>6</span></p>
+    </td>
+    <td>
+    <p><span>10</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>qmr</span></p>
+    </td>
+    <td>
+    <p><span>QMR</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>7</span></p>
+    </td>
+    <td>
+    <p><span>50 000</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>qmr2</span></p>
+    </td>
+    <td>
+    <p><span>QMR<sub>2</sub></span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>6</span></p>
+    </td>
+    <td>
+    <p><span>50 000</span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p><sup><span>a </span></sup><span>whether complex symmetric property
+  of the matrix is explicitly used.</span></p>
+  <p><sup><span>b </span></sup><span>includes input residual and output solution, but does not include
+  incident beam.</span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+
+
+
+<p><span>It is important to note, that initial field </span><span><span>inc</span></span><span> corresponds to , i.e. it sets exciting field, while both </span><span><span>wkb</span></span><span> and </span><span><span>read</span></span><span> define internal field <b>E</b><sub>(0)</sub>,
+cf. Eq. </span><span>(68)</span><span>. In
+particular, “</span><span><span>&#8209;beam
+read fY fX –init_field inc</span></span><span>” is not completely
+equivalent to “</span><span><span>&#8209;init_field
+read fY fX</span></span><span>” in terms of the starting vector. The
+connection between the two fields depends on the polarizability formulation (§</span><span>10.1</span><span>), but
+can be approximately described as (this equation is
+exact for CM polarizability).</span></p>
+
+<p><span>The stopping criterion for iterative solvers
+is the relative norm of the residual. The process stops when this norm is less
+than <i>&#949;</i>, which can be specified
+by the command line option</span></p>
+
+<p><span>-eps &lt;arg&gt;</span></p>
+
+<p><span>where <i>&#949;</i> = 10<sup>&#8722;&lt;arg&gt;</sup>.
+By default, <i>&#949;</i> = 10<sup>&#8722;5</sup>.
+It is important to note that the residual is updated iteratively along the
+execution of the iterative solver, which may cause substantial round-off errors
+for large number of iterations. True residual at the end of the iterative
+solver can be calculated by </span><span><span>ADDA</span></span><span> through additional MVP. For that specify</span></p>
+
+<p><span>-recalc_resid</span></p>
+
+<p><span>in the command line. The maximum number of
+iterations can be specified as </span><span>&lt;arg&gt;</span><span> to the command
+line option</span></p>
+
+<p><span>-maxiter &lt;arg&gt;</span></p>
+
+<p><span>If this number is reached before
+convergence (to <i>&#949;</i> level) </span><span><span>ADDA</span></span><span> will produce a warning, but will continue to calculate the
+(potentially less accurate) scattering quantities. So </span><span><span>–maxiter</span></span><span> can be used to softly limit the simulation time. By default the maximum
+number of iterations is set to a very high value, which is not expected to be ever
+reached.<a><span><span><span><span>[69]</span></span></span></span></a>
+Also, </span><span><span>ADDA</span></span><span> will terminate execution with an error if the iterative solver
+stagnates for a long time, i.e. residual norm do not decrease during a number
+of last iterations. Corresponding numbers are specified in </span><span>Table <span>3</span></span><span>.<a><span><span><span><span>[70]</span></span></span></span></a></span></p>
+
+<p><span>All iterative
+solvers except CGNR and CSYM are susceptible to breakdowns. Although such
+situations are very improbable, they may happen in specific cases. For
+instance, simulation of light scattering by cube with edge length that is
+exactly a multiple of the wavelength results in breakdowns of QMR, QMR<sub>2</sub>,
+and Bi-CG. </span><span><span>ADDA</span></span><span> should detect almost any breakdown and produce a meaningful error
+message; however, it is possible that some breakdown is not detected. It then
+results in the stagnation of the residual norm or its oscillations without any
+further progress. On contrary, </span><span><span>ADDA</span></span><span> may claim breakdown when
+the convergence is slow but still satisfactory. The behavior of breakdown
+detection may be modified,<a><span><span><span><span>[71]</span></span></span></span></a>
+but it requires recompilation of the code.</span></p>
+
+<p><span>If you notice
+any error of the breakdown detection, both false-negative and false-positive,
+please communicate it to the developers. If the breakdown does appear, the
+solution is either to try different iterative solver or adjust input parameters
+a little bit. Usually changing particle size (or wavelength) by only 0.01%
+completely eliminates the breakdown.</span></p>
+
+<p><span>In general, it
+is hard to estimate the required number of iterations <i>a priori</i>. However, for the case of particles much smaller than the
+wavelength (e.g., nanoparticles) in free space a simple formula is available </span><span>[47]</span><span>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>69</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>which depends on neither particle shape nor
+size (as long as the latter is sufficiently small) and is expected to be
+accurate within a factor of two for QMR and Bi-CG.</span></p>
+
+
+    </body>
+</html>

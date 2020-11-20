@@ -1,0 +1,152 @@
+<toc>
+  <tocitem text="ADDA GUI Help">
+    <tocitem target="introduction" text="Introduction" />
+    <tocitem target="using_the_manual" text="Using the Manual" />
+    <tocitem target="running_adda" text="Running ADDA">
+      <tocitem target="sequential_mode" text="Sequential mode" />
+      <tocitem target="parallel_mode" text="Parallel mode" />
+      <tocitem target="opencl_(gpu)_mode" text="OpenCL (GPU) mode" />
+    </tocitem>
+    <tocitem target="applicability_of_the_dda" text="Applicability of the DDA">
+      <tocitem target="general_applicability" text="General applicability" />
+      <tocitem target="extensions_of_the_dda" text="Extensions of the DDA" />
+    </tocitem>
+    <tocitem target="system_requirements" text="System Requirements" />
+    <tocitem target="defining_a_scatterer" text="Defining a Scatterer">
+      <tocitem target="reference_frames" text="Reference frames" />
+      <tocitem target="the_computational_grid" text="The computational grid" />
+      <tocitem target="construction_of_a_dipole_set" text="Construction of a dipole set" />
+      <tocitem target="predefined_shapes" text="Predefined shapes" />
+      <tocitem target="granule_generator" text="Granule generator" />
+      <tocitem target="partition_over_processors_in_parallel_mode" text="Partition over processors in parallel mode" />
+      <tocitem target="particle_symmetries" text="Particle symmetries" />
+    </tocitem>
+    <tocitem target="surface_mode" text="Surface Mode" />
+    <tocitem target="orientation_of_the_scatterer" text="Orientation of the Scatterer">
+      <tocitem target="single_orientation" text="Single orientation" />
+      <tocitem target="orientation_averaging" text="Orientation averaging" />
+    </tocitem>
+    <tocitem target="incident_beam" text="Incident Beam">
+      <tocitem target="propagation_direction" text="Propagation direction" />
+      <tocitem target="beam_type" text="Beam type" />
+      <tocitem target="incident_polarization" text="Incident polarization" />
+    </tocitem>
+    <tocitem target="dda_formulation" text="DDA Formulation">
+      <tocitem target="polarizability_prescription" text="Polarizability prescription" />
+      <tocitem target="interaction_term" text="Interaction term" />
+      <tocitem target="reflection_term" text="Reflection term" />
+      <tocitem target="how_to_calculate_scattering_quantities" text="How to calculate scattering quantities" />
+    </tocitem>
+    <tocitem target="what_scattering_quantities_are_calculated" text="What Scattering Quantities Are Calculated">
+      <tocitem target="definition_of_scattering_plane_and_angles" text="Definition of scattering plane and angles" />
+      <tocitem target="mueller_matrix_and_its_derivatives" text="Mueller matrix and its derivatives" />
+      <tocitem target="amplitude_matrix" text="Amplitude matrix" />
+      <tocitem target="integral_scattering_quantities" text="Integral scattering quantities" />
+      <tocitem target="decay_rate_enhancement" text="Decay rate enhancement" />
+      <tocitem target="radiation_forces" text="Radiation forces" />
+      <tocitem target="internal_fields_and_dipole_polarizations" text="Internal fields and dipole polarizations" />
+      <tocitem target="near-field" text="Near-field" />
+    </tocitem>
+    <tocitem target="computational_issues" text="Computational Issues">
+      <tocitem target="iterative_solver" text="Iterative solver" />
+      <tocitem target="fast_fourier_transform" text="Fast Fourier transform" />
+      <tocitem target="sparse_mode" text="Sparse mode" />
+      <tocitem target="parallel_performance" text="Parallel performance" />
+      <tocitem target="checkpoints" text="Checkpoints" />
+      <tocitem target="romberg_integration" text="Romberg integration" />
+      <tocitem target="sommerfeld_integrals" text="Sommerfeld integrals" />
+    </tocitem>
+    <tocitem target="timing" text="Timing" />
+    <tocitem target="introduction" text="Introduction" />
+    <tocitem target="using_the_manual" text="Using the Manual" />
+    <tocitem target="running_adda" text="Running ADDA">
+      <tocitem target="sequential_mode" text="Sequential mode" />
+      <tocitem target="parallel_mode" text="Parallel mode" />
+      <tocitem target="opencl_(gpu)_mode" text="OpenCL (GPU) mode" />
+    </tocitem>
+    <tocitem target="applicability_of_the_dda" text="Applicability of the DDA">
+      <tocitem target="general_applicability" text="General applicability" />
+      <tocitem target="extensions_of_the_dda" text="Extensions of the DDA" />
+    </tocitem>
+    <tocitem target="system_requirements" text="System Requirements" />
+    <tocitem target="defining_a_scatterer" text="Defining a Scatterer">
+      <tocitem target="reference_frames" text="Reference frames" />
+      <tocitem target="the_computational_grid" text="The computational grid" />
+      <tocitem target="construction_of_a_dipole_set" text="Construction of a dipole set" />
+      <tocitem target="predefined_shapes" text="Predefined shapes" />
+      <tocitem target="granule_generator" text="Granule generator" />
+      <tocitem target="partition_over_processors_in_parallel_mode" text="Partition over processors in parallel mode" />
+      <tocitem target="particle_symmetries" text="Particle symmetries" />
+    </tocitem>
+    <tocitem target="surface_mode" text="Surface Mode" />
+    <tocitem target="orientation_of_the_scatterer" text="Orientation of the Scatterer">
+      <tocitem target="single_orientation" text="Single orientation" />
+      <tocitem target="orientation_averaging" text="Orientation averaging" />
+    </tocitem>
+    <tocitem target="incident_beam" text="Incident Beam">
+      <tocitem target="propagation_direction" text="Propagation direction" />
+      <tocitem target="beam_type" text="Beam type" />
+      <tocitem target="incident_polarization" text="Incident polarization" />
+    </tocitem>
+    <tocitem target="dda_formulation" text="DDA Formulation">
+      <tocitem target="polarizability_prescription" text="Polarizability prescription" />
+      <tocitem target="interaction_term" text="Interaction term" />
+      <tocitem target="reflection_term" text="Reflection term" />
+      <tocitem target="how_to_calculate_scattering_quantities" text="How to calculate scattering quantities" />
+    </tocitem>
+    <tocitem target="what_scattering_quantities_are_calculated" text="What Scattering Quantities Are Calculated">
+      <tocitem target="definition_of_scattering_plane_and_angles" text="Definition of scattering plane and angles" />
+      <tocitem target="mueller_matrix_and_its_derivatives" text="Mueller matrix and its derivatives" />
+      <tocitem target="amplitude_matrix" text="Amplitude matrix" />
+      <tocitem target="integral_scattering_quantities" text="Integral scattering quantities" />
+      <tocitem target="decay_rate_enhancement" text="Decay rate enhancement" />
+      <tocitem target="radiation_forces" text="Radiation forces" />
+      <tocitem target="internal_fields_and_dipole_polarizations" text="Internal fields and dipole polarizations" />
+      <tocitem target="near-field" text="Near-field" />
+    </tocitem>
+    <tocitem target="computational_issues" text="Computational Issues">
+      <tocitem target="iterative_solver" text="Iterative solver" />
+      <tocitem target="fast_fourier_transform" text="Fast Fourier transform" />
+      <tocitem target="sparse_mode" text="Sparse mode" />
+      <tocitem target="parallel_performance" text="Parallel performance" />
+      <tocitem target="checkpoints" text="Checkpoints" />
+      <tocitem target="romberg_integration" text="Romberg integration" />
+      <tocitem target="sommerfeld_integrals" text="Sommerfeld integrals" />
+    </tocitem>
+    <tocitem target="timing" text="Timing">
+      <tocitem target="basic_timing" text="Basic timing" />
+      <tocitem target="precise_timing" text="Precise timing" />
+    </tocitem>
+    <tocitem target="miscellanea" text="Miscellanea" />
+    <tocitem target="finale" text="Finale" />
+    <tocitem target="references" text="References" />
+    <tocitem target="command_line_options" text="Command Line Options" />
+    <tocitem target="input_files" text="Input Files">
+      <tocitem target="expcount" text="ExpCount" />
+      <tocitem target="avg_params.dat" text="avg_params.dat" />
+      <tocitem target="alldir_params.dat" text="alldir_params.dat" />
+      <tocitem target="scat_params.dat" text="scat_params.dat" />
+      <tocitem target="geometry_files" text="Geometry files" />
+      <tocitem target="contour_file" text="Contour file" />
+      <tocitem target="field_files" text="Field files" />
+    </tocitem>
+    <tocitem target="output_files" text="Output Files">
+      <tocitem target="stderr,_logerr" text="stderr, logerr" />
+      <tocitem target="stdout" text="stdout" />
+      <tocitem target="output_directory" text="Output directory" />
+      <tocitem target="log" text="log" />
+      <tocitem target="mueller" text="mueller" />
+      <tocitem target="ampl" text="ampl" />
+      <tocitem target="crosssec" text="CrossSec" />
+      <tocitem target="radforce" text="RadForce" />
+      <tocitem target="intfield,_dippol,_and_incbeam" text="IntField, DipPol, and IncBeam" />
+      <tocitem target="log_orient_avg_and_log_int" text="log_orient_avg and log_int" />
+      <tocitem target="geometry_files" text="Geometry files" />
+      <tocitem target="granules" text="granules" />
+    </tocitem>
+    <tocitem target="auxiliary_files" text="Auxiliary Files">
+      <tocitem target="tables" text="tables" />
+      <tocitem target="checkpoint_files" text="Checkpoint files" />
+    </tocitem>
+  </tocitem>
+</toc>

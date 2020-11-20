@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Precise timing </title>
+    </head>
+    <body>
+        <h1>Precise timing</h1>
+
+<p><span>This feature of </span><span><span>ADDA</span></span><span> is used to perform the thorough timing of the most computationally
+intensive parts: initialization of interaction matrix and FFT (especially </span><span><span>FFTW3</span></span><span>, §</span><span>12.2</span><span>) and matrix–vector
+product. It gives the detailed information both on FFT and algebraic parts,
+which can be used for deep optimization or performance studies. However, this
+regime is incompatible with the normal </span><span><span>ADDA</span></span><span> execution – it
+terminates after the first matrix–vector product. Only the </span><span>stdout</span><span> (§</span><span>C.2</span><span>) and </span><span><span>log</span></span><span> (§</span><span>C.4</span><span>) are
+produced. Precision of the precise timing routines are of order µs, however they
+measure wall-time<a><span><span><span><span>[87]</span></span></span></span></a>
+and are operating-system-dependent (see §</span><span>13.1</span><span>). To
+enable precise timing recompile </span><span><span>ADDA</span></span><span> with option </span><span><span>PRECISE_TIMING</span></span><span>.</span><sup><span>12</span></sup></p>
+
+<p><span>Behavior in OpenCL mode.</span></p>
+
+
+    </body>
+</html>

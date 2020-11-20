@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Checkpoints </title>
+    </head>
+    <body>
+        <h1>Checkpoints</h1>
+
+<p><span>To facilitate very long simulations </span><span><span>ADDA</span></span><span> incorporates a checkpoint system, which can be used to break a
+single simulation into smaller parts. All the intermediate vectors of the
+iterative solver (§</span><span>12.1</span><span>) are
+saved, which allows restarting the iterative solver exactly at the position,
+where the checkpoint was created. Time of a checkpoint is specified by command
+line option</span></p>
+
+<p><span>-chpoint &lt;time&gt;</span></p>
+
+<p><span>where </span><span>&lt;time&gt;</span><span> is in format “</span><span>#d#h#m#s</span><span>”.<a><span><span><span><span>[82]</span></span></span></span></a>
+There are 3 possible strategies for checkpoints, chosen through the command
+line option</span></p>
+
+<p><a><span>-chp_type
+&lt;type&gt;</span></a></p>
+
+<p><span><span>where
+</span></span><span><span>&lt;type&gt;</span><span> is one of </span></span><span><span>normal</span><span>, </span></span><span><span>regular</span><span>, </span></span><span><span>always</span><span>. “Normal” means that after the checkpoint time elapsed, the
+checkpoint is saved as soon as possible (it waits for the finishing of the
+current iteration) and </span></span><span><span><span>ADDA</span></span><span> finishes execution without any further actions. This type is useful
+when one need </span></span><span><span><span>ADDA</span></span><span> to run not longer than certain time. “Regular” checkpoints are
+saved after every specified time interval but do not influence the normal
+execution of </span></span><span><span><span>ADDA</span></span><span> – it runs until simulation is fully completed. Use this option when
+abrupt termination of </span></span><span><span><span>ADDA</span></span><span> may occur (e.g. system crash or the system resources are urgently
+needed for other tasks). “Always” type is similar to “normal” if checkpoint
+time elapsed during the execution, however it will also save a checkpoint (after
+the last iteration) when </span></span><span><span><span>ADDA</span></span><span> finishes normally earlier. That is the only checkpoint type, for
+which time may be not specified (then it is equivalent to infinite time). It
+may be useful if the simulation is valuable by itself but may be extended in
+the future, e.g. to obtain better convergence (lower <i>&#949;</i>, §</span></span><span><span>12.1</span></span><span><span>) or to calculate different
+scattering quantities (§</span></span><span><span>11</span></span><span><span>).</span></span></p>
+
+<p><span><span>To
+restart the simulation from a checkpoint</span></span></p>
+
+<p><span><span>-chp_load</span></span></p>
+
+<p><span><span>should
+be specified in the command line. The user should take care that the simulation
+is restarted with the same parameters that were used when saving the
+checkpoint. Although some parameters can indeed be different (e.g. those
+determining the output of </span></span><span><span><span>ADDA</span></span><span>), the consistency of the results is user’s responsibility. By
+default all the checkpoint data is saved in the directory </span></span><span><span>chpoint</span><span> (§</span></span><span><span>D.2</span></span><span><span>), however a different
+directory (the same for saving and loading of checkpoints) can be specified through
+the command line option</span></span></p>
+
+<p><span><span>-chp_dir
+&lt;dirname&gt;</span></span></p>
+
+<p><span><span>The
+total size of the checkpoint files is approximately half of the RAM used,
+therefore 1) enough space on the hard disk should be available; 2) saving of a
+checkpoint may take considerable time. Both issues are especially relevant for
+large simulations on multiprocessor systems. If the simulation time is strictly
+limited (e.g. by a batch system of a supercomputer with shared usage)
+checkpoint time should be set slightly smaller, so that </span></span><span><span><span>ADDA</span></span><span> would have enough time to finish the iteration and save a
+checkpoint (and possibly to calculate the scattering quantities if the iterative
+solver will converge just before the checkpoint time). User should estimate the
+needed time reserve himself. When loading a checkpoint, </span></span><span><span><span>ADDA</span></span><span> initializes anew, this takes some time. However, this time is
+usually small compared to the time used for the iterations.</span></span></p>
+
+<p><span><span>It is
+also important to note that by default the same checkpoint directory is used
+for all the simulations on the current system that are run from the same path,
+therefore new checkpoints overwrite the old ones.</span></span><a><span><span><span><span><span><span>[83]</span></span></span></span></span></span></a><span><span> To avoid it specify a
+different checkpoint directory for each instance of </span></span><span><span><span>ADDA</span></span><span>; it is obligatory when several instances of </span></span><span><span><span>ADDA</span></span><span> run in parallel. For now, </span></span><span><span><span>ADDA</span></span><span> <i>always</i> saves checkpoints
+into the same directory where it loads it from.</span></span></p>
+
+<p><span><span>Currently
+only the state of the iterative solver is saved at a checkpoint, therefore it
+is suitable only for simulations for a single incident polarization.</span></span></p>
+
+
+    </body>
+</html>

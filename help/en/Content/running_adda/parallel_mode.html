@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Parallel mode </title>
+    </head>
+    <body>
+        <h1>Parallel mode</h1>
+
+<p><span>On different systems MPI is used
+differently, you should consult someone familiar with MPI usage on your system.
+However, running on a multi-core PC is simple, just type</span></p>
+
+<p><span>mpiexec –n
+&lt;N&gt; ./adda_mpi …</span></p>
+
+<p><span>where all </span><span><span>ADDA</span></span><span> command line options are specified in the end of the line, and </span><span>&lt;N&gt;</span><span>
+stands for the number of cores. Actually, </span><span>&lt;N&gt;</span><span> is
+the number of threads created by MPI implementation, and it should not
+necessarily be equal to the number of cores. However, this choice is
+recommended. </span><span><span>MPICH2</span></span><span> allows one to force local execution of all threads by additionally specifying
+command line option </span><span>&#8209;localonly</span><span> after </span><span>&lt;N&gt;</span><span>. However, this may be different for other MPI implementations.</span></p>
+
+<p><span>Running on a cluster is usually not that
+trivial. For example, on many parallel computers, PBS (portable batch system)<a><span><span><span><span>[19]</span></span></span></span></a>
+is used to schedule jobs. To schedule a job one should first write a shell
+script and then submit it. An example of such PBS script is included in the
+distribution (</span><span>sample/test.pbs</span><span>). It is important to note that usually output of the batch job
+(both </span><span>stdout</span><span> and </span><span>stderr</span><span>) is saved to file. The name of
+the file usually contains the job id number given by the system. The same
+number appears in the directory name (§</span><span>C.3</span><span>).</span></p>
+
+<p><span>Another batch system is SGE (Sun grid engine).<a><span><span><span><span>[20]</span></span></span></span></a>
+We do not give a description of it here, but provide a sample script to run </span><span><span>ADDA</span></span><span> using SGE (</span><span>sample/test.sge</span><span>). One can
+easily modify it for a particular task.</span></p>
+
+
+    </body>
+</html>

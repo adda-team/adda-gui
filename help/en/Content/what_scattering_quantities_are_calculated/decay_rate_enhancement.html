@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Decay rate enhancement </title>
+    </head>
+    <body>
+        <h1>Decay rate enhancement</h1>
+
+<p><span>These quantities are calculated if and only
+if the point-dipole incident field is used (§</span><span>9.2</span><span>). A
+dipole with polarization <b>p</b><sub>0</sub>
+at position <b>r</b><sub>0</sub> has a
+certain decay rate in free-space, which is enhanced in the presence of
+nanoparticle. The emitted energy is, in general, partly absorbed by the
+particle (nonradiative part) and partly scattered to the infinity (radiative
+part). The relevant formulae are given in </span><span>[65,66]</span><span>. Here
+we present them in terms of effective cross sections (proportional to decay
+rates) to reuse quantities described in §</span><span>11.4</span><span>.
+Free-space decay cross section <i>C</i><sub>0</sub>
+is given as</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>61</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>In the presence of the nanoparticle, the
+total decay cross section <i>C</i><sub>tot</sub>
+is also given by Eq. </span><span>(<span>61</span>)</span><span> but
+with the modified Green’s tensor (accounting for particle):</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>62</span></span><span>)</span></p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>63</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where symmetry (reciprocity) relation</span></p>
+
+<table>
+ <tr>
+  
+  <td>
+  <p><span>(</span><span><span>64</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>has been used. <i>C</i><sub>enh</sub> corresponds to decay rate enhancement due to
+particle and its simplified expression (assuming real <b>p</b><sub>0</sub>) is very similar (but not equal) to <i>C</i><sub>ext</sub> in Eq. </span><span>(<span>49</span>)</span><span>.</span></p>
+
+<p><span>The part absorbed by the particle
+(nonradiative, NR) is given by <i>C</i><sub>abs</sub>
+(§</span><span>11.4</span><span>),
+while radiative part <i>C</i><sub>rad</sub> = </span><i><span>&#1057;</span></i><sub><span>tot</span></sub><span> – <i>C</i><sub>abs</sub>, which is not equal to <i>C</i><sub>sca</sub> since incident dipole field interferes with the
+scattered field. In other words, <i>C</i><sub>rad</sub>
+is the scattering cross section of the whole set of dipoles, including both exciting
+one and those from discretization of the particle. The enhancements of decay
+rates are obtained by normalizing corresponding cross sections to <i>C</i><sub>0</sub>:</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>.</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>65</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>These three
+enhancement factors are calculated and saved into file</span><span> CrossSec</span><span> (§</span><span>C.7</span><span>).
+Note also that these factors are independent of the particular magnitude (or
+units) of <b>p</b><sub>0</sub> used for
+simulation.</span></p>
+
+<p><span>In the surface mode (§</span><span>7</span><span>) the
+decay rate is changed by the surface itself even when no particle is present.
+Corresponding cross section <i>C</i><sub>surf</sub>
+is obtained by replacing <b>G&#773;</b> by <b>G&#773;</b> + <b>R&#773;</b> (§</span><span>10.3</span><span>) in
+Eq. </span><span>(<span>61</span>)</span><span>. </span><span><span>ADDA</span></span><span> still calculates the enhancement factors using Eq. </span><span>(<span>65</span>)</span><span>, i.e.
+normalizing to <i>C</i><sub>0</sub>, but
+also saves <i>C</i><sub>surf</sub>/<i>C</i><sub>0</sub> into file</span><span> CrossSec</span><span> (§</span><span>C.7</span><span>), so
+ratios with respect to <i>C</i><sub>surf</sub>
+can be easily obtained manually. The important limitation exists for absorbing
+substrate, since <i>C</i><sub>abs</sub> does
+not include the absorption in the substrate. Then the total enhancement factor
+is correct, but its division into radiative and not radiative parts is not. The
+possible (complicated) workaround is to integrate the total far-field (sum of
+exciting and scattered fields) over the upper hemisphere.<a><span><span><span><span>[61]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

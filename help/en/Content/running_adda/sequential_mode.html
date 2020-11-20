@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Sequential mode </title>
+    </head>
+    <body>
+        <h1>Sequential mode</h1>
+
+<p><span>The simplest
+way to run </span><span><span>ADDA</span></span><span> is to type</span></p>
+
+<p><span>adda</span><a><span><span><span><span><span>[16]</span></span></span></span></span></a></p>
+
+<p><span>while positioned in a directory, where the
+executable is located. </span><span><span>ADDA</span></span><span> will perform a sample simulation (sphere with size parameter 3.367,
+refractive index 1.5, discretized into 16 dipoles in each direction) and
+produce basic output (§</span><span>11</span><span>, §</span><span>C</span><span>). The
+output directory and terminal output (</span><span>stdout</span><span>) should look
+like examples that are included in the distribution: </span><span>sample/run000_sphere_g16_m1.5</span><span> and </span><span>sample/stdout</span><span> respectively. </span><span><span>ADDA</span></span><span> takes most information specifying what and how to calculate from
+the command line, so the general way to call </span><span><span>ADDA</span></span><span> is</span></p>
+
+<p><span>adda
+-&lt;par1&gt; &lt;args1&gt; -&lt;par2&gt; &lt;args2&gt; …</span></p>
+
+<p><span>where </span><span>&lt;par&gt;</span><span> is an option name (starting with a letter), and </span><span>&lt;args&gt;</span><span> is none, one, or several arguments (depending on the option),
+separated by spaces. </span><span>&lt;args&gt;</span><span> can be both
+text or numerical. How to control </span><span><span>ADDA</span></span><span> by proper command line
+options is thoroughly described in the following sections; the full reference
+list is given in §</span><span>A</span><span>. If
+you prefer a quick hands-on start with </span><span><span>ADDA</span></span><span> before looking at all
+possible options, you are welcome to a tutorial.<a><span><span><span><span><span>[17]</span></span></span></span></span></a> Quick help is available by typing</span></p>
+
+<p><span>adda -h</span></p>
+
+<p><span>For some options input files are required,
+they are described in §</span><span>B</span><span>. It
+is recommended to copy the contents of the directory </span><span>input/</span><span> of the package (examples of all input files that are silently used)
+to the directory where </span><span><span>ADDA</span></span><span> is executed. All the output produced by </span><span><span>ADDA</span></span><span> is described in §</span><span>C</span><span>.
+Version of </span><span><span>ADDA</span></span><span>, compiler used to build it,<a><span><span><span><span>[18]</span></span></span></span></a>
+width of memory access registers (32 or 64 bits), build options,</span><sup><span>12</span></sup><span>
+and copyright information are available by typing</span></p>
+
+<p><span>adda –V</span></p>
+
+
+    </body>
+</html>

@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Romberg integration </title>
+    </head>
+    <body>
+        <h1>Romberg integration</h1>
+
+<p><span>Integration is performed in several parts
+of </span><span><span>ADDA</span></span><span>: orientation averaging (§</span><span>8.2</span><span>),
+integration of the Mueller matrix over the azimuthal angle (§</span><span>11.2</span><span>), and
+integration of the scattered field over the whole solid angle (§</span><span>11.4</span><span>). The
+same routine is used for all these purposes, which is based on the one- or
+two-dimensional Romberg integration </span><span>[82]</span><span>.
+This is a high-order technique that may be used in adaptive mode, automatically
+performing only the necessary number of function evaluations to reach a prescribed
+accuracy. The latter is relevant for orientation averaging, where each function
+evaluation is a complete DDA simulation, but not for integration over
+scattering angles, for which all values are precalculated. Romberg integration
+also provides an estimate of the integration error, which is reliable for
+“sufficiently nice” functions </span><span>[82]</span><span>.
+When 2D integration is performed </span><span><span>ADDA</span></span><span> integrates an error
+estimate obtained in the inner integration loop simultaneously with the
+function values, resulting in a reliable estimate of the final error in the
+outer loop. The information about the integration together with errors is saved
+to separate log files (§</span><span>C.10</span><span>): </span><span>log_orient_avg</span><span>, </span><span>log_int_Csca&#8209;X</span><span>, </span><span>log_int_asym_x&#8209;X</span><span>, </span><span>log_int_asym_y&#8209;X</span><span>, </span><span>log_int_asym_z&#8209;X</span><span> for orientation averaging, calculation of <i>C</i><sub>sca</sub> and each component of <b>g</b> respectively (the last 4 file names have different suffixes – </span><span>X</span><span> or </span><span>Y</span><span> – for different incident
+polarizations). For orientation averaging some information is saved to the main
+</span><span>log</span><span> (§</span><span>C.4</span><span>). For
+integration of the Mueller matrix over the azimuthal angle only the averaged
+errors are saved together with the values directly to </span><span>mueller_integr</span><span> files (§</span><span>C.5</span><span>)</span></p>
+
+<p><span>The drawback of the Romberg integration is
+that argument values must be uniformly spaced and their total number is limited
+to be 2<i><sup>n</sup></i> + 1 (<i>n</i> is any integer). The set of
+integration points is specified by minimum and maximum values and minimum and maximum
+number of subdivisions (refinements) <i>J</i><sub>min</sub>
+and <i>J</i><sub>max</sub> (the latter is equal
+to <i>n</i>). The required accuracy to reach
+is also a parameter. In some cases minimum and maximum values of some arguments
+are equivalent (e.g. 0° and 360° for <i>&#966;</i>),
+</span><span><span>ADDA</span></span><span> accounts for it to slightly decrease simulation time.</span></p>
+
+<p><span>If the function is “nice” and periodic over
+the interval of integration, then it is not beneficial and may be even harmful
+to use higher order integration scheme. For such cases the simplest trapezoid
+rule (or equivalently midpoint rule) is the most efficient </span><span>[82]</span><span>.
+The same is true, when e.g. the function is integrated over the half of its
+period and is symmetric with respect to both borders of the integration
+interval. </span><span><span>ADDA</span></span><span>’s behavior is determined by the flag </span><span>periodic</span><span> in the input files. If it is </span><span>true</span><span>
+then trapezoid rule is used as a special case of the general Romberg scheme.
+This keeps the limitation on the number of integration points, but provides
+adaptability and reliable error estimates. All the integration parameters are
+specified in input files: </span><span>avg_params.dat</span><span> (§</span><span>B.2</span><span>),</span><span> scat_params.dat</span><span> (§</span><span>B.4</span><span>), </span><span>alldir_params.dat</span><span> (§</span><span>B.3</span><span>)
+corresponding to different integration tasks.</span></p>
+
+
+    </body>
+</html>

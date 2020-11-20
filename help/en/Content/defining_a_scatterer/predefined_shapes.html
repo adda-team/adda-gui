@@ -1,0 +1,598 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Predefined shapes </title>
+    </head>
+    <body>
+        <h1>Predefined shapes</h1>
+
+<p><span>Predefined
+shapes are initialized by the command line option</span></p>
+
+<p><span>-shape &lt;type&gt; [&lt;args&gt;]</span></p>
+
+<p><span>where </span><span>&lt;type&gt;</span><span> is a name of the predefined shape. The size of the scatterer is
+determined by the size of the computational grid (<i>D<sub>x</sub></i>, §</span><span>6.2</span><span>); </span><span>&lt;args&gt;</span><span> specify different dimensionless aspect ratios or other proportions
+of the particle shape. However, some shapes define the absolute size
+themselves, which can be overridden (§</span><span>6.2</span><span>). In
+the following we describe the supported predefined shapes in alphabetic order:</span></p>
+
+<p><span><span>·</span></span><span>axisymmetric</span><span> – axisymmetric
+homogeneous shape, defined by its contour in <i>&#961;z</i>-plane of the cylindrical coordinate system, which is read
+from file (format described in §</span><span>B.6</span><span>).</span></p>
+
+<p><span><span>·</span></span><span>bicoated</span><span> – two identical
+concentric coated spheres with outer diameter <i>d</i> (first domain), inner diameter <i>d</i><sub>in</sub>, and center-to-center distance <i>R</i><sub>cc</sub> (along the <i>z</i>&#8209;axis).
+It describes both separate and sintered coated spheres. In the latter case
+sintering is considered symmetrically for cores and shells.</span></p>
+
+<p><span><span>·</span></span><span>biellipsoid</span><span> – two general
+ellipsoids in default orientations with centers on the <i>z</i>&#8209;axis, touching each other. Their semi-axes are <i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>, <i>z</i><sub>1</sub>
+(lower one, first domain) and <i>x</i><sub>2</sub>,
+<i>y</i><sub>2</sub>, <i>z</i><sub>2</sub> (upper one, second domain).</span></p>
+
+<p><span><span>·</span></span><span>bisphere</span><span> – two identical
+spheres with outer diameter <i>d</i> and
+center-to-center distance <i>R</i><sub>cc</sub>
+(along the <i>z</i>&#8209;axis). It
+describes both separate and sintered spheres.</span></p>
+
+<p><span><span>·</span></span><span>box</span><span> – a homogenous cube (if
+no arguments are given) or a rectangular parallelepiped with edge sizes <i>x</i>, <i>y</i>,
+<i>z</i>.</span></p>
+
+<p><span><span>·</span></span><span>capsule</span><span> – cylinder with
+height (length) <i>h</i> and diameter <i>d</i> with half-spherical caps on both ends.
+Total height of the capsule is <i>h</i> + <i>d</i>.</span></p>
+
+<p><span><span>·</span></span><span><span>chebyshev</span></span><span> – axisymmetric Chebyshev particle of amplitude <i>&#949;</i> (|<i>&#949;</i>| &#8804; 1)
+and order <i>n</i> (natural number). Its formula in spherical coordinates (<i>r</i>,
+<i>&#952;</i>) is</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>10</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <i>r</i><sub>0</sub> is determined by the particle size.</span></p>
+
+<p><span><span>·</span></span><span>coated</span><span> – sphere with a spherical inclusion; outer
+sphere has a diameter <i>d</i> (first
+domain). The included sphere has a diameter <i>d</i><sub>in</sub>
+(optional position of the center: <i>x</i>, <i>y</i>, <i>z</i>).</span></p>
+
+<p><span><span>·</span></span><span>cylinder</span><span> – homogenous
+cylinder with height (length) <i>h</i> and
+diameter <i>d</i>.</span></p>
+
+<p><span><span>·</span></span><span>egg</span><span> – axisymmetric biconcave homogenous particle, which surface is
+given as</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>11</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <i>r</i> is the radius in spherical coordinates and <i>a</i> is scaling factor, which can be derived from egg diameter
+(maximum width perpendicular to the <i>z</i>&#8209;
+axis) or volume </span><span>[31]</span><span>.
+Center of the reference frame in Eq. </span><span>(<span>11</span>)</span><span> is
+shifted along the <i>z</i>&#8209;axis
+relative to the center of the computational grid to ensure that North and South
+Poles of the egg are symmetric over the latter center.</span></p>
+
+<p><span><span>·</span></span><span>ellipsoid</span><span> – homogenous
+general ellipsoid with semi-axes <i>x</i>, <i>y</i>, <i>z</i>.</span></p>
+
+<p><span><span>·</span></span><span>line</span><span> – line along the <i>x</i>&#8209;axis with the width of one
+dipole.</span></p>
+
+<p><span><span>·</span></span><span><span>plate</span></span><span> – homogeneous plate (cylinder, which sides are rounded by adding
+half-torus) with height (thickness) <i>h</i> and full diameter <i>d</i> (i.e.
+the diameter of the constituent cylinder is <i>d</i> &#8722; <i>h</i>).</span></p>
+
+<p><span><span>·</span></span><span><span>prism</span></span><span> – homogeneous right prism with height (length along the <i>z</i>&#8209;axis)
+<i>h</i> based on a regular polygon with <i>n</i> sides of size <i>a</i>. The
+polygon is oriented so that the positive <i>x</i>&#8209;axis is a middle
+perpendicular for one of its sides. <i>D<sub>x</sub></i> equals 2<i>R</i><sub>i</sub>
+and <i>R</i><sub>c</sub> + <i>R</i><sub>i</sub> for even and odd <i>n</i>
+respectively. <i>R</i><sub>c</sub> = <i>a</i>/[2sin(<i>&#960;</i>/<i>n</i>)]
+and <i>R</i><sub>i</sub> = <i>R</i><sub>c</sub>cos(<i>&#960;</i>/<i>n</i>)
+are radii of circumscribed and inscribed circles respectively.</span></p>
+
+<p><span><span>·</span></span><span>rbc</span><span> – red blood cell, an
+axisymmetric biconcave homogenous particle, which is characterized by diameter <i>d</i>, maximum and minimum width <i>h</i>, <i>b</i>,
+and diameter at the position of the maximum width <i>c</i>. Its surface is defined as</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>12</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <i>&#961;</i> is the radius in cylindrical coordinates (<i>&#961;</i><sup>2</sup> = <i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>). <i>P</i>, <i>Q</i>, <i>R</i>, and <i>S</i> are determined from the values of the parameters given in the
+command line (see </span><span>[32]</span><span> for
+specific expressions). This formula is based on </span><span>[33]</span><span>, and
+is qualitatively similar to the RBC shape used in </span><span>[34]</span><span>.</span></p>
+
+<p><span><span>·</span></span><span>sphere</span><span> – homogenous sphere
+(used by default).</span></p>
+
+<p><span><span>·</span></span><span>spherebox</span><span> – sphere (diameter
+<i>d</i><sub>sph</sub>) in a cube (size <i>D<sub>x</sub></i>, first domain).</span></p>
+
+<div>
+
+<table>
+ <tr>
+  <td>
+  <p><a><span>Table </span></a><span><span><span>1</span></span></span><span>. Brief
+  description of arguments, symmetries (§</span><span>6.7</span><span>),
+  and availability of analytical value of <i>f</i><sub>vol</sub>
+  for predefined shapes. Shapes and their arguments are described in the text.
+  “±” means that it depends on the arguments.</span></p>
+  <div>
+  <table>
+   <tr>
+    <td>
+    <p><span>&lt;type&gt;</span></p>
+    </td>
+    <td>
+    <p><span>&lt;args&gt;</span></p>
+    </td>
+    <td>
+    <p><span>dom.<sup>a</sup></span></p>
+    </td>
+    <td>
+    <p><span>symY<sup>b</sup></span></p>
+    </td>
+    <td>
+    <p><span>symR<sup>c</sup></span></p>
+    </td>
+    <td>
+    <p><i><span>f</span></i><sub><span>vol</span></sub></p>
+    </td>
+    <td>
+    <p><span>size<sup>d</sup></span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>axisymmetric</span></p>
+    </td>
+    <td>
+    <p><span>filename</span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>bicoated</span></p>
+    </td>
+    <td>
+    <p><i><span>R</span></i><sub><span>cc</span></sub><span>/<i>d</i>, <i>d</i><sub>in</sub>/<i>d</i></span></p>
+    </td>
+    <td>
+    <p><span>2</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>biellipsoid</span></p>
+    </td>
+    <td>
+    <p><i><span>y</span></i><sub><span>1</span></sub><span>/<i>x</i><sub>1</sub>,
+    <i>z</i><sub>1</sub>/<i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>/<i>x</i><sub>1</sub>,<i> y</i><sub>2</sub>/<i>x</i><sub>2</sub>, <i>z</i><sub>2</sub>/<i>x</i><sub>2</sub></span></p>
+    </td>
+    <td>
+    <p><span>2</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>±</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>bisphere</span></p>
+    </td>
+    <td>
+    <p><i><span>R</span></i><sub><span>cc</span></sub><span>/<i>d</i></span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>box</span></p>
+    </td>
+    <td>
+    <p><span>[<i>y</i>/<i>x</i>, <i>z</i>/<i>x</i>]</span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>±</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>capsule</span></p>
+    </td>
+    <td>
+    <p><i><span>h</span></i><span>/<i>d</i></span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>chebyshev</span></p>
+    </td>
+    <td>
+    <p><i><span>&#949;</span></i><span>, </span><i><span>n</span></i></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>coated</span></p>
+    </td>
+    <td>
+    <p><i><span>d</span></i><sub><span>in</span></sub><span>/<i>d</i>,
+    [<i>x</i>/<i>d</i>, <i>y</i>/<i>d</i>, <i>z</i>/<i>d</i>]</span></p>
+    </td>
+    <td>
+    <p><span>2</span></p>
+    </td>
+    <td>
+    <p><span>±</span></p>
+    </td>
+    <td>
+    <p><span>±</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>cylinder</span></p>
+    </td>
+    <td>
+    <p><i><span>h</span></i><span>/<i>d</i></span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>egg</span></p>
+    </td>
+    <td>
+    <p><i><span>&#949;</span></i><span>, <i>&#957;</i></span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>ellipsoid</span></p>
+    </td>
+    <td>
+    <p><i><span>y</span></i><span>/<i>x</i>, <i>z</i>/<i>x</i></span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>±</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>line</span></p>
+    </td>
+    <td>
+    <p><span>–</span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>plate</span></p>
+    </td>
+    <td>
+    <p><i><span>h/d</span></i></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>prism</span></p>
+    </td>
+    <td>
+    <p><i><span>n</span></i><span>, </span><i><span>h</span></i><span>/</span><i><span>D<sub>x</sub></span></i></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>±</span></p>
+    </td>
+    <td>
+    <p><span>±</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>rbc</span></p>
+    </td>
+    <td>
+    <p><i><span>h</span></i><span>/<i>d</i>, <i>b</i>/<i>d</i>, <i>c</i>/<i>d</i></span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>sphere</span></p>
+    </td>
+    <td>
+    <p><span>–</span></p>
+    </td>
+    <td>
+    <p><span>1</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    <p><span>spherebox</span></p>
+    </td>
+    <td>
+    <p><i><span>d</span></i><sub><span>sph</span></sub><span>/<i>D<sub>x</sub></i></span></p>
+    </td>
+    <td>
+    <p><span>2</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>+</span></p>
+    </td>
+    <td>
+    <p><span>&#8722;</span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p><sup><span>a </span></sup><span>number of domains.</span></p>
+  <p><sup><span>b </span></sup><span>symmetry with
+  respect to reflection over the <i>xz</i>&#8209;plane.</span></p>
+  <p><sup><span>c </span></sup><span>symmetry with
+  respect to rotation by 90° over the <i>z</i>&#8209;axis.</span></p>
+  <p><sup><span>d </span></sup><span>whether a
+  shape defines absolute size of the particle.</span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+
+
+
+<p><span>For all axisymmetric shapes, symmetry axis coincides
+with the z&#8209;axis. The order of domains is important to assign refractive
+indices specified in the command line (§</span><span>6.3</span><span>).
+Brief reference information is summarized in </span><span>Table <span>1</span></span><span>,
+while examples are provided in </span><span>Fig. <span>3</span></span><span>. For
+multi-domain shapes <i>f</i><sub>vol</sub>
+is based on the total volume of the particle. Adding a new shape is
+straightforward for anyone who is familiar with C programming language.<a><span><span><span><span>[31]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

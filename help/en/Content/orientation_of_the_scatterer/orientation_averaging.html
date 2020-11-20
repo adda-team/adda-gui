@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Orientation averaging </title>
+    </head>
+    <body>
+        <h1>Orientation averaging</h1>
+
+<div>
+
+<table>
+ <tr>
+  <td>
+  
+  <p><a><span><span>Fig. </span></span></a><span><span><span><span>5</span></span></span></span><span><span>. Transformation of the
+  laboratory reference system <i>xyz</i> into the particle reference frame <i>x&#8242;y&#8242;z&#8242; </i>through
+  consecutive rotation by angles <i>&#945;</i>,
+  <i>&#946;</i>, and <i>&#947;</i>.</span></span><span>Adapted from </span><span>[1]</span><span>.</span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p><span>Orientation averaging is performed over
+three Euler angles (<i>&#945;</i>,<i>&#946;</i>,<i>&#947;</i>). Rotating over <i>&#945;</i>
+is equivalent to rotating the scattering plane without changing the orientation
+of the scatterer relative to the incident radiation. Therefore, averaging over
+this orientation angle is done with a single computation of internal fields;
+additional computational time for each scattering plane is comparably small.
+Averaging over other two Euler angles is done by independent DDA simulations
+(defining the orientation of the scatterer as described in §</span><span>8.1</span><span>). The
+averaging itself is performed using the Romberg integration (§</span><span>12.6</span><span>),
+parameters of the averaging are stored by default in file </span><span>avg_params.dat</span><span> (§</span><span>B.2</span><span>).
+Orientation averaging is enabled by the command line option</span></p>
+
+<p><span>-orient avg [&lt;filename&gt;]</span></p>
+
+<p><span>where </span><span>&lt;filename&gt;</span><span> is an optional argument that specifies a different file with
+parameters of the averaging. Integration points for <i>&#946;</i> are spaced uniformly in values of cos<i>&#946;</i> </span><span>[39]</span><span>. Currently
+only the Mueller matrix in one scattering plane (§</span><span>11.2</span><span>), <i>C</i><sub>ext</sub>, and <i>C</i><sub>abs</sub> (§</span><span>11.4</span><span>) are
+calculated when doing orientation averaging.</span></p>
+
+<p><span>It also cannot be used in combination with
+saving incident beam (§</span><span>9</span><span>), internal
+fields or dipole polarizations (§</span><span>11.7</span><span>), or
+radiation forces (§</span><span>8.2</span><span>), nor
+with calculating scattering for a grid of angles (§</span><span>11.2</span><span>).</span></p>
+
+
+    </body>
+</html>

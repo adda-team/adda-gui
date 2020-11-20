@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Partition over processors in parallel mode </title>
+    </head>
+    <body>
+        <h1>Partition over processors in parallel mode</h1>
+
+<p><span>To understand the parallel performance of </span><span><span>ADDA</span></span><span> it is important to realize how a scattering problem is distributed
+among different processors. Both the computational grid and the scatterer are
+partitioned in slices parallel to the <i>xy&#8209;</i>plane
+(in another words, partition is performed over the <i>z</i>&#8209;axis); each processor contains several consecutive slices.
+For the FFT-based task the computational grid is partitioned both along the <i>x</i>- and <i>z</i>&#8209;axes, and the partial <i>xz</i>&#8209;blocks
+are exchanged between processors during the 3D FFT. The partition of the
+computational grid is optimal if both <i>n<sub>z</sub></i>
+and 2<i>n<sub>x</sub></i> divides the number
+of processors <i>n</i><sub>p</sub> (at least
+approximately, §</span><span>12.2</span><span>). One
+can also control optimality <i>a posteriori</i>
+by studying the </span><span><span>log</span></span><span> file (§</span><span>C.4</span><span>) –
+the dimensions for the FFT-grid should be twice larger than the computational
+grid (“box dimensions”).</span></p>
+
+<p><span>The partition of the scatterer itself also
+benefits from <i>n<sub>z</sub></i> being
+multiple of <i>n</i><sub>p</sub>, however it
+is still not optimal for most of the geometries,<a><span><span><span><span>[34]</span></span></span></span></a>
+i.e. the number of non-void dipoles is different for different processors (</span><span>Fig. <span>4</span></span><span>).
+This partition is relevant for the computation of the scattered fields; hence
+its non-optimality should not be an issue in most cases. However, if large grid
+of scattering angles is used (§</span><span>11.2</span><span>, §</span><span>11.4</span><span>), the
+parallel performance of the </span><span><span>ADDA</span></span><span> may be relatively low (the total simulation time will be determined
+by the maximum number of real dipoles per processor).<a><span><span><span><span>[35]</span></span></span></span></a></span></p>
+
+<div>
+
+<table>
+ <tr>
+  <td>
+  
+  <p><a><span>Fig. </span></a><span><span><span>4</span></span></span><span>. Same as </span><span>Fig. <span>2</span></span><span>(a)
+  but partitioned over 4 processors (shown in different shades of gray).</span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p><span>The conclusion of this section is that careful
+choice of <i>n<sub>z</sub></i> and number of
+the processors (so that the former divides the latter) may significantly
+improve the parallel performance. </span><span><span>ADDA</span></span><span> will work fine with any
+input parameters, so this optimization is left to the user. Consider also some
+limitations imposed on the grid dimensions by the implemented FFT routines (§</span><span>12.2</span><span>).</span></p>
+
+<p><span>If the particle is prolate or oblate, parallel
+efficiency of </span><span><span>ADDA</span></span><span> depends on orientation of the former in the particle reference
+frame. First, it is recommended to set the <i>y</i>&#8209;axis
+along the smallest particle dimension. Second, positioning the longest
+scatterer dimension along the <i>x</i>&#8209;axis
+minimizes the memory requirements for a fixed (and relatively small) <i>n</i><sub>p</sub> [Eq. </span><span>(<span>4</span>)</span><span>],
+while position along the <i>z</i>&#8209;axis
+is optimal for the maximum <i>n</i><sub>p</sub>
+[Eq. </span><span>(<span>6</span>)</span><span>].
+Unfortunately, currently </span><span><span>ADDA</span></span><span> cannot rearrange the axes with respect to the particle,<a><span><span><span><span>[36]</span></span></span></span></a>
+so the only way to implement the above recommendations is to prepare input
+shape files (§</span><span>6.3</span><span>)
+accordingly. For predefined shapes (§</span><span>6.4</span><span>) one
+needs to export geometry to a shape file, rotate it in the shape file by a
+separate routine, and import it back into the </span><span><span>ADDA</span></span><span>.<a><span><span><span><span>[37]</span></span></span></span></a>
+Direction of propagation of the incident radiation should also be adjusted (§</span><span>9.1</span><span>), if
+axes of the particle reference frames are rearranged, to keep the scattering
+problem equivalent to the original one.</span></p>
+
+<p><span>Finally, this section is not relevant for the
+sparse mode (§</span><span>12.3</span><span>),
+since then only the non-void dipoles are considered. Those dipoles are
+uniformly distributed among the processors irrespective of their position in
+the computational grid. In particular, there is no limitation of a slice to
+belong to a single processor.</span></p>
+
+
+    </body>
+</html>

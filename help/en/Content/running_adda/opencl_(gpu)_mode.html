@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> OpenCL (GPU) mode </title>
+    </head>
+    <body>
+        <h1>OpenCL (GPU) mode</h1>
+
+<p><span>This mode is very similar to the sequential
+mode, except </span><span><span>ADDA</span></span><span> executable is named </span><span><span>adda_ocl</span></span><span> and part of the
+calculations is carried on the GPU </span><span>[9]</span><span>. Therefore
+a GPU, supporting double precision calculations, is required as well as recent
+drivers for it. Currently, </span><span><span>ADDA</span></span><span> can use only a single GPU, and will choose the first (default) one,
+if several GPUs are available. To use another GPU, specify its index (starting
+from zero) through the command line option</span></p>
+
+<p><span>-gpu &lt;index&gt;</span></p>
+
+<p><span>Therefore, several instances of </span><span><span>adda_ocl</span></span><span> can be run in parallel, each using one CPU core and one GPU.</span></p>
+
+<p><span>More details about the OpenCL implementation,
+including existing limitations are described in the corresponding wiki page.<a><span><span><span><span>[21]</span></span></span></span></a>
+While the developers do their best to ensure reliability of OpenCL mode, it is
+a good idea to perform selected tests of this mode against the sequential mode
+on your specific hardware before performing a large set of simulations.</span></p>
+
+
+    </body>
+</html>

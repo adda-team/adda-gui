@@ -1,13 +1,12 @@
 package adda.base.views;
 
-import adda.Context;
-import adda.application.validation.validator.NotEmptyValidator;
 import adda.base.models.IModel;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.application.controls.ComboBoxItem;
 import adda.application.controls.JNumericField;
 import adda.base.models.ModelBase;
-import adda.item.tab.shape.surface.SurfaceModel;
+import adda.help.HelpProvider;
+import adda.help.HelpUtil;
 import adda.utils.ListUtils;
 import adda.utils.ReflectionHelper;
 import adda.utils.StringHelper;
@@ -15,6 +14,7 @@ import net.java.balloontip.BalloonTip;
 import net.java.balloontip.styles.RoundedBalloonStyle;
 
 
+import javax.help.CSH;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -125,10 +125,12 @@ public class ViewBase implements IView {
 
                     if (component != null) {
                         component.setName(entryName);
+                        CSH.setHelpIDString(component, HelpProvider.getHelpID(model).get(0));
                         components.put(entryName, component);
                         if (addLabel && !StringHelper.isEmpty(label)) {
                             JPanel wrapper = getWrapperPanel();
-                            wrapper.add(panel.add(new JLabel(label)));
+                            final JLabel infoLabel = new JLabel(label);
+                            wrapper.add(panel.add(infoLabel));
                             wrapper.add(component);
                             wrappers.put(entryName + WRAPPER_POSTFIX, wrapper);
                             wrapper.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -224,6 +226,28 @@ public class ViewBase implements IView {
         label.setAlignmentY(Component.TOP_ALIGNMENT);
         components.put("label", label);
         panel.add(label);
+
+        RoundedBalloonStyle style = new RoundedBalloonStyle(5, 5, Color.WHITE, Color.black);
+        BalloonTip balloonTip = new BalloonTip(
+                label,
+                HelpProvider.getHelpPanel(model),
+                style,
+                BalloonTip.Orientation.LEFT_ABOVE,
+                BalloonTip.AttachLocation.CENTER,
+                30, 10,
+                false
+        );
+        HelpUtil.balloonToHelpToolTip(balloonTip, 500);
+        //ToolTipUtils.balloonToToolTip(balloonTip, 500, 30000);
+
+//                            infoLabel.addMouseListener(new MouseAdapter() {
+//                                public void mouseEntered(MouseEvent me) {
+//                                    balloonTip.setVisible(true);
+//                                }
+//                                public void mouseExited(MouseEvent e) {
+//                                    balloonTip.setVisible(false);
+//                                }
+//                            });
 
 //        JTextArea textArea = new JTextArea(1, 15);
 //        textArea.setPreferredSize(new Dimension(120, 30));

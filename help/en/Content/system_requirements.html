@@ -1,0 +1,171 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> System Requirements </title>
+    </head>
+    <body>
+        <h1>System Requirements</h1>
+
+<p><span>Computational requirements of DDA primarily
+depend on the size of the computational grid, which in turn depends on the size
+parameter <i>x</i> and refractive index <i>m</i> of the scatterer (§</span><span>6.2</span><span>). This
+section addresses requirements of standard (FFT) mode of </span><span><span>ADDA</span></span><span>, while sparse mode is discussed separately (§</span><span>12.3</span><span>). The
+memory requirements of </span><span><span>ADDA</span></span><span> depend both on the total number of dipoles in a computational box (<i>N</i>) and the number of real (non-void)
+dipoles (<i>N</i><sub>real</sub>); it also
+depends on the number of dipoles along the <i>x</i>&#8209;axis
+(<i>n<sub>x</sub></i>) and number of
+processors or cores used (<i>n</i><sub>p</sub>).
+The total memory requirement <i>M</i><sub>tot</sub> (for all processors) in the
+free-space mode is approximately</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>4</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where additional memory proportional to <i>N</i> is required only in parallel mode (see
+§</span><span>12.2</span><span> for
+details). Coefficient before <i>N</i><sub>real</sub>
+depends on the chosen iterative solver, as 31 + 48(<i>n</i><sub>vec</sub> + 1), where <i>n</i><sub>vec</sub> is the number of vectors
+used by the solver (§</span><span>12.1</span><span>, </span><span>Table 3</span><span>). In the
+surface mode (§</span><span>7</span><span>) the
+following additional memory is required</span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><span>(</span><span><span>5</span></span><span>)</span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>which is usually insignificant. The memory
+requirements of each processor depends on the partition of the computational
+grid over the processors that is generally not uniform (see §</span><span>6.6</span><span>).
+Total memory used by </span><span><span>ADDA</span></span><span> and maximum per one processor are shown in </span><span>log</span><span> (see §</span><span>C.4</span><span>). It
+is important to note that <i>double</i>
+precision is used everywhere in </span><span><span>ADDA</span></span><span>. This requires more
+memory as compared to single precision, but it helps when convergence of the
+iterative solver is very slow and machine precision becomes relevant, as is the
+case for large simulations, or when very accurate results are desired, as in </span><span>[21]</span><span>.</span></p>
+
+<p><span>There is a maximum number of processors, which
+</span><span><span>ADDA</span></span><span> can effectively employ (§</span><span>6.6</span><span>),
+equal to <i>n<sub>z</sub></i> if the latter
+is a “round” number (§</span><span>12.2</span><span>).
+This determines the largest problem size solvable on a given supercomputer with
+very large number of processors but with a limited amount of memory per
+processor <i>M</i><sub>pp</sub>. For a given problem, setting <i>n</i><sub>p</sub> = <i>n<sub>z</sub></i> leads to the following maximum
+memory requirements per processor (in the free-space mode):<a><span><span><span><span>[22]</span></span></span></span></a></span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span>,</span></p>
+  </td>
+  <td>
+  <p><a><span>(</span></a><span><span><span>6</span></span></span><span><span>)</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p><span>where <i>n</i><sub>slice</sub> &#8804; <i>n<sub>x</sub>n<sub>y</sub></i> is the
+maximum number of real dipoles in a slice parallel to the <i>yz</i>&#8209;plane.</span></p>
+
+<p><span>To have a quick estimate of maximum achievable
+discretization on a given hardware, one may consider a cube and less-memory-consuming
+iterative solvers. Then, Eqs. </span><span>(<span>4</span>)</span><span> and </span><span>(<span>6</span>)</span><span> lead
+to maximum <i>n<sub>x</sub></i> equal to 113[<i>M</i><sub>tot</sub>(GB)]<sup>1/3</sup>
+and 1067[<i>M</i><sub>pp</sub>(GB)]<sup>1/2</sup> for single-core PC and very
+large cluster respectively.</span></p>
+
+<p><span>In OpenCL mode the memory proportional to <i>N</i>
+in Eq. </span><span>(<span>4</span>)</span><span> is
+moved to the GPU thus reducing the used amount of main (CPU) memory. In this
+case additional 8<i>N</i><sub>real</sub>
+bytes of CPU memory is required for CGNR and Bi-CGStab iterative solvers.
+Moreover, </span><span><span>ADDA</span></span><span> may additionally allocate up to 768<i>N</i>&#8729;min(1,16/<i>n<sub>x</sub></i>)
+bytes (double that in the surface mode) on the GPU, if available, to improve
+simulation speed (when </span><span><span>–opt
+speed</span></span><span> is enabled, see below).</span></p>
+
+<p><span><span>ADDA</span></span><span> may optimize itself during runtime for either maximum speed or minimum
+memory usage. It is controlled by a command line option</span></p>
+
+<p><span>-opt {speed|mem}</span></p>
+
+<p><span>By default, speed optimization is used. A
+command line option</span></p>
+
+<p><span>-prognosis</span></p>
+
+<p><span>can be used to estimate the memory
+requirements without actually performing the allocation of memory and
+simulation.<a><span><span><span><span>[23]</span></span></span></span></a> It
+also implies </span><span>&#8209;test</span><span> option (§</span><span>C.3</span><span>). By
+default, this estimate is based on the upper limit of memory that ADDA can use
+(especially, for OpenCL memory). To get the minimum required memory combine </span><span><span>–prognosis</span></span><span> with </span><span><span>–opt
+mem</span></span><span>.</span></p>
+
+<div>
+
+<table>
+ <tr>
+  <td>
+  
+  <p><a><span>Fig. </span></a><span><span><span><span><span>1</span></span></span></span></span><span>. Capabilities of </span><span><span>ADDA</span></span><span> 0.76 for spheres with
+  different <i>x</i> and <i>m</i>. (a) Applicability region – the lower-left
+  region corresponds to full convergence and gray region – to incomplete
+  convergence. The dashed lines show two levels of memory requirements for the
+  simulation. (b) Total simulation wall clock time on 64 processors in
+  logarithmic scale. Horizontal dotted lines corresponding to a minute, an
+  hour, a day, and a week are shown for convenience. Adapted from </span><span>[8]</span><span>.</span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p><span>Simulation time (see §</span><span>12</span><span> for
+details) consists of two major parts: solution of the linear system of
+equations and calculation of the scattered fields. The first one depends on the
+number of iterations to reach convergence, which mainly depends on the size
+parameter, shape and refractive index of the scatterer, and time of one
+iteration, which depends only on <i>N</i> as
+</span><span>&#119978;</span><span>(<i>N</i>ln<i>N</i>) (see §</span><span>12.2</span><span>). Execution
+time for calculation of scattered fields is proportional to <i>N</i><sub>real</sub>, and is usually relatively
+small if scattering is only calculated in one plane. However, it may be
+significant when a large grid of scattering angles is used (§</span><span>11.2</span><span>, §</span><span>11.4</span><span>). In the
+surface mode (§</span><span>7</span><span>) significant
+time is additionally required for initialization (building up the interaction
+matrix, §</span><span>12.7</span><span>). Employing
+multiple processors brings the simulation time down almost proportional to the
+number of processors (see §</span><span>12.4</span><span>). To
+facilitate very long simulations checkpoints can be used to break a single simulation
+into smaller parts (§</span><span>12.5</span><span>).</span></p>
+
+<p><span>For example, on a desktop computer
+(P4-3.2 GHz, 2 Gb RAM) it was possible to simulate light scattering
+by spheres<a><span><span><span><span>[24]</span></span></span></span></a> up
+to <i>x</i> = 35 and 20 for <i>m</i> = 1.313 and 2.0 respectively
+(simulation times are 20 and 148 hours respectively). The capabilities of </span><span><span>ADDA</span></span><span> 0.76 for simulation of light scattering by spheres using 64 3.4 GHz
+cores were reported in </span><span>[8]</span><span>.
+Here we present only Fig. </span><span><span>1</span></span><span>,
+showing the maximum reachable <i>x</i>
+versus <i>m</i> and simulation time versus <i>x</i> and <i>m</i>. In particular, light scattering by a homogenous sphere with <i>x</i> = 160 and <i>m</i> = 1.05 was simulated in only
+1.5 hours, although the runtime steeply increased with refractive index.
+Examples of more recent and even larger simulations are gathered on a special
+wiki page.<a><span><span><span><span>[25]</span></span></span></span></a></span></p>
+
+
+    </body>
+</html>

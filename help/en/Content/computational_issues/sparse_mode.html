@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Sparse mode </title>
+    </head>
+    <body>
+        <h1>Sparse mode</h1>
+
+<p><span><span><span>For cases when <i>N</i> <span>&gt;</span>&gt; <i>N</i><sub>real</sub>,
+e.g. for very sparse (porous) aggregates, FFT may not provide desired
+acceleration. Specially for such cases there is a compilation mode of </span></span></span><span><span><span><span>ADDA</span></span><span>, named “sparse mode”. It is a direct implementation of matrix–vector
+product in the DDA without FFT. Its main advantage is that the empty dipoles
+are not included at all in the data model, which decreases required computer
+memory and simplifies MPI parallelization. The effect on computational speed
+depends on the porosity (sparseness) of the particle: the standard (FFT) mode
+is faster for moderately porous particles, while the sparse mode is faster for
+extremely porous ones. In particular, the sparse </span></span></span><span><span><span><span>ADDA</span></span><span> was used for simulations of radar backscattering by snowflakes </span></span></span><span><span><span>[81]</span></span></span><span><span><span>.</span></span></span></p>
+
+<p><span><span><span>In general, usage of sparse
+mode is very similar to the FFT mode, discarding all FFT-related aspects.
+However there are certain limitations (incompatibilities with some of other </span></span></span><span><span><span><span>ADDA</span></span><span> features), which are discussed at the corresponding wiki page,</span></span></span><a><span><span><span><span><span><span><span>[79]</span></span></span></span></span></span></span></a><span><span><span> together with compilation and usage instructions.</span></span></span></p>
+
+<p><span><span><span>System requirements for
+sparse mode are significantly different from the standard mode (§</span></span></span><span><span><span>5</span></span></span><span><span><span>). Memory
+requirements are</span></span></span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span><span><span>,</span></span></span></p>
+  </td>
+  
+  <td>
+  <p><span><span><span>(</span></span></span><span><span><span><span>70</span></span></span></span><span><span><span>)</span></span></span></p>
+  </td>
+  
+ </tr>
+</table>
+
+<p><span><span><span>where definitions of §</span></span></span><span><span><span>5</span></span></span><span><span><span> are
+used and range of numbers correspond to different iterative solvers. A term
+proportional to <i>n</i><sub>p</sub>
+indicates poor parallel scaling of the memory for the current implementation.</span></span></span><a><span><span><span><span><span><span><span>[80]</span></span></span></span></span></span></span></a><span><span><span> The surface mode (§</span></span></span><span><span><span>7</span></span></span><span><span><span>)
+requires additional memory</span></span></span></p>
+
+<table>
+ <tr>
+  <td>
+  <p><span><span><span>,</span></span></span></p>
+  </td>
+  
+  <td>
+  <p><span><span><span>(</span></span></span><span><span><span><span>71</span></span></span></span><span><span><span>)</span></span></span></p>
+  </td>
+  
+ </tr>
+</table>
+
+<p><span><span><span>which also badly scales in
+MPI mode.</span></span></span><a><span><span><span><span><span><span><span>[81]</span></span></span></span></span></span></span></a><span><span><span> Computational time (more specifically, time of one iteration) scales
+as , and this time almost perfectly divides by <i>n</i><sub>p</sub> during parallel execution.</span></span></span></p>
+
+<p><span><span><span>While the developers do their
+best to ensure reliability of sparse mode, it is a good idea to perform selected
+tests of this mode against the standard mode on a few sample problems before
+performing a large set of simulations.</span></span></span></p>
+
+
+    </body>
+</html>

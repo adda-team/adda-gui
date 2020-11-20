@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Fast Fourier transform </title>
+    </head>
+    <body>
+        <h1>Fast Fourier transform</h1>
+
+<p><span>The iterative method only needs the interaction
+matrix for calculating matrix–vector products. This can be done in </span><span>&#119978;</span><span>(<i>N</i>ln<i>N</i>) operations (where <i>N</i> is
+the total number of dipoles) using the FFT </span><span>[77]</span><span>.
+In </span><span><span>ADDA</span></span><span> 3D (parallel) FFT is explicitly decomposed into a set of 1D FFTs, reducing
+calculations (see </span><span>[6]</span><span>
+for details). In the surface mode (§</span><span>7</span><span>) the
+3D FFT acceleration is also used for the reflected part simultaneously with the
+direct interaction part.<a><span><span><span><span>[72]</span></span></span></span></a>
+Overall, the time of one iteration in the surface mode is approximately 50%
+longer than that in the free-space mode.<a><span><span><span><span>[73]</span></span></span></span></a></span></p>
+
+<p><span>1D FFTs are performed using standard libraries
+– two are implemented in </span><span><span>ADDA</span></span><span>: a routine by Temperton (</span><span>CFFT99</span><span>, </span><span>[79]</span><span>),
+or the more advanced package </span><span><span>FFTW3</span></span><span>[80]</span><span>.
+The latter is generally significantly faster, but requires separate
+installation of the package.<a><span><span><span><span>[74]</span></span></span></span></a>
+The FFT routine to use is chosen at compile time: default is </span><span><span>FFTW3</span></span><span>, and another one is turned on by compilation option </span><span><span>FFT_TEMPERTON</span></span><span>.</span><sup><span>12</span></sup></p>
+
+<p><span>FFT is performed on the grid that is doubled
+in each dimension compared to the computational grid. Temperton’s FFT requires
+that the dimensions of this grid be of the form 2<i><sup>p</sup></i>3<i><sup>q</sup></i>5<i><sup>r</sup></i> (all exponents are
+integers), </span><span><span>FFTW3</span></span><span> works with any grid dimensions but is most effective for dimensions
+of the form 2<i><sup>p</sup></i>3<i><sup>q</sup></i>5<i><sup>r</sup></i>7<i><sup>s</sup></i>11<i><sup>u</sup></i>13<i><sup>v</sup></i> (<i>u</i> + <i>v</i> &#8804; 1). It should not be
+a limitation for the sequential mode, since </span><span><span>ADDA</span></span><span> automatically increases
+the FFT-grid dimensions to the first number of the required form.<a><span><span><span><span>[75]</span></span></span></span></a>
+But in parallel mode these dimensions along the <i>x</i>- and <i>z</i>&#8209;axes must
+also divide <i>n</i><sub>p</sub> and 2<i>n</i><sub>p</sub> respectively. Therefore
+the increase of the dimensions (and hence simulation time) may be substantial,
+and not possible at all if the number of processors divide any prime number
+larger than 5 for Temperton FFT or has more than one divisor of either 11 or 13
+(or at least one larger than 13) for </span><span><span>FFTW3</span></span><span>. Therefore it is
+strongly recommended<i> not</i> to use such “weird”
+number of processors.<a><span><span><span><span>[76]</span></span></span></span></a>
+It is the user’s responsibility to optimize the combination of computational
+grid dimensions and number of processors, although </span><span><span>ADDA</span></span><span> will work, but probably not efficiently, for most of the
+combinations (see also §</span><span>6.6</span><span>).</span></p>
+
+<p><span>In OpenCL mode </span><span><span>ADDA</span></span><span> employs one of the two FFT implementations. The default one is </span><tt><span>clAmdFft</span></tt><span>,
+which works for sizes of the form 2<i><sup>p</sup></i>3<i><sup>q</sup></i>5<i><sup>r</sup></i>, but requires separate package installation<a><span><span><span><span>[77]</span></span></span></span></a>
+and may have problems when run on Nvidia GPUs.<a><span><span><span><span>[78]</span></span></span></span></a>
+<span>Recent source already uses
+its predecessor – </span></span><span><span>clFFT</span></span><span>.</span><span> Alternative
+implementation (by Apple) is turned on by compilation option </span><span><span>CLFFT_APPLE</span></span><span>.</span><sup><span>12</span></sup><span>
+It is limited to power-of-two sizes and is significantly slower than </span><tt><span>clAmdFft</span></tt><span>. For
+both implementations </span><span><span>ADDA</span></span><span> will automatically adjust the FFT-grid dimensions to the minimum
+supported size.</span></p>
+
+<p><span>Symmetry of the DDA interaction matrix is used
+in </span><span><span>ADDA</span></span><span> to reduce the storage space for the Fourier-transformed matrix,
+except when SO formulae to calculate interaction term are used (§</span><span>10.2</span><span>).
+This option can be disabled (mainly for debugging purposes) by specifying</span></p>
+
+<p><span>-no_reduced_fft</span></p>
+
+<p><span>in the command line.</span></p>
+
+
+    </body>
+</html>

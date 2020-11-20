@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Parallel performance </title>
+    </head>
+    <body>
+        <h1>Parallel performance</h1>
+
+<p><span><span>ADDA</span></span><span> is capable of running on a multiprocessor system, parallelizing a
+single DDA simulation. It uses MPI for communication routines. This feature can
+be used both to accelerate the computations and to circumvent the
+single-computer limit of the available memory, thus enabling simulations with a
+huge number of dipoles. We do not discuss the parallel efficiency of </span><span><span>ADDA</span></span><span> in detail, since it largely depends on the hardware. However, in
+our experience it was usually larger than 70–90% on a modern computer clusters
+(if the FFT grid is optimally partitioned among the processors, §</span><span>6.6</span><span>), and
+close to 100% in sparse mode (§</span><span>12.3</span><span>). It
+is also important to note that the MPI interface may occupy significant amount
+of RAM on each node, thereby decreasing the RAM available for </span><span><span>ADDA</span></span><span> itself (see also §</span><span>5</span><span> and §</span><span>6.6</span><span>).</span></p>
+
+
+    </body>
+</html>

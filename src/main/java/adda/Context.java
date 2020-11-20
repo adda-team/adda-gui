@@ -13,7 +13,15 @@ import adda.settings.formatters.plaintext.PlainTextFormatter;
 import adda.settings.serializer.AddaSerializer;
 import adda.settings.serializer.ISerializer;
 
+import javax.help.CSH;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Context {
 
@@ -92,6 +100,29 @@ public class Context {
                             .get();
         }
         return null;
+    }
+
+    public HelpSet getHelpSet() throws MalformedURLException, HelpSetException {
+        String lang = "en";
+        URL hsURL = new URL((new File(".")).toURL(), "help/" + lang +"/HelpSet.hs");
+        return new HelpSet(null, hsURL);
+    }
+
+    public HelpBroker getHelpBroker() {
+        HelpBroker hb = null;
+        try {
+            HelpSet hs = getHelpSet();
+            hb = hs.createHelpBroker();
+        } catch (MalformedURLException | HelpSetException e) {
+            e.printStackTrace();
+        }
+        return hb;
+    }
+
+
+
+    public ActionListener getHelpActionListener() {
+        return new CSH.DisplayHelpFromSource(getHelpBroker());
     }
 
 

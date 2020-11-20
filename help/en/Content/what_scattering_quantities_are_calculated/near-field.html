@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+        <title> Near-field </title>
+    </head>
+    <body>
+        <h1>Near-field</h1>
+
+<p><span>Near-field is the electric field near the
+particle, i.e. neither in the particle itself nor far enough to be considered a
+scattered field. Currently, </span><span><span>ADDA</span></span><span> cannot calculate the near-field in a completely convenient manner. However,
+Fabio Della Sala and Stefania D'Agostino </span><span>[27]</span><span> have
+contributed a package </span><span><span>near_field</span></span><span>, which adds this functionality using the dipole polarizations calculated
+by </span><span><span>ADDA</span></span><span>. This package is distributed in the </span><span><span>misc/</span></span><span> folder, and is accompanied by all necessary instructions.</span></p>
+
+<p><span>While the above
+option is recommended one, there exist another workaround that may be
+preferential in some special cases. One may include all the points, where
+near-field need to be calculated, in the particle geometry, but set their
+refractive index to a value very close to 1 (e.g. 1.00001). Then the scattering
+problem is identical to the initial one. Saving the internal fields (§</span><span>11.7</span><span>) will
+directly produce the required near-field together with the field inside the
+particle, even in the surface mode </span><span>[37]</span><span>. The
+drawback of this workaround is increase of computational time, which depends on
+the size of the box containing the extended particle geometry. Moreover, a user
+is required to specify a shape file, except for the simplest cases. For
+instance, predefined shapes “</span><span>coated</span><span>” or “</span><span>spherebox</span><span>” (§</span><span>6.4</span><span>) can
+be used to calculate near-field in a sphere or cube around the homogenous
+sphere, respectively. However, this method can be much faster when full 3D
+picture of the near field is required, because it implicitly uses
+FFT-acceleration of the simulations. This idea was further developed for even
+more efficient calculation of the near-field </span><span>[69]</span><span>, but
+this approach has not been yet implemented in </span><span><span>ADDA</span></span><span>.</span></p>
+
+
+    </body>
+</html>

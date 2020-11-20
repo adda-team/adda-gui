@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE index
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/index_1_0.dtd">
+
+<index version="1.0">
+	<indexitem target="colors" text="Color View"/>
+	<indexitem target="apply_colors" text="applying colors"/>
+	<indexitem target="text_styles" text="bolding text"/>
+	<indexitem target="change_fonts" text="changing fonts"/>
+	<indexitem target="clear_text" text="clearing text"/>
+	<indexitem target="apply_colors" text="colors, applying"/>
+	<indexitem target="enter_text" text="entering text"/>
+	<indexitem target="change_fonts" text="fonts, changing"/>
+	<indexitem target="online_help" text="help, online"/>
+	<indexitem target="overview" text="introduction"/>
+	<indexitem target="text_styles" text="italicizing text"/>
+	<indexitem target="online_help" text="online help"/>
+	<indexitem target="overview" text="overview"/>
+	<indexitem target="switch_views" text="switching views"/>
+	<indexitem text="text">
+		<indexitem target="text_styles" text="bolding"/>
+		<indexitem target="clear_text" text="clearing"/>
+		<indexitem target="apply_colors" text="colors, applying"/>
+		<indexitem target="enter_text" text="entering"/>
+		<indexitem target="change_fonts" text="fonts, changing"/>
+		<indexitem target="text_styles" text="italicizing"/>
+	</indexitem>
+	<indexitem target="typefaces" text="Typeface View"/>
+	<indexitem text="views">
+		<indexitem target="colors" text="Color"/>
+		<indexitem target="switch_views" text="switching"/>
+		<indexitem target="typefaces" text="Typeface"/>
+	</indexitem>
+</index>
