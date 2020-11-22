@@ -27,9 +27,8 @@ public class BaseTabBox extends BoxBase {
         addChild(new LambdaBox());
         addChild(new DplGridBox());
         addChild(new RefractiveIndexAggregatorBox());
-        addChild(new BeamBox());
         addChild(new PropagationBox());
-
+        addChild(new BeamBox());
 
 
     }

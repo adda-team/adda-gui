@@ -38,7 +38,7 @@ public class ViewBase implements IView {
     protected Map<String, Component> components = new HashMap<String, Component>(); //todo may be initialization can delete
     protected Map<String, JPanel> wrappers = new HashMap<String, JPanel>(); //todo may be initialization can delete
 
-    private static final String WRAPPER_POSTFIX = "_wrapper_jPanel_postfix_STR";
+    protected static final String WRAPPER_POSTFIX = "_wrapper_jPanel_postfix_STR";
     @Override
     public void initFromModel(IModel model) {
         initPanel();
@@ -219,13 +219,19 @@ public class ViewBase implements IView {
     }
 
     protected void initLabel(IModel model) {
+        JLabel label = createLabel(model);
+
+        components.put("label", label);
+        panel.add(label);
+    }
+
+    protected JLabel createLabel(IModel model) {
         JLabel label = new JLabel();
         label.setText(model.getLabel());
         label.setPreferredSize(new Dimension(120, 30));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         label.setAlignmentY(Component.TOP_ALIGNMENT);
-        components.put("label", label);
-        panel.add(label);
+
 
         RoundedBalloonStyle style = new RoundedBalloonStyle(5, 5, Color.WHITE, Color.black);
         BalloonTip balloonTip = new BalloonTip(
@@ -237,7 +243,12 @@ public class ViewBase implements IView {
                 30, 10,
                 false
         );
+        balloonTip.setMaximumSize(new Dimension(200, 9999));
+        balloonTip.setMinimumSize(new Dimension(200, 10));
+        //balloonTip.setPreferredSize(new Dimension(200, 0));
         HelpUtil.balloonToHelpToolTip(balloonTip, 500);
+
+
         //ToolTipUtils.balloonToToolTip(balloonTip, 500, 30000);
 
 //                            infoLabel.addMouseListener(new MouseAdapter() {
@@ -262,10 +273,7 @@ public class ViewBase implements IView {
 //        textArea.setFont(UIManager.getFont("Label.font"));
 //        textArea.setBorder(UIManager.getBorder("Label.border"));
 //        textArea.setAlignmentY(Component.CENTER_ALIGNMENT);
-//
-//
-//        components.put("label", textArea);
-//        panel.add(textArea);
+        return label;
     }
 
     @Override

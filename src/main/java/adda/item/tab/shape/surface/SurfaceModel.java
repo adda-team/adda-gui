@@ -165,7 +165,7 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IMode
                 new StringBuilder()
                         .append(StringHelper.toDisplayString("Distance from particle center"))
                         .append(SEMICOLON_STR)
-                        .append(StringHelper.toDisplayString(distance)).append(" [").append(measure).append("]")
+                        .append(StringHelper.toDisplayString(distance)).append(measure)
                         .append(", ")
                         .append(StringHelper.toDisplayString("Refractive index"))
                         .append(SEMICOLON_STR)
@@ -209,7 +209,7 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IMode
     @Override
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
         if (sender instanceof RadiationForceSaveModel || sender instanceof BeamModel || sender instanceof InitialFieldModel) {
-            setUseSurfaceEnabled(validate());
+            setUseSurfaceEnabled(validate() || isUseSurface());
         }
         if (sender instanceof SizeModel) {
             setMeasure(StringHelper.toDisplayString(((SizeModel) sender).getMeasure()));

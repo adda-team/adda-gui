@@ -188,6 +188,7 @@ public class ProjectAreaBox extends BoxBase {
                 .get();
 
         Binder.bindBoth(beamModel, surfaceModel);
+        Binder.bindBoth(beamModel, sizeModel);
 
 
         InitialFieldModel initialFieldModel = (InitialFieldModel) models.stream()

@@ -86,7 +86,7 @@ public class ModelBase implements IModel {
             }
             clazz = clazz.getSuperclass();
 
-            //!!! works only for ONE inheritanse !!!
+            //!!! works only for ONE inheritance !!!
             //!!! if the same generic parameters name (for example T in one level and next level) !!!
             //todo rework and think about it!
 

@@ -7,6 +7,9 @@ public enum BeamEnum {
     @DisplayString("Plane wave")
     plane,
 
+    @DisplayString("Dipole as source")
+    dipole,
+
     @DisplayString("Gaussian beam (1st order)")
     lminus,
 

@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class TabEnumModel<T extends Enum<T>>  extends ModelBaseAddaOptionsContainer {
 
     public static final String ENUM_VALUE_FIELD_NAME = "enumValue";
-    @Viewable
+    @Viewable(order = -1)
     protected T enumValue;
 
     protected T defaultEnumValue;

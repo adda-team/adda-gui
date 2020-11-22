@@ -81,7 +81,7 @@ public class ActionTableCellRenderer<T> implements TableCellRenderer {
         textArea.setOpaque(false);
         textArea.setEditable(false);
         textArea.setFocusable(true);
-        textArea.setFont(FONT);
+        //textArea.setFont(FONT);
         textArea.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         textArea.setAlignmentY(Component.CENTER_ALIGNMENT);
 
