@@ -62,6 +62,7 @@ public abstract class ViewDialogBase extends ViewBase {
         editButton.setBorderPainted(false);
         editButton.setOpaque(false);
         editButton.setContentAreaFilled(false);
+        editButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.editButton = editButton;
         additionalPanel.add(editButton);
 
@@ -71,6 +72,7 @@ public abstract class ViewDialogBase extends ViewBase {
         clearButton.setBorderPainted(false);
         clearButton.setOpaque(false);
         clearButton.setContentAreaFilled(false);
+        clearButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.clearButton = clearButton;
         additionalPanel.add(clearButton);
 

@@ -24,6 +24,9 @@ import java.util.List;
 
 public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IModelObserver {
 
+    public static final String INTERACTION_SURF_FIELD_NAME = "interactionSurf";
+    public static final String INT_SURF = "int_surf";
+
     public SurfaceModel() {
         isVisibleIfDisabled = true;
     }
@@ -50,7 +53,7 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IMode
     
     protected double distance = 1;
     protected double realPart = 1.5;
-    protected double imagPart = 0.00001;
+    protected double imagPart = 0.001;
 
 
     String measure = StringHelper.toDisplayString(SizeMeasureEnum.um);//todo sync with SizeModel
@@ -140,6 +143,21 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IMode
         }
     }
 
+    protected SurfaceEnum interactionSurf;
+
+
+    public SurfaceEnum getInteractionSurf() {
+        return interactionSurf;
+    }
+
+    public void setInteractionSurf(SurfaceEnum interactionSurf) {
+        if((this.interactionSurf != null && !this.interactionSurf.equals(interactionSurf)) || (this.interactionSurf == null && interactionSurf != null)) {
+            this.interactionSurf = interactionSurf;
+            notifyObservers(INTERACTION_SURF_FIELD_NAME, interactionSurf);
+        }
+    }
+
+
     @Override
     public boolean isDefaultState() {
         return !isUseSurface;
@@ -172,7 +190,17 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IMode
                         .append(isInfinite ? StringHelper.toDisplayString("Infinite") : String.format(COMPLEX_FORMAT, StringHelper.toDisplayString(realPart), StringHelper.toDisplayString(imagPart) ))
                         .toString();
 
-        return Collections.singletonList(new AddaOption(SURF, String.join(DELIMITER, getParamsList()), displayString));
+        final AddaOption surf = new AddaOption(SURF, String.join(DELIMITER, getParamsList()), displayString);
+
+        if (!isInfinite && interactionSurf == SurfaceEnum.img) {
+
+            AddaOption intSurf = new AddaOption(INT_SURF, interactionSurf.toString(), StringHelper.toDisplayString(interactionSurf));
+
+            return Arrays.asList(surf, intSurf);
+
+        }
+
+        return Collections.singletonList(surf);
     }
 
 
@@ -209,7 +237,7 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IMode
     @Override
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
         if (sender instanceof RadiationForceSaveModel || sender instanceof BeamModel || sender instanceof InitialFieldModel) {
-            setUseSurfaceEnabled(validate() || isUseSurface());
+            setUseSurfaceEnabled(isUseSurface() || validate());
         }
         if (sender instanceof SizeModel) {
             setMeasure(StringHelper.toDisplayString(((SizeModel) sender).getMeasure()));

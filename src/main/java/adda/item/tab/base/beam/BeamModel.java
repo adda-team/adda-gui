@@ -254,8 +254,6 @@ public class BeamModel extends TabEnumModel<BeamEnum> implements IModelObserver 
                         .append(StringHelper.toDisplayString(y)).append(measure)
                         .append(", z=")
                         .append(StringHelper.toDisplayString(z)).append(measure);
-
-
             }
             params.append(" ").append(String.join(" ", getParamsList()));
         }
