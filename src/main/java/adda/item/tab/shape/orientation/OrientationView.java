@@ -18,9 +18,15 @@ public class OrientationView extends ViewDialogBase {
         this.outerPanel.add(this.panel);
 
         JPanel additionalPanel = new JPanel();
-        additionalPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        additionalPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.additionalPanel = additionalPanel;
         this.outerPanel.add(this.additionalPanel);
+    }
+
+    @Override
+    protected void initFromModelInner(IModel model) {
+        super.initFromModelInner(model);
+        additionalPanel.remove(this.overviewPanel);
     }
 
     @Override

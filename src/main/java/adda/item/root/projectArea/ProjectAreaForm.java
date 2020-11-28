@@ -19,6 +19,7 @@ public class ProjectAreaForm {
 
     private JScrollPane scrollDdaInternal;
     private JScrollPane scrollOutput;
+    private JScrollPane scrollShape;
 
     public JPanel getPanelMain() {
         return panelMain;
@@ -56,6 +57,8 @@ public class ProjectAreaForm {
         scrollBasic.getVerticalScrollBar().setUnitIncrement(16);
         scrollDdaInternal.getVerticalScrollBar().setUnitIncrement(16);
         scrollOutput.getVerticalScrollBar().setUnitIncrement(16);
+        scrollOutput.getVerticalScrollBar().setUnitIncrement(16);
+        scrollShape.getVerticalScrollBar().setUnitIncrement(16);
     }
 
     {
@@ -113,17 +116,17 @@ public class ProjectAreaForm {
         panelOutput = new JPanel();
         panelOutput.setLayout(new BorderLayout(0, 0));
         scrollOutput.setViewportView(panelOutput);
-        final JScrollPane scrollPane1 = new JScrollPane();
+        scrollShape = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panelMain.add(scrollPane1, gbc);
+        panelMain.add(scrollShape, gbc);
         panelShape = new JPanel();
         panelShape.setLayout(new BorderLayout(0, 0));
-        scrollPane1.setViewportView(panelShape);
+        scrollShape.setViewportView(panelShape);
         panelOptions = new JPanel();
         panelOptions.setLayout(new BorderLayout(0, 0));
         gbc = new GridBagConstraints();

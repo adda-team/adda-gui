@@ -12,9 +12,9 @@ public abstract class ModelBaseAddaOptionsContainer extends ModelBase implements
 
     public static final String DELIMITER = ", ";
 
-    protected volatile boolean isNeedCaching = false;
-    protected volatile List<IAddaOption> cachedList;
-    protected volatile String cachedDescription;
+    protected volatile transient boolean isNeedCaching = false;
+    protected volatile transient List<IAddaOption> cachedList;
+    protected volatile transient String cachedDescription;
 
     @Override
     protected void notifyObservers(String propertyName, Object propertyValue) {

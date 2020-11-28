@@ -159,6 +159,7 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
     @Override
     public void copyProperties(IModel model) {
         super.copyProperties(model);
+        setUnderCopy(true);
         if (model instanceof OrientationModel) {
             OrientationModel orientationModel = (OrientationModel) model;
 
@@ -169,6 +170,7 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
             thisOrientationAvgModel.getAlphaModel().copyProperties(cloneOrientationAvgModel.getAlphaModel());
             thisOrientationAvgModel.setAverageFile(cloneOrientationAvgModel.getAverageFile());
         }
+        setUnderCopy(false);
     }
 
     @Override

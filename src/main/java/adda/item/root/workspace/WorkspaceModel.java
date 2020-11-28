@@ -86,6 +86,7 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
         if(sender instanceof ProjectTreeModel) {
             if (event.getPropertyName().equals("selectedPath")) {
                 ProjectTreeModel projectTreeModel = (ProjectTreeModel) sender;
+
                 IBox focusedBox;
                 if (boxes.containsKey(projectTreeModel.getSelectedPath())) {
                     focusedBox = boxes.get(projectTreeModel.getSelectedPath());
@@ -94,6 +95,10 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
 
                     focusedBox = new ProjectAreaBox(projectTreeModel.getSelectedPath().getName());
                     focusedBox.init();
+                    final ProjectAreaModel projectAreaModel = (ProjectAreaModel) focusedBox.getModel();
+                    projectAreaModel.setPathToState(projectTreeModel.getSelectedPath().getFolder());
+                    projectAreaModel.loadNestedModelList();
+
                     boxes.put(projectTreeModel.getSelectedPath(), focusedBox);
                     keys.add(projectTreeModel.getSelectedPath());
                 }

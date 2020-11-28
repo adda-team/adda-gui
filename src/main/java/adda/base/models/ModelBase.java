@@ -8,15 +8,16 @@ import adda.utils.ReflectionHelper;
 import adda.utils.StringHelper;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ModelBase implements IModel {
+public class ModelBase implements IModel, Serializable {
 
     public static final String LABEL_FIELD_NAME = "label";
-    protected List<IModelObserver> observers;
+    protected transient List<IModelObserver> observers;
 
     protected boolean isVisibleIfDisabled = false;
 
@@ -28,9 +29,9 @@ public class ModelBase implements IModel {
     @Viewable
     protected String label;//todo localization (add field original label, put into original label untranslated string)
 
-    protected Map<String, String> nameMap = new HashMap<>();
-    protected Map<String, Class> typeMap = new LinkedHashMap<>();//LinkedHashMap instead of HashMap because  we need the same sequence as they were inserted
-    protected Map<String, String> bindMap = new HashMap<>();
+    protected transient Map<String, String> nameMap = new HashMap<>();
+    protected transient Map<String, Class> typeMap = new LinkedHashMap<>();//LinkedHashMap instead of HashMap because  we need the same sequence as they were inserted
+    protected transient Map<String, String> bindMap = new HashMap<>();
 
     public ModelBase() {
         initPropertyInfo();
@@ -38,7 +39,7 @@ public class ModelBase implements IModel {
         label = this.getClass().getSimpleName().replaceAll("Model", "");
     }
 
-    protected Map<String, String> validationErrors = new HashMap<>();
+    protected transient Map<String, String> validationErrors = new HashMap<>();
 
     public Map<String, String> getValidationErrors() {
         return validationErrors;
@@ -161,9 +162,22 @@ public class ModelBase implements IModel {
         observers.remove(observer);
     }
 
+    volatile boolean isUnderCopy;
+
+    @Override
+    public boolean isUnderCopy() {
+        return isUnderCopy;
+    }
+
+    public void setUnderCopy(boolean underCopy) {
+        isUnderCopy = underCopy;
+    }
+
     @Override
     public void copyProperties(IModel model) {
+        setUnderCopy(true);
         ReflectionHelper.copy(model, this);
+        setUnderCopy(false);
     }
 
     @Override

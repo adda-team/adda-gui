@@ -24,12 +24,12 @@ public class BoxBase implements IBox {
 
     protected boolean needInitSelf = true;
     protected String name;
-    protected IView view;
+    transient protected IView view;
     protected IModel model;
-    protected IController controller;
-    protected IBox parent;
-    protected JPanel panel;
-    protected List<IBox> children;
+    transient protected IController controller;
+    transient protected IBox parent;
+    transient protected JPanel panel;
+    transient protected List<IBox> children;
 
     public boolean isInitialized() {
         return isInitialized;
@@ -37,9 +37,9 @@ public class BoxBase implements IBox {
 
     protected boolean isInitialized = false;
 
-    public static final Map<String, Class<? extends IModel>> models = new HashMap<>();
-    public static final Map<String, Class<? extends IController>> controllers = new HashMap<>();
-    public static final Map<String, Class<? extends IView>> views = new HashMap<>();
+    transient public static final Map<String, Class<? extends IModel>> models = new HashMap<>();
+    transient public static final Map<String, Class<? extends IController>> controllers = new HashMap<>();
+    transient public static final Map<String, Class<? extends IView>> views = new HashMap<>();
 
     private static final String MODEL = "Model";
     private static final String VIEW = "View";

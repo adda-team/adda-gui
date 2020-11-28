@@ -233,20 +233,7 @@ public class ViewBase implements IView {
         label.setAlignmentY(Component.TOP_ALIGNMENT);
 
 
-        RoundedBalloonStyle style = new RoundedBalloonStyle(5, 5, Color.WHITE, Color.black);
-        BalloonTip balloonTip = new BalloonTip(
-                label,
-                HelpProvider.getHelpPanel(model),
-                style,
-                BalloonTip.Orientation.LEFT_ABOVE,
-                BalloonTip.AttachLocation.CENTER,
-                30, 10,
-                false
-        );
-        balloonTip.setMaximumSize(new Dimension(200, 9999));
-        balloonTip.setMinimumSize(new Dimension(200, 10));
-        //balloonTip.setPreferredSize(new Dimension(200, 0));
-        HelpUtil.balloonToHelpToolTip(balloonTip, 500);
+        setHelpTooltip(model, label);
 
 
         //ToolTipUtils.balloonToToolTip(balloonTip, 500, 30000);
@@ -274,6 +261,23 @@ public class ViewBase implements IView {
 //        textArea.setBorder(UIManager.getBorder("Label.border"));
 //        textArea.setAlignmentY(Component.CENTER_ALIGNMENT);
         return label;
+    }
+
+    protected void setHelpTooltip(IModel model, JComponent component) {
+        RoundedBalloonStyle style = new RoundedBalloonStyle(5, 5, Color.WHITE, Color.black);
+        BalloonTip balloonTip = new BalloonTip(
+                component,
+                HelpProvider.getHelpPanel(model),
+                style,
+                BalloonTip.Orientation.LEFT_ABOVE,
+                BalloonTip.AttachLocation.CENTER,
+                30, 10,
+                false
+        );
+        balloonTip.setMaximumSize(new Dimension(200, 9999));
+        balloonTip.setMinimumSize(new Dimension(200, 10));
+        //balloonTip.setPreferredSize(new Dimension(200, 0));
+        HelpUtil.balloonToHelpToolTip(balloonTip, 500);
     }
 
     @Override

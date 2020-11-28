@@ -75,10 +75,7 @@ public abstract class ViewDialogBase extends ViewBase {
         clearButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.clearButton = clearButton;
         additionalPanel.add(clearButton);
-
         showAdditionalInfo(model);
-
-
     }
 
     protected void showAdditionalInfo(IModel model) {

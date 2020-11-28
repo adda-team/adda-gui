@@ -2,7 +2,9 @@ package adda.item.tab.base.size;
 
 import adda.base.models.IModel;
 import adda.base.views.ViewBase;
+import adda.item.tab.TabEnumModel;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class SizeView extends ViewBase {
@@ -15,7 +17,9 @@ public class SizeView extends ViewBase {
     protected void initFromModelInner(IModel model) {
         super.initFromModelInner(model);
         if (components.containsKey(SizeModel.TYPE_FIELD_NAME)) {
-            components.get(SizeModel.TYPE_FIELD_NAME).setPreferredSize(new Dimension(120, 20));
+            final Component component = components.get(SizeModel.TYPE_FIELD_NAME);
+            component.setPreferredSize(new Dimension(120, 20));
+            setHelpTooltip(model, (JComponent) component);
         }
     }
 }

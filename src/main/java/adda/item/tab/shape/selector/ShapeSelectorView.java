@@ -5,6 +5,7 @@ import adda.application.controls.VerticalLayout;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.views.ViewBase;
+import adda.item.tab.TabEnumModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,6 +66,13 @@ public class ShapeSelectorView extends ViewBase {
     @Override
     protected void initFromModelInner(IModel model) {
         super.initFromModelInner(model);
+
+        if (components.containsKey(ShapeSelectorModel.ENUM_VALUE_FIELD_NAME)) {
+            final Component component = components.get(ShapeSelectorModel.ENUM_VALUE_FIELD_NAME);
+            component.setPreferredSize(new Dimension(120, 20));
+            setHelpTooltip(model, (JComponent) component);
+        }
+
         pictureLabel.setAlignmentY(Component.TOP_ALIGNMENT);
         pictureLabel.setVerticalAlignment(JLabel.TOP);
         pictureLabel.setVerticalTextPosition(JLabel.TOP);

@@ -11,12 +11,13 @@ import adda.item.tab.shape.orientation.avarage.gamma.GammaOrientationAverageMode
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @BindModel
 @BindView
 @BindController
-public class OrientationAverageBox extends BoxBase {
+public class OrientationAverageBox extends BoxBase implements Serializable {
 
     AlphaOrientationAverageBox alphaBox;
     GammaOrientationAverageBox gammaBox;
@@ -44,11 +45,19 @@ public class OrientationAverageBox extends BoxBase {
         JPanel panel = getPanel();
 
         JPanel wrap = new JPanel(new GridLayout(0, 2));
-        wrap.add(alphaBox.getLayout());
-        wrap.add(gammaBox.getLayout());
-        panel.add(wrap);
+        final JPanel alphaBoxLayout = alphaBox.getLayout();
+        if (alphaBoxLayout != null) {
+            wrap.add(alphaBoxLayout);
+        }
 
-        if (needInitSelf) {
+        final JPanel gammaBoxLayout = gammaBox.getLayout();
+        if (gammaBoxLayout != null) {
+            wrap.add(gammaBoxLayout);
+        }
+
+
+        if (needInitSelf && panel != null) {
+            panel.add(wrap);
             panel.add(view.getRootComponent());
         }
 

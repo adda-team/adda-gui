@@ -4,11 +4,12 @@ import adda.base.annotation.*;
 import adda.base.boxes.BoxBase;
 
 import javax.swing.*;
+import java.io.Serializable;
 
 @BindModel
 @BindView
 @BindController
-public class GammaOrientationAverageBox extends BoxBase {
+public class GammaOrientationAverageBox extends BoxBase implements Serializable {
 
     public GammaOrientationAverageBox() {
         needInitSelf = true;

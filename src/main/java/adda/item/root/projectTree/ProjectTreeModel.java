@@ -145,6 +145,9 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
             File[] files = (new File(path)).listFiles();
             Arrays.sort(files);
             for (File file : files) {
+                if (file.getName().equals("adda_gui_state.data")) {
+                    continue;
+                }
                 map.put(file.getCanonicalPath(), file.isDirectory());
             }
         } catch (IOException e) {

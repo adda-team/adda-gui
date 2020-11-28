@@ -95,7 +95,7 @@ public abstract class ControllerDialogBase extends ControllerBase {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 if (validate(component, value)) {
-                    if (!isDialogModelDisabled && needOpenDialog(component.getName(), value) && view instanceof ViewDialogBase) {
+                    if (!model.isUnderCopy() && !isDialogModelDisabled && needOpenDialog(component.getName(), value) && view instanceof ViewDialogBase) {
                         try {
                             IModel clone = (IModel) model.clone();
                             ReflectionHelper.setPropertyValue(clone, component.getName(), value);

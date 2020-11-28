@@ -27,6 +27,8 @@ public interface IModel extends Cloneable {
 
     void copyProperties(IModel model);
 
+    boolean isUnderCopy();
+
     void applyDefaultState();
 
     boolean isDefaultState();
