@@ -10,10 +10,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.ExpandVetoException;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreeSelectionModel;
+import javax.swing.tree.*;
 import java.awt.*;
 
 public class ProjectTreeView extends ViewBase {
@@ -59,6 +56,22 @@ public class ProjectTreeView extends ViewBase {
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
         if (ProjectTreeModel.REFRESH.equals(event.getPropertyName())) {
             SwingUtilities.updateComponentTreeUI(jtree);
+        }
+        if (ProjectTreeModel.SELECTED_PATH_FIELD_NAME.equals(event.getPropertyName())) {
+            if (jtree.getLastSelectedPathComponent() != event.getPropertyValue()) {
+                for (int i = 0; i < jtree.getRowCount(); i++) {
+                    if (jtree.getPathForRow(i).getLastPathComponent().equals(event.getPropertyValue())) {
+                        int rowIndex = i;
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                jtree.setSelectionRow(rowIndex);
+                            }
+                        });
+                        break;
+                    }
+                }
+
+            }
         }
     }
 

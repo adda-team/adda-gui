@@ -24,6 +24,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
 
     public static final String REFRESH = "refresh";
     public static final int DIRECTORY_LISTENER_MASK = JNotify.FILE_CREATED | JNotify.FILE_DELETED | JNotify.FILE_RENAMED;
+    public static final String SELECTED_PATH_FIELD_NAME = "selectedPath";
     protected Map<ProjectTreeNode, Integer> directoryListenerIds  = new HashMap<>();
     private ProjectTreeNode selectedPath;
     protected EventListenerList listeners;
@@ -195,7 +196,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         if((this.selectedPath != null && !this.selectedPath.equals(selectedPath))
                 || (this.selectedPath == null && selectedPath != null)) {
             this.selectedPath = selectedPath;
-            notifyObservers("selectedPath", selectedPath);
+            notifyObservers(SELECTED_PATH_FIELD_NAME, selectedPath);
         }
     }
 

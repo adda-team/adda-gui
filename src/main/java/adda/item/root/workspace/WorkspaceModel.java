@@ -1,5 +1,6 @@
 package adda.item.root.workspace;
 
+import adda.Context;
 import adda.base.boxes.BoxBase;
 import adda.base.boxes.IBox;
 import adda.base.events.IModelPropertyChangeEvent;
@@ -17,6 +18,7 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
     protected Map<ProjectTreeNode, IBox> boxes = new HashMap<>(); //todo may be initialization can delete
     protected List<ProjectTreeNode> keys = new ArrayList<ProjectTreeNode>(); //todo may be initialization can delete
     protected IBox focusedBox;
+
     public Map<ProjectTreeNode, IBox> getBoxes() {
         return Collections.unmodifiableMap(boxes);
     }
@@ -64,9 +66,8 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
     }
 
 
-
     public void setFocusedBox(IBox focusedBox) {
-        if((this.focusedBox != null && !this.focusedBox.equals(focusedBox))
+        if ((this.focusedBox != null && !this.focusedBox.equals(focusedBox))
                 || (this.focusedBox == null && focusedBox != null)) { //todo if condition to func
             setAreaActive(false);
             this.focusedBox = focusedBox;
@@ -83,17 +84,23 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
 
     @Override
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
-        if(sender instanceof ProjectTreeModel) {
+        if (sender instanceof ProjectTreeModel) {
             if (event.getPropertyName().equals("selectedPath")) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        Context.getInstance().getMainForm().setLoadingVisible(true);
+                    }
+                });
                 ProjectTreeModel projectTreeModel = (ProjectTreeModel) sender;
 
-                IBox focusedBox;
+                final IBox focusedBox;
                 if (boxes.containsKey(projectTreeModel.getSelectedPath())) {
                     focusedBox = boxes.get(projectTreeModel.getSelectedPath());
                 } else {
                     //todo get selected item type then get right box (may be fabric method)
 
                     focusedBox = new ProjectAreaBox(projectTreeModel.getSelectedPath().getName());
+
                     focusedBox.init();
                     final ProjectAreaModel projectAreaModel = (ProjectAreaModel) focusedBox.getModel();
                     projectAreaModel.setPathToState(projectTreeModel.getSelectedPath().getFolder());
@@ -103,7 +110,14 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
                     keys.add(projectTreeModel.getSelectedPath());
                 }
                 setFocusedBox(focusedBox);
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        Context.getInstance().getMainForm().setLoadingVisible(false);
+                    }
+                });
             }
+
         }
+
     }
 }

@@ -18,7 +18,7 @@ public class MainForm {
 
 
     public JPanel getMainPanel() {
-        return mainPanel;
+        return bufferPanel;
     }
 
     public JPanel getShortcutPanel() {
@@ -53,6 +53,12 @@ public class MainForm {
         return actualCommandLineTextArea;
     }
 
+    public void setLoadingVisible(boolean isVisible) {
+        overlay.setVisible(isVisible);
+    }
+
+    JPanel bufferPanel;
+    JPanel overlay;
 
     public MainForm() {
         treePanel.setMinimumSize(new Dimension(200, 200));
@@ -73,6 +79,25 @@ public class MainForm {
         actualCommandLineTextArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
 
         actualCommandLineTextArea.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+
+
+        bufferPanel = new JPanel();
+        bufferPanel.setLayout(new OverlayLayout(bufferPanel));
+
+        overlay = new JPanel(new BorderLayout());
+        overlay.setBackground(new Color(255, 255, 255, 190));
+        final JLabel label = new JLabel("Loading ...");
+        label.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 20));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        overlay.add(label);
+        overlay.setVisible(false);
+        bufferPanel.add(overlay);
+        bufferPanel.add(mainPanel);
+
+
+
     }
 
     {

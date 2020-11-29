@@ -1,12 +1,9 @@
 package adda;
 
 import adda.application.MainForm;
-import adda.item.root.projectTree.ProjectTreeModel;
-import adda.item.root.projectTree.ProjectTreeNewItemDialog;
-import adda.item.root.projectTree.ProjectTreeNewItemModel;
+import adda.item.root.projectTree.*;
 import adda.item.root.workspace.WorkspaceModel;
 import adda.utils.Binder;
-import adda.item.root.projectTree.ProjectTreeBox;
 import adda.item.root.shortcut.ShortcutsBox;
 import adda.item.root.workspace.WorkspaceBox;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -47,7 +44,7 @@ public class Main {
 
                 JFrame frame = new JFrame("   ADDA GUI");
                 MainForm app = new MainForm();
-
+                app.setLoadingVisible(true);
                 app.getShortcutPanel().setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 
                 //todo initialization boxes put into context
@@ -80,6 +77,11 @@ public class Main {
                 Context.getInstance().mainForm = app;
                 Context.getInstance().workspaceModel = (WorkspaceModel) workspaceBox.getModel();
                 Context.getInstance().projectTreeModel = (ProjectTreeModel) treeBox.getModel();
+
+
+
+
+
                 //Binder.bind(Context.getInstance().getWorkspaceModel(), shortcutsBox.getModel());
 
                 String path = "image/adda_logo.png";
@@ -93,7 +95,19 @@ public class Main {
                 helpBroker.enableHelpKey(app.getMainPanel(), "introduction", helpBroker.getHelpSet());
 
 
-
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                if (Context.getInstance().projectTreeModel.getChildCount(Context.getInstance().projectTreeModel.getRoot()) > 0) {
+                                    Context.getInstance().projectTreeModel.setSelectedPath((ProjectTreeNode) Context.getInstance().projectTreeModel.getChild(Context.getInstance().projectTreeModel.getRoot(), 0));
+                                }
+                                app.setLoadingVisible(false);
+                            }
+                        });
+                    }
+                }).start();
 
             }
         });

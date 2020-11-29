@@ -1,6 +1,7 @@
 package adda.item.root.projectTree;
 
 import adda.Context;
+import adda.application.MainForm;
 import adda.base.controllers.ControllerBase;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -54,6 +55,12 @@ public class ProjectTreeController extends ControllerBase {
 
                             if (selRow != -1) {
                                 if (e.getClickCount() == 2) {
+
+                                    final MainForm mainForm = Context.getInstance().getMainForm();
+                                    if (mainForm != null) {
+                                        mainForm.setLoadingVisible(true);
+                                    }
+
                                     //todo refactor copypaste!!!!!!!
                                     ProjectTreeNode node = (ProjectTreeNode) jtree.getLastSelectedPathComponent();
                                     if (node == null || model == null) {
@@ -62,7 +69,14 @@ public class ProjectTreeController extends ControllerBase {
                                     if (jtree.getModel().getRoot().equals(node)) {
                                         showPopup = true;
                                     } else {
-                                        ((ProjectTreeModel) model).setSelectedPath(node);
+                                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                                            public void run() {
+                                                ((ProjectTreeModel) model).setSelectedPath(node);
+                                                if (mainForm != null) {
+                                                    mainForm.setLoadingVisible(false);
+                                                }
+                                            }
+                                        });
                                     }
 
                                 }

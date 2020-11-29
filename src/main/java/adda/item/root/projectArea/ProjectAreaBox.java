@@ -79,7 +79,7 @@ public class ProjectAreaBox extends BoxBase {
     private void bindChildren() {
         List<IModel> models = new ArrayList<>();
         getRecursiveModelList(this, models);
-        ((ProjectAreaModel) model).setNestedModelList(models);
+
 
         //bind all adda options to OptionsModel
         //OptionsModel MUST be in children, in other way exception will signal about it
@@ -224,6 +224,8 @@ public class ProjectAreaBox extends BoxBase {
 
         Binder.bindBoth(orientationModel, polarizationSaveModel);
 
+
+        ((ProjectAreaModel) model).setNestedModelList(models);
 
     }
 

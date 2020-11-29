@@ -8,6 +8,7 @@ import adda.item.tab.base.dplGrid.DplGridModel;
 import adda.item.tab.base.lambda.LambdaModel;
 import adda.item.tab.base.propagation.PropagationModel;
 import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
+import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.item.tab.base.size.SizeModel;
 import adda.item.tab.internals.accuracy.AccuracyModel;
 import adda.item.tab.internals.formulation.FormulationModel;
@@ -58,61 +59,64 @@ public class HelpProvider {
     static Map<Class, List<String>> idMapper = new HashMap<>();
 
     static {
-        idMapper.put(BeamModel.class, Arrays.asList("beam_type"));
-        idMapper.put(DplGridModel.class, Arrays.asList("construction_of_a_dipole_set"));
-        idMapper.put(LambdaModel.class, Arrays.asList("the_computational_grid"));
-        idMapper.put(PropagationModel.class, Arrays.asList("single_orientation"));
-        idMapper.put(RefractiveIndexModel.class, Arrays.asList("extensions_of_the_dda"));
-        idMapper.put(SizeModel.class, Arrays.asList("the_computational_grid"));
-        idMapper.put(AccuracyModel.class, Arrays.asList("general_applicability"));
-        idMapper.put(FormulationModel.class, Arrays.asList("dda_formulation"));
-        idMapper.put(InitialFieldModel.class, Arrays.asList("iterative_solver"));
-        idMapper.put(IterativeSolverModel.class, Arrays.asList("iterative_solver"));
-        idMapper.put(JaggedModel.class, Arrays.asList("construction_of_a_dipole_set"));
-        idMapper.put(MaxIterationsModel.class, Arrays.asList("iterative_solver"));
-        idMapper.put(OptimizationModel.class, Arrays.asList("system_requirements"));
-        idMapper.put(SymmetryModel.class, Arrays.asList("construction_of_a_dipole_set"));
-        idMapper.put(VolCorrectionModel.class, Arrays.asList("construction_of_a_dipole_set"));
-        idMapper.put(AsymParamsSaveModel.class, Arrays.asList("integral_scattering_quantities"));
-        idMapper.put(BeamSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam"));
-        idMapper.put(GeometrySaveModel.class, Arrays.asList("geometry_files"));
-        idMapper.put(GranulSaveModel.class, Arrays.asList("granules"));
-        idMapper.put(InternalFieldSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam"));
-        idMapper.put(PlaneSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam"));
-        idMapper.put(PolarizationSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam"));
-        idMapper.put(QabsSaveModel.class, Arrays.asList("crosssec"));
-        idMapper.put(QextSaveModel.class, Arrays.asList("crosssec"));
-        idMapper.put(QscaSaveModel.class, Arrays.asList("crosssec"));
-        idMapper.put(RadiationForceSaveModel.class, Arrays.asList("radforce"));
-        idMapper.put(ScatteringMatrixSaveModel.class, Arrays.asList("ampl", "mueller"));
-        idMapper.put(ThetaSaveModel.class, Arrays.asList("definition_of_scattering_plane_and_angles"));
-        idMapper.put(DipoleShapeModel.class, Arrays.asList("introduction"));
-        idMapper.put(GranulesModel.class, Arrays.asList("granule_generator"));
-        idMapper.put(OrientationModel.class, Arrays.asList("definition_of_scattering_plane_and_angles"));
-        idMapper.put(ShapeSelectorModel.class, Arrays.asList("predefined_shapes"));
-        idMapper.put(SurfaceModel.class, Arrays.asList("surface_mode"));
+        idMapper.put(BeamModel.class, Arrays.asList("beam_type", StringHelper.toDisplayString("more about beams")));
+        idMapper.put(DplGridModel.class, Arrays.asList("construction_of_a_dipole_set", StringHelper.toDisplayString("more about dpl and grid")));
+        idMapper.put(LambdaModel.class, Arrays.asList("the_computational_grid", StringHelper.toDisplayString("more about lambda")));
+        idMapper.put(PropagationModel.class, Arrays.asList("single_orientation", StringHelper.toDisplayString("more about light propagation")));
+        idMapper.put(RefractiveIndexAggregatorModel.class, Arrays.asList("extensions_of_the_dda", StringHelper.toDisplayString("more about refractive index")));
+        idMapper.put(SizeModel.class, Arrays.asList("the_computational_grid", StringHelper.toDisplayString("more about size")));
+        idMapper.put(AccuracyModel.class, Arrays.asList("general_applicability", StringHelper.toDisplayString("more about accuracy")));
+        idMapper.put(FormulationModel.class, Arrays.asList("dda_formulation", StringHelper.toDisplayString(" all DDA formulations")));
+        idMapper.put(InitialFieldModel.class, Arrays.asList("iterative_solver", StringHelper.toDisplayString("about initial field")));
+        idMapper.put(IterativeSolverModel.class, Arrays.asList("iterative_solver", StringHelper.toDisplayString("more about iterative solver")));
+        idMapper.put(JaggedModel.class, Arrays.asList("construction_of_a_dipole_set", StringHelper.toDisplayString("more about 'jagged' option")));
+        idMapper.put(MaxIterationsModel.class, Arrays.asList("iterative_solver", StringHelper.toDisplayString("about maximum iterations")));
+        idMapper.put(OptimizationModel.class, Arrays.asList("system_requirements", StringHelper.toDisplayString("more about optimization")));
+        idMapper.put(SymmetryModel.class, Arrays.asList("construction_of_a_dipole_set", StringHelper.toDisplayString("more about symmetry")));
+        idMapper.put(VolCorrectionModel.class, Arrays.asList("construction_of_a_dipole_set", StringHelper.toDisplayString("about volume correction")));
+        idMapper.put(AsymParamsSaveModel.class, Arrays.asList("integral_scattering_quantities", StringHelper.toDisplayString("about asym option")));
+        idMapper.put(BeamSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("see all beam types")));
+        idMapper.put(GeometrySaveModel.class, Arrays.asList("geometry_files", StringHelper.toDisplayString("about geometry file")));
+        idMapper.put(GranulSaveModel.class, Arrays.asList("granules", StringHelper.toDisplayString("more about granules")));
+        idMapper.put(InternalFieldSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("more about saving internal field")));
+        idMapper.put(PlaneSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("more about saving incident field")));
+        idMapper.put(PolarizationSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("")));
+        idMapper.put(QabsSaveModel.class, Arrays.asList("crosssec", StringHelper.toDisplayString("more about Qabs")));
+        idMapper.put(QextSaveModel.class, Arrays.asList("crosssec", StringHelper.toDisplayString("more about Qext")));
+        idMapper.put(QscaSaveModel.class, Arrays.asList("crosssec", StringHelper.toDisplayString("more about Qsca")));
+        idMapper.put(RadiationForceSaveModel.class, Arrays.asList("radforce", StringHelper.toDisplayString("about radiation force")));
+        idMapper.put(ScatteringMatrixSaveModel.class, Arrays.asList("ampl", StringHelper.toDisplayString("about 'Ampl' matrix"), "mueller", StringHelper.toDisplayString("about 'Mueller' matrix")));
+        idMapper.put(ThetaSaveModel.class, Arrays.asList("definition_of_scattering_plane_and_angles", StringHelper.toDisplayString("more about theta")));
+        idMapper.put(DipoleShapeModel.class, Arrays.asList("introduction", StringHelper.toDisplayString("about dipole shape")));
+        idMapper.put(GranulesModel.class, Arrays.asList("granule_generator", StringHelper.toDisplayString("more about granules")));
+        idMapper.put(OrientationModel.class, Arrays.asList("definition_of_scattering_plane_and_angles", StringHelper.toDisplayString("about particle orientation")));
+        idMapper.put(ShapeSelectorModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("see all predefined shapes")));
+        idMapper.put(SurfaceModel.class, Arrays.asList("surface_mode", StringHelper.toDisplayString("about surface mode")));
 
     }
 
-    final static List<String> introduction = Arrays.asList("introduction");
+    final static List<String> introduction = Arrays.asList("introduction", StringHelper.toDisplayString("more info"));
 
     public static JPanel getHelpPanel(IModel model) {
-        List<String> ids = getHelpID(model);
+        List<String> list = getHelpID(model);
 
         JPanel panel = new JPanel();
 
-        int width = 200;
+        int width = 300;
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setMaximumSize(new Dimension(200, 9999));
         panel.setMinimumSize(new Dimension(200, 10));
         panel.setBackground(Color.white);
-        String html = "";
+        StringBuilder html = new StringBuilder();
         final JLabel label = new JLabel();
         panel.add(label);
+
         int buttonHeight = 0;
-        for (String id : ids) {
-            JButton button = new JButton("<HTML><FONT color=\"#000099\"><U>more info</U></FONT></HTML>");
+        for (int i = 0; i < list.size(); i+=2) {
+            String id = list.get(i);
+            String displayString = list.get(i +1);
+            JButton button = new JButton("<HTML><FONT color=\"#000099\"><U>" + displayString + "</U></FONT></HTML>");
             CSH.setHelpIDString(button, id);
             button.addActionListener(Context.getInstance().getHelpActionListener());
             button.setBorderPainted(false);
@@ -122,11 +126,13 @@ public class HelpProvider {
             button.setFocusable(false);
             button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             panel.add(button);
-            html += getShortDescByID(id);
+            html.append(getShortDescByID(id));
             buttonHeight +=25;
         }
 
-        label.setText("<HTML>" + html + "</HTML>");
+
+        final String shortDescByClass = getShortDescByClass(model.getClass());
+        label.setText("<HTML>" + (StringHelper.isEmpty(shortDescByClass) ? html.toString() : shortDescByClass) + "</HTML>");
 
         int height = getTextHeight(label, width);
 
@@ -179,6 +185,168 @@ public class HelpProvider {
         return ids;
     }
 
+    public static String getShortDescByClass(Class clazz) {
+        if (RefractiveIndexAggregatorModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sets refractive "+
+                    "indices, float. Each pair of arguments specifies real and imaginary part of the refractive index of one of "+
+                    "the domains. If '-anisotr' is specified, three refractive indices correspond to one domain (diagonal elements "+
+                    "of refractive index tensor in particle reference frame). Maximum number of different refractive indices is "+
+                    "defined at compilation time by the parameter MAX_NMAT in file const.h (by default, 15). None of the "+
+                    "refractive indices can be equal to 1+0i.\n"+
+                    "Specifies that refractive index is anisotropic (its tensor is limited to be diagonal in particle "+
+                    "reference frame). '-m' then accepts 6 arguments per each domain. Can not be used with CLDR polarizability and "+
+                    "all SO formulations."
+            );
+        }
+        if (BeamModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sets the incident beam.\n" +
+                            "<b>Gaussian beam</b>: 5th order approximation of the Gaussian beam (by Barton), this is recommended option for simulation of the Gaussian beam. The beam width is " +
+                            "obligatory and x, y, z coordinates of the center of the beam (in laboratory reference frame) are optional.\n" +
+                            "<b>Dipole as source</b>: field of a unit point dipole placed at x, y, z coordinates (in laboratory reference " +
+                            "frame). Orientation of the dipole is determined by -prop command line option.\n" +
+                            "<b>Plane</b>: infinite plane wave"
+            );
+        }
+        if (RadiationForceSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Calculate the total radiation force, expressed as cross section."
+            );
+        }
+        if (QscaSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Calculate scattering cross section (by integrating the scattered field)"
+            );
+        }
+        if (AccuracyModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Specifies the stopping criterion for the iterative solver by setting the relative norm of the "+
+                    "residual 'epsilon' to reach. <arg> is an exponent of base 10 (float), i.e. epsilon=10^(-<arg>).\n"+
+                    "Default: 5 (epsilon=1E-5)"
+            );
+        }
+        if (GranulesModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Specifies that one particle domain should be randomly filled with "+
+                    "spherical granules with specified diameter <diam> and volume fraction <vol_frac>. Domain number to fill is "+
+                    "given by the last optional argument. Algorithm may fail for volume fractions > 30-50%.\n"
+            );
+        }
+        if (DplGridModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "<b>Dipoles per lambda</b>: sets parameter 'dipoles per lambda' (along the x-axis). "+
+                    "<b>Grid along X axis</b>: sets dimensions of the computation grid (any positive integers). If '-jagged' option is used the grid dimension is effectively multiplied by the specified number.\n"
+            );
+        }
+        if (InitialFieldModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sets prescription to calculate initial (starting) field for the iterative solver."
+            );
+        }
+        if (JaggedModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sets a size of a big dipole in units of small dipoles, integer. It is used to improve the "+
+                    "discretization of the particle without changing the shape.\n"
+            );
+        }
+        if (LambdaModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sets incident wavelength in um, float."
+            );
+        }
+        if (MaxIterationsModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sets the maximum number of iterations of the iterative solver, integer."
+            );
+        }
+        if (OrientationModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "<b>Rotation</b>: either sets an orientation of the particle by three "+
+                    "Euler angles 'alpha','beta','gamma' (in degrees) or specifies that orientation averaging should be "+
+                    "performed. <b>Average</b> sets a file with parameters for orientation averaging. Here zyz-notation (or "+
+                    "y-convention) is used for Euler angles.\n"
+            );
+        }
+        if (SurfaceModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Specifies that scatterer is located above the plane surface, parallel to the "+
+                    "xy-plane. <h> specifies the height of particle center above the surface (along the z-axis, in um). Particle "+
+                    "must be entirely above the substrate. Following argument(s) specify the refractive index of the substrate "+
+                    "(below the surface), assuming that the vacuum is above the surface. It is done either by two values (real and "+
+                    "imaginary parts of the complex value) or as effectively infinite 'inf' which corresponds to perfectly"+
+                    "reflective surface. The latter implies certain simplifications during calculations."
+            );
+        }
+        if (SymmetryModel.class.equals(clazz)){
+            return StringHelper.toDisplayString(
+                    "Automatically determine particle symmetries ('auto'), do not take them into account ('no'), or enforce them ('enf').\n"
+            );
+        }
+        if (SizeModel.class.equals(clazz)){
+            return StringHelper.toDisplayString(
+                    "<b>Size along X axis</b>: sets the size of the computational grid along the x-axis in um, float. If default wavelength "+
+                    "is used, this option specifies the 'size parameter' of the computational grid. Can not be used together with "+
+                    "'-eq_rad'. Size is defined by some shapes themselves, then this option can be used to override the internal "+
+                    "specification and scale the shape.\n"+
+                            "<b>Equivalent radius</b>: sets volume-equivalent radius of the particle in um, float. If default wavelength is used, "+
+                    "this option specifies the volume-equivalent size parameter. Can not be used together with '-size'. Size is "+
+                    "defined by some shapes themselves, then this option can be used to override the internal specification and "+
+                    "scale the shape.\n"
+
+            );
+        }
+        if (PropagationModel.class.equals(clazz)){
+            return StringHelper.toDisplayString(
+                    "Sets propagation direction of incident radiation, float. Normalization (to the unity "+
+                    "vector) is performed automatically. For point-dipole incident beam this determines its direction.\n"
+            );
+        }
+        //        if (.class.equals(clazz)) {
+//            return StringHelper.toDisplayString();
+//        }
+//        if (.class.equals(clazz)) {
+////            return StringHelper.toDisplayString();
+////        }
+
+
+//            idMapper.put(BeamModel.class, Arrays.asList("beam_type", StringHelper.toDisplayString("more about beams")));
+//        idMapper.put(DplGridModel.class, Arrays.asList("construction_of_a_dipole_set", StringHelper.toDisplayString("more about dpl and grid")));
+//        idMapper.put(LambdaModel.class, Arrays.asList("the_computational_grid", StringHelper.toDisplayString("more about lambda")));
+//        idMapper.put(PropagationModel.class, Arrays.asList("single_orientation", StringHelper.toDisplayString("more about light propagation")));
+//        idMapper.put(RefractiveIndexModel.class, Arrays.asList("extensions_of_the_dda", StringHelper.toDisplayString("more about refractive index")));
+//        idMapper.put(SizeModel.class, Arrays.asList("the_computational_grid", StringHelper.toDisplayString("more about size")));
+//        idMapper.put(AccuracyModel.class, Arrays.asList("general_applicability", StringHelper.toDisplayString("more about accuracy")));
+//        idMapper.put(FormulationModel.class, Arrays.asList("dda_formulation", StringHelper.toDisplayString(" all DDA formulations")));
+//        idMapper.put(InitialFieldModel.class, Arrays.asList("iterative_solver", StringHelper.toDisplayString("about initial field")));
+//        idMapper.put(IterativeSolverModel.class, Arrays.asList("iterative_solver", StringHelper.toDisplayString("more about iterative solver")));
+//        idMapper.put(JaggedModel.class, Arrays.asList("construction_of_a_dipole_set", StringHelper.toDisplayString("more about 'jagged' option")));
+//        idMapper.put(MaxIterationsModel.class, Arrays.asList("iterative_solver", StringHelper.toDisplayString("about maximum iterations")));
+//        idMapper.put(OptimizationModel.class, Arrays.asList("system_requirements", StringHelper.toDisplayString("more about optimization")));
+//        idMapper.put(SymmetryModel.class, Arrays.asList("construction_of_a_dipole_set", StringHelper.toDisplayString("more about symmetry")));
+//        idMapper.put(VolCorrectionModel.class, Arrays.asList("construction_of_a_dipole_set", StringHelper.toDisplayString("about volume correction")));
+//        idMapper.put(AsymParamsSaveModel.class, Arrays.asList("integral_scattering_quantities", StringHelper.toDisplayString("about asym option")));
+//        idMapper.put(BeamSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("see all beam types")));
+//        idMapper.put(GeometrySaveModel.class, Arrays.asList("geometry_files", StringHelper.toDisplayString("about geometry file")));
+//        idMapper.put(GranulSaveModel.class, Arrays.asList("granules", StringHelper.toDisplayString("more about granules")));
+//        idMapper.put(InternalFieldSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("more about saving internal field")));
+//        idMapper.put(PlaneSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("more about saving incident field")));
+//        idMapper.put(PolarizationSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("")));
+//        idMapper.put(QabsSaveModel.class, Arrays.asList("crosssec", StringHelper.toDisplayString("more about Qabs")));
+//        idMapper.put(QextSaveModel.class, Arrays.asList("crosssec", StringHelper.toDisplayString("more about Qext")));
+//        idMapper.put(QscaSaveModel.class, Arrays.asList("crosssec", StringHelper.toDisplayString("more about Qsca")));
+//        idMapper.put(RadiationForceSaveModel.class, Arrays.asList("radforce", StringHelper.toDisplayString("about radiation force")));
+//        idMapper.put(ScatteringMatrixSaveModel.class, Arrays.asList("ampl", StringHelper.toDisplayString("about 'Ampl' matrix"), "mueller", StringHelper.toDisplayString("about 'Mueller' matrix")));
+//        idMapper.put(ThetaSaveModel.class, Arrays.asList("definition_of_scattering_plane_and_angles", StringHelper.toDisplayString("more about theta")));
+//        idMapper.put(DipoleShapeModel.class, Arrays.asList("introduction", StringHelper.toDisplayString("about dipole shape")));
+//        idMapper.put(GranulesModel.class, Arrays.asList("granule_generator", StringHelper.toDisplayString("more about granules")));
+//        idMapper.put(OrientationModel.class, Arrays.asList("definition_of_scattering_plane_and_angles", StringHelper.toDisplayString("about particle orientation")));
+//        idMapper.put(ShapeSelectorModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("see all predefined shapes")));
+//        idMapper.put(SurfaceModel.class, Arrays.asList("surface_mode", StringHelper.toDisplayString("about surface mode")));
+
+        return "";
+    }
+
     public static String getShortDescByID(String id) {
         switch (id) {
             case "introduction":
@@ -194,9 +362,6 @@ public class HelpProvider {
                         "values for input parameters, performing the simulations, and analyzing the" +
                         "results. In particular, the succeeding sections contain instructions for:...");
 
-            case "running_adda":
-                return StringHelper.toDisplayString("...");
-
             case "sequential_mode":
                 return StringHelper.toDisplayString("The simplest way to run ADDA is to type...");
 
@@ -211,9 +376,6 @@ public class HelpProvider {
                         "calculations is carried on the GPU [9]. Therefore" +
                         "a GPU, supporting double precision calculations, is required as well as recent" +
                         "drivers for it. Currently, ADDA can use only a single GPU, a...");
-
-            case "applicability_of_the_dda":
-                return StringHelper.toDisplayString("...");
 
             case "general_applicability":
                 return StringHelper.toDisplayString("The principal advantage of the DDA is that" +
@@ -232,9 +394,6 @@ public class HelpProvider {
                         "depend on the size of the computational grid, which in turn depends on the size" +
                         "parameter x and refractive index m of the scatterer (§6.2). This" +
                         "section addresses requirements of standard (FFT) mode of ADDA, while sparse mode is discussed separately (§1...");
-
-            case "defining_a_scatterer":
-                return StringHelper.toDisplayString("...");
 
             case "reference_frames":
                 return StringHelper.toDisplayString("Three different reference frames are used" +
@@ -419,9 +578,6 @@ public class HelpProvider {
                         "scattered field. Currently, ADDA cannot calculate the near-field in a completely convenient manner." +
                         "However, Fabio Della Sala and Stefania D'Agostino [27] have contributed a ...");
 
-            case "computational_issues":
-                return StringHelper.toDisplayString("...");
-
             case "iterative_solver":
                 return StringHelper.toDisplayString("The main computation of a DDA simulation," +
                         "usually taking the major part the execution time, is finding a solution of a large" +
@@ -465,9 +621,6 @@ public class HelpProvider {
                 return StringHelper.toDisplayString("The four Sommerfeld integrals used by ADDA to calculate reflection term are" +
                         "expressed through two essential integrals V22 and U22 [52,83]:...");
 
-            case "timing":
-                return StringHelper.toDisplayString("...");
-
             case "basic_timing":
                 return StringHelper.toDisplayString("The basic timing of ADDA execution on a single processor is performed using standard ANSI C" +
                         "functions clock and time, which are completely portable. The" +
@@ -486,86 +639,6 @@ public class HelpProvider {
                         "considered to be supported (to some extent) by their respective authors. They" +
                         "should be accompanied by enough information to explain their use. A brief" +
                         "description of the available tools is given ...");
-
-            case "finale":
-                return StringHelper.toDisplayString("...");
-
-            case "references":
-                return StringHelper.toDisplayString("...");
-
-            case "command_line_options":
-                return StringHelper.toDisplayString("...");
-
-            case "input_files":
-                return StringHelper.toDisplayString("...");
-
-            case "expcount":
-                return StringHelper.toDisplayString("...");
-
-            case "avg_params.dat":
-                return StringHelper.toDisplayString("...");
-
-            case "alldir_params.dat":
-                return StringHelper.toDisplayString("...");
-
-            case "scat_params.dat":
-                return StringHelper.toDisplayString("...");
-
-
-            case "contour_file":
-                return StringHelper.toDisplayString("...");
-
-            case "field_files":
-                return StringHelper.toDisplayString("...");
-
-            case "output_files":
-                return StringHelper.toDisplayString("...");
-
-            case "stderr,_logerr":
-                return StringHelper.toDisplayString("...");
-
-            case "stdout":
-                return StringHelper.toDisplayString("...");
-
-            case "output_directory":
-                return StringHelper.toDisplayString("...");
-
-            case "log":
-                return StringHelper.toDisplayString("...");
-
-            case "mueller":
-                return StringHelper.toDisplayString("...");
-
-            case "ampl":
-                return StringHelper.toDisplayString("...");
-
-            case "crosssec":
-                return StringHelper.toDisplayString("...");
-
-            case "radforce":
-                return StringHelper.toDisplayString("...");
-
-            case "intfield,_dippol,_and_incbeam":
-                return StringHelper.toDisplayString("...");
-
-            case "log_orient_avg_and_log_int":
-                return StringHelper.toDisplayString("...");
-
-            case "geometry_files":
-                return StringHelper.toDisplayString("...");
-
-            case "granules":
-                return StringHelper.toDisplayString("...");
-
-            case "auxiliary_files":
-                return StringHelper.toDisplayString("...");
-
-            case "tables":
-                return StringHelper.toDisplayString("...");
-
-            case "checkpoint_files":
-                return StringHelper.toDisplayString("...");
-
 
         }
         return "";

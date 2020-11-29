@@ -30,7 +30,7 @@ public class OutputTabBox extends BoxBase {
     public OutputTabBox() {
         needInitSelf = false;
         children = new ArrayList<>();
-        addChild(new ActualDirectoryBox());
+        //addChild(new ActualDirectoryBox());
         addChild(new QabsSaveBox());
         addChild(new QextSaveBox());
         addChild(new QscaSaveBox());
