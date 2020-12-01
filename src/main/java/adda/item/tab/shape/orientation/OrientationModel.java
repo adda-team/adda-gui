@@ -37,7 +37,7 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
 
 
 
-    OrientationAverageBox orientationAverageBox;
+    transient OrientationAverageBox orientationAverageBox;
 
 
     public OrientationModel() {
@@ -167,6 +167,7 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
             OrientationAverageModel thisOrientationAvgModel = (OrientationAverageModel) getOrientationAverageBox().getModel();
 
             thisOrientationAvgModel.getGammaModel().copyProperties(cloneOrientationAvgModel.getGammaModel());
+            thisOrientationAvgModel.getBetaModel().copyProperties(cloneOrientationAvgModel.getBetaModel());
             thisOrientationAvgModel.getAlphaModel().copyProperties(cloneOrientationAvgModel.getAlphaModel());
             thisOrientationAvgModel.setAverageFile(cloneOrientationAvgModel.getAverageFile());
         }

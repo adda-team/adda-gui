@@ -66,9 +66,9 @@ public class Main {
 
                 frame.setContentPane(app.getMainPanel());
                 frame.setMinimumSize(new Dimension(1024, 700));
-                frame.setPreferredSize(new Dimension(1200, 700));
+                frame.setPreferredSize(new Dimension(1250, 700));
                 frame.setJMenuBar(getMenuBar());
-                //set custom menubar between app icon and close button in header https://medium.com/swlh/customizing-the-title-bar-of-an-application-window-50a4ac3ed27e
+                //todo set custom menubar between app icon and close button in header https://medium.com/swlh/customizing-the-title-bar-of-an-application-window-50a4ac3ed27e
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);

@@ -60,18 +60,18 @@ public class RefractiveIndexAggregatorModel extends ModelBaseAddaOptionsContaine
 
 
 
-    protected ShapeSelectorModel shapeModel;
+    transient protected ShapeSelectorModel shapeModel;
 
 
 
-    protected GranulesModel granulesModel;
+    transient protected GranulesModel granulesModel;
 //    protected ShapeSelectorModel shapeModel;
 
 
 
-    protected List<RefractiveIndexBox> shapeBoxes = Collections.unmodifiableList(Arrays.asList(new RefractiveIndexBox(), new RefractiveIndexBox()));
-    protected RefractiveIndexBox granulBox = new RefractiveIndexBox();
-    protected RefractiveIndexBox surfaceBox = new RefractiveIndexBox();
+    transient protected List<RefractiveIndexBox> shapeBoxes = Collections.unmodifiableList(Arrays.asList(new RefractiveIndexBox(), new RefractiveIndexBox()));
+    transient protected RefractiveIndexBox granulBox = new RefractiveIndexBox();
+    transient protected RefractiveIndexBox surfaceBox = new RefractiveIndexBox();
 
 
     public RefractiveIndexAggregatorModel() {

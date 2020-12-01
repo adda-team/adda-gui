@@ -35,6 +35,7 @@ public class ProjectTreeController extends ControllerBase {
                     }
                 };
 
+                final MainForm mainForm = Context.getInstance().getMainForm();
                 jtree.addTreeWillExpandListener(treeWillExpandListener);
 
                 MouseListener adapter = new MouseAdapter() {
@@ -56,7 +57,7 @@ public class ProjectTreeController extends ControllerBase {
                             if (selRow != -1) {
                                 if (e.getClickCount() == 2) {
 
-                                    final MainForm mainForm = Context.getInstance().getMainForm();
+
                                     if (mainForm != null) {
                                         mainForm.setLoadingVisible(true);
                                     }
@@ -91,7 +92,12 @@ public class ProjectTreeController extends ControllerBase {
                                 open.addActionListener(new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent actionEvent) {
-                                        ((ProjectTreeModel) jtree.getModel()).showNewProjectDialog();
+
+                                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                                            public void run() {
+                                                ((ProjectTreeModel) jtree.getModel()).showNewProjectDialog();
+                                            }
+                                        });
                                     }
                                 });
                                 popup.add(open);
@@ -105,7 +111,14 @@ public class ProjectTreeController extends ControllerBase {
                                         if (node == null || model == null) {
                                             return;
                                         }
-                                        ((ProjectTreeModel) model).setSelectedPath(node);
+                                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                                            public void run() {
+                                                ((ProjectTreeModel) model).setSelectedPath(node);
+                                                if (mainForm != null) {
+                                                    mainForm.setLoadingVisible(false);
+                                                }
+                                            }
+                                        });
                                     }
                                 });
                                 popup.add(open);

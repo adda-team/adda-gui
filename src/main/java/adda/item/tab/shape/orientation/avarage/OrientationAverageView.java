@@ -43,7 +43,7 @@ public class OrientationAverageView extends ViewBase {
             OrientationAverageModel averageModel = (OrientationAverageModel) model;
             IconFontSwing.register(FontAwesome.getIconFont());
 
-            panel.add(new JLabel("Export from file"));//todo localization
+            panel.add(new JLabel("Use file"));//todo localization
 
             Icon fileOpenIcon = IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, 17, Color.DARK_GRAY);
             JButton fileOpenButton = new JButton(fileOpenIcon);
@@ -69,8 +69,8 @@ public class OrientationAverageView extends ViewBase {
             textArea.setAlignmentY(Component.CENTER_ALIGNMENT);
 
             JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            scrollPane.setMaximumSize(new Dimension(120, 25));
-            scrollPane.setPreferredSize(new Dimension(120, 25));
+            scrollPane.setMaximumSize(new Dimension(220, 25));
+            scrollPane.setPreferredSize(new Dimension(220, 25));
             scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 

@@ -7,7 +7,7 @@ import adda.base.models.IModel;
 public class FormulationController extends ControllerDialogBase {
     @Override
     protected boolean needOpenDialog(String fieldName, Object fieldValue) {
-        if (fieldValue instanceof FormulationEnum) {
+        if (FormulationModel.ENUM_VALUE_FIELD_NAME.equals(fieldName) && fieldValue instanceof FormulationEnum) {
             return fieldValue.equals(FormulationEnum.Custom);
         }
         return false;

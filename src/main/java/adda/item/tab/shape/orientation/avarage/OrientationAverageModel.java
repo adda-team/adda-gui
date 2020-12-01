@@ -12,9 +12,11 @@ public class OrientationAverageModel extends ModelBase implements IModelObserver
 
     public static final String AVERAGE_FILE_FIELD_NAME = "averageFile";
     public static final String ALPHA_MODEL_FIELD_NAME = "alphaModel";
+    public static final String BETA_MODEL_FIELD_NAME = "gammaModel";
     public static final String GAMMA_MODEL_FIELD_NAME = "gammaModel";
     AlphaOrientationAverageModel alphaModel;
-    GammaOrientationAverageModel gammaModel;
+    AlphaOrientationAverageModel betaModel;
+    AlphaOrientationAverageModel gammaModel;
 
     boolean useExistFile;
 
@@ -50,15 +52,35 @@ public class OrientationAverageModel extends ModelBase implements IModelObserver
             if (this.alphaModel != null) {
                 this.alphaModel.addObserver(this);
             }
+            alphaModel.setLabel("alpha");
             notifyObservers(ALPHA_MODEL_FIELD_NAME, this.alphaModel);
         }
     }
 
-    public GammaOrientationAverageModel getGammaModel() {
+    public AlphaOrientationAverageModel getBetaModel() {
+        return betaModel;
+    }
+
+    public void setBetaModel(AlphaOrientationAverageModel betaModel) {
+
+        if (this.betaModel == null || !this.betaModel.equals(betaModel)) {
+            if (this.betaModel != null) {
+                this.betaModel.removeObserver(this);
+            }
+            this.betaModel = betaModel;
+            if (this.betaModel != null) {
+                this.betaModel.addObserver(this);
+            }
+            betaModel.setLabel("beta");
+            notifyObservers(BETA_MODEL_FIELD_NAME, this.betaModel);
+        }
+    }
+
+    public AlphaOrientationAverageModel getGammaModel() {
         return gammaModel;
     }
 
-    public void setGammaModel(GammaOrientationAverageModel gammaModel) {
+    public void setGammaModel(AlphaOrientationAverageModel gammaModel) {
 
         if (this.gammaModel == null || !this.gammaModel.equals(gammaModel)) {
             if (this.gammaModel != null) {
@@ -68,16 +90,20 @@ public class OrientationAverageModel extends ModelBase implements IModelObserver
             if (this.gammaModel != null) {
                 this.gammaModel.addObserver(this);
             }
+            gammaModel.setLabel("gamma");
             notifyObservers(GAMMA_MODEL_FIELD_NAME, this.gammaModel);
         }
     }
 
     @Override
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
-        if (sender instanceof AlphaOrientationAverageModel) {
+        if (sender instanceof AlphaOrientationAverageModel && sender.equals(alphaModel)) {
             notifyObservers(ALPHA_MODEL_FIELD_NAME, this.alphaModel);
         }
-        if (sender instanceof GammaOrientationAverageModel) {
+        if (sender instanceof AlphaOrientationAverageModel && sender.equals(betaModel)) {
+            notifyObservers(BETA_MODEL_FIELD_NAME, this.betaModel);
+        }
+        if (sender instanceof AlphaOrientationAverageModel && sender.equals(gammaModel)) {
             notifyObservers(GAMMA_MODEL_FIELD_NAME, this.gammaModel);
         }
     }

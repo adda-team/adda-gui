@@ -95,9 +95,12 @@ public class GranulesModel extends RefractiveIndexModel implements IModelObserve
             this.shapeModel = shapeModel;
             this.shapeModel.addObserver(this);
             try {
+                setDomainDisplayString(this.shapeModel.getShapeDomainInfos().get(domainNumber - 1).getName());
+                setDomainNumber(domainNumber);
+            } catch (Exception ignored) {
                 setDomainDisplayString(this.shapeModel.getShapeDomainInfos().get(0).getName());
                 setDomainNumber(1);
-            } catch (Exception ignored) {}
+            }
 
 
         }
@@ -216,7 +219,7 @@ public class GranulesModel extends RefractiveIndexModel implements IModelObserve
                         .append(String.format("%d%%", (int)fraction))
                         .append(", ").append(StringHelper.toDisplayString(DIAMETER_FIELD_NAME))
                         .append(SEMICOLON_STR)
-                        .append(diameter).append(" [").append(measure).append("]")
+                        .append(diameter).append(measure)
                         .append(", ")
                         .append(StringHelper.toDisplayString(SHAPE_DOMAIN_STR))
                         .append(SEMICOLON_STR)

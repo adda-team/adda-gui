@@ -7,7 +7,7 @@ import adda.base.models.IModel;
 public class DipoleShapeController extends ControllerDialogBase {
     @Override
     protected boolean needOpenDialog(String fieldName, Object fieldValue) {
-        return DipoleShapeEnum.Rect.equals(fieldValue);
+        return !model.isUnderCopy() && DipoleShapeEnum.Rect.equals(fieldValue);
     }
 
     @Override

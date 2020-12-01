@@ -32,8 +32,8 @@ public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implemen
 
     public static final String ENUM_VALUE_FIELD_NAME = "enumValue";
     public static final String SHAPE = "shape";
-    transient Map<ShapeSelectorEnum, IBox> paramsMap = new EnumMap<>(ShapeSelectorEnum.class);//todo replace with immutable in constructor
-    transient Map<ShapeSelectorEnum, List<ShapeDomainInfo>> domainInfoMap = new EnumMap<>(ShapeSelectorEnum.class);//todo replace with immutable in constructor
+    transient private Map<ShapeSelectorEnum, IBox> paramsMap = new EnumMap<>(ShapeSelectorEnum.class);//todo replace with immutable in constructor
+    transient private Map<ShapeSelectorEnum, List<ShapeDomainInfo>> domainInfoMap = new EnumMap<>(ShapeSelectorEnum.class);//todo replace with immutable in constructor
 
     public ShapeSelectorModel() {
         this.setLabel("Shape");//todo localization
@@ -69,7 +69,6 @@ public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implemen
                 });
             }
         });
-
     }
 
     public List<ShapeDomainInfo> getShapeDomainInfos() {

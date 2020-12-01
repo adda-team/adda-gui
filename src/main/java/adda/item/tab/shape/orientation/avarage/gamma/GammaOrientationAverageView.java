@@ -1,7 +1,9 @@
 package adda.item.tab.shape.orientation.avarage.gamma;
 
 import adda.application.controls.VerticalLayout;
+import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
+import adda.base.models.ModelBase;
 import adda.base.views.ViewBase;
 
 import javax.swing.*;
@@ -49,5 +51,13 @@ public class GammaOrientationAverageView extends ViewBase {
         panel.add(Box.createVerticalGlue());
 
 
+    }
+
+    @Override
+    public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
+        super.modelPropertyChanged(sender, event);
+        if (ModelBase.LABEL_FIELD_NAME.equals(event.getPropertyName())) {
+            this.panel.setBorder(BorderFactory.createTitledBorder(sender.getLabel()));
+        }
     }
 }

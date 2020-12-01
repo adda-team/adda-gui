@@ -34,8 +34,8 @@ public class ShortcutsView extends ViewBase {
         //todo get from the model
         String[] items = {
                 "CPU",
-                "GPU [#1]",
-                "GPU [#2]"
+//                "GPU [#1]",
+//                "GPU [#2]"
         };
         JComboBox editComboBox = new JComboBox(items);
         editComboBox.setPreferredSize(new Dimension(70, 33));

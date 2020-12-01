@@ -1,5 +1,6 @@
 package adda.base.controllers;
 
+import adda.Context;
 import adda.application.controls.CustomOkCancelModalDialog;
 import adda.base.models.IModel;
 import adda.base.views.ViewDialogBase;
@@ -95,7 +96,12 @@ public abstract class ControllerDialogBase extends ControllerBase {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 if (validate(component, value)) {
-                    if (!model.isUnderCopy() && !isDialogModelDisabled && needOpenDialog(component.getName(), value) && view instanceof ViewDialogBase) {
+                    if (!Context.getInstance().isGlobalBlockDialogs()
+                            && !model.isUnderCopy()
+                            && !isDialogModelDisabled
+                            && needOpenDialog(component.getName(), value)
+                            && view instanceof ViewDialogBase
+                    ) {
                         try {
                             IModel clone = (IModel) model.clone();
                             ReflectionHelper.setPropertyValue(clone, component.getName(), value);

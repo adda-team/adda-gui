@@ -105,6 +105,7 @@ public class ReflectionHelper {
         final Method[] toMethods = getMethods(to);//to.getClass().getMethods();
         for (Method method: fromMethods) {
             String methodName = method.getName();
+            if ("isUnderCopy".equals(methodName)) continue;
             try {
                 final boolean startsWithGet = methodName.startsWith("get");
                 final boolean startsWithIs = methodName.startsWith("is");

@@ -126,4 +126,13 @@ public class Context {
     }
 
 
+    private volatile boolean isGlobalBlockDialogs;
+
+    public boolean isGlobalBlockDialogs() {
+        return isGlobalBlockDialogs;
+    }
+
+    public void setGlobalBlockDialogs(boolean globalBlockDialogs) {
+        isGlobalBlockDialogs = globalBlockDialogs;
+    }
 }

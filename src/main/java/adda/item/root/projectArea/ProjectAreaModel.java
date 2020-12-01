@@ -1,13 +1,21 @@
 package adda.item.root.projectArea;
 
 import adda.Context;
+import adda.base.boxes.IBox;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.models.IModelObserver;
 import adda.base.models.ModelBase;
+import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.item.tab.options.OptionsModel;
+import adda.item.tab.output.polarization.PolarizationSaveModel;
+import adda.item.tab.shape.granules.GranulesModel;
 import adda.item.tab.shape.orientation.OrientationModel;
+import adda.item.tab.shape.orientation.avarage.OrientationAverageModel;
+import adda.item.tab.shape.selector.ShapeSelectorModel;
+import adda.item.tab.shape.selector.params.ModelShapeParam;
+import adda.item.tab.shape.selector.params.bicoated.BicoatedModel;
 import adda.utils.OutputDisplayer;
 import adda.utils.StringHelper;
 
@@ -52,22 +60,25 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
     public void setNestedModelList(List<IModel> nestedModelList) {
         timer.stop();
         if (this.nestedModelList != null) {
-            for (IModel model: this.nestedModelList) {
+            for (IModel model : this.nestedModelList) {
                 model.removeObserver(this);
             }
         }
 
         this.nestedModelList = nestedModelList;
 
-        if (this.nestedModelList != null) {
-            for (IModel model: this.nestedModelList) {
-                model.addObserver(this);
-            }
-        }
+
 
         loadNestedModelList();
-        timer.setRepeats(true);
-        timer.start();
+
+//        if (this.nestedModelList != null) {
+//            for (IModel model : this.nestedModelList) {
+//                model.addObserver(this);
+//            }
+//        }
+//
+//        timer.setRepeats(true);
+//        timer.start();
 
     }
 
@@ -85,6 +96,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
             return;
         }
         setLoading(true);
+        Context.getInstance().setGlobalBlockDialogs(true);
         Thread t = new Thread(() -> {
             ObjectInputStream objectInputStream = null;
             try {
@@ -92,26 +104,101 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
                 objectInputStream = new ObjectInputStream(
                         new FileInputStream(name));
                 List<IModel> loadedList = (List<IModel>) objectInputStream.readObject();
+                List<RefractiveIndexModel> refractiveIndexModelList = (List<RefractiveIndexModel>) objectInputStream.readObject();
+                OrientationAverageModel savedOrientationAverageModel = (OrientationAverageModel) objectInputStream.readObject();
+                ModelShapeParam shapeParams = (ModelShapeParam) objectInputStream.readObject();
                 objectInputStream.close();
 
                 Map<Class, IModel> map = loadedList.stream().collect(Collectors.toMap(item -> item.getClass(), item -> item));
 
                 for (IModel model : nestedModelList) {
 
-                    if (RefractiveIndexAggregatorModel.class.equals(model.getClass())) continue;
-                    if (OrientationModel.class.equals(model.getClass())) continue;
+                    if (RefractiveIndexAggregatorModel.class.equals(model.getClass())) {
+                        RefractiveIndexAggregatorModel refractiveIndexAggregatorModel = (RefractiveIndexAggregatorModel) model;
+                        final int[] index = {0};
+                        refractiveIndexAggregatorModel.getShapeBoxes().forEach(box -> {
+                            box.getModel().copyProperties(refractiveIndexModelList.get(index[0]++));
+                        });
+                        refractiveIndexAggregatorModel.getGranulBox().getModel().copyProperties(refractiveIndexModelList.get(index[0]++));
+                        continue;
+                    }
+
 
                     if (map.containsKey(model.getClass())) {
-                        model.copyProperties(map.get(model.getClass()));
+
+                        final IModel savedModel = map.get(model.getClass());
+                        //savedModel.setUnderCopy(true);
+                        if (OrientationModel.class.equals(model.getClass())) {
+                            final OrientationModel savedOrientationModel = (OrientationModel) savedModel;
+                            final OrientationModel orientationModel = (OrientationModel) model;
+                            orientationModel.setUnderCopy(true);
+                            OrientationAverageModel origOrientationAvgModel = (OrientationAverageModel) orientationModel.getOrientationAverageBox().getModel();
+
+                            origOrientationAvgModel.getGammaModel().copyProperties(savedOrientationAverageModel.getGammaModel());
+                            origOrientationAvgModel.getBetaModel().copyProperties(savedOrientationAverageModel.getBetaModel());
+                            origOrientationAvgModel.getAlphaModel().copyProperties(savedOrientationAverageModel.getAlphaModel());
+                            origOrientationAvgModel.setAverageFile(savedOrientationAverageModel.getAverageFile());
+
+                            orientationModel.setGamma(savedOrientationModel.getGamma());
+                            orientationModel.setBeta(savedOrientationModel.getBeta());
+                            orientationModel.setAlpha(savedOrientationModel.getAlpha());
+                            orientationModel.setEnumValue(savedOrientationModel.getEnumValue());
+                            orientationModel.setUnderCopy(false);
+                            continue;
+                        }
+                        if (ShapeSelectorModel.class.equals(model.getClass())) {
+                            model.copyProperties(savedModel);
+                            final ShapeSelectorModel shapeSelectorModel = (ShapeSelectorModel) model;
+                            if (shapeSelectorModel.getParamsBox() != null) {
+                                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                                    public void run() {
+                                        shapeSelectorModel.getParamsBox().init();
+                                        shapeSelectorModel.getParamsBox().getModel().copyProperties(shapeParams);
+                                    }
+                                });
+                            }
+                            continue;
+                        }
+                        if (GranulesModel.class.equals(model.getClass())) {
+
+                            GranulesModel granulesModel = (GranulesModel) model;
+                            GranulesModel savedGranulesModel = (GranulesModel) savedModel;
+
+                            granulesModel.setUnderCopy(true);
+                            granulesModel.setUseGranul(savedGranulesModel.isUseGranul());
+                            granulesModel.setUnderCopy(false);
+
+                            granulesModel.setSave(savedGranulesModel.isSave());
+                            granulesModel.setDiameter(savedGranulesModel.getDiameter());
+                            granulesModel.setDomainNumber(savedGranulesModel.getDomainNumber());
+                            granulesModel.setFraction(savedGranulesModel.getFraction());
+
+                            continue;
+                        }
+
+//                        SwingUtilities.invokeLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+                                model.copyProperties(savedModel);
+//                            }
+//                        });
                     }
                 }
-            }
-            catch (IOException | ClassNotFoundException ignore) {}
-            finally {
+            } catch (IOException | ClassNotFoundException ignore) {
+            } finally {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
+                        if (nestedModelList != null) {
+                            for (IModel model : nestedModelList) {
+                                model.addObserver(ProjectAreaModel.this);
+                            }
+                        }
+
+                        timer.setRepeats(true);
+                        timer.start();
                         setLoading(false);
+                        Context.getInstance().setGlobalBlockDialogs(false);
                     }
                 });
             }
@@ -130,7 +217,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
     }
 
     public void saveNestedModelList() {
-        if (StringHelper.isEmpty(pathToState)) {
+        if (StringHelper.isEmpty(pathToState) || nestedModelList == null || nestedModelList.size() < 1) {
             return;
         }
 
@@ -142,9 +229,40 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         Thread t = new Thread(() -> {
             ObjectOutputStream objectOutputStream = null;
             try {
+
+                ShapeSelectorModel shapeSelectorModel = (ShapeSelectorModel) nestedModelList.stream()
+                        .filter(entity -> entity instanceof ShapeSelectorModel)
+                        .findFirst()
+                        .get();
+
+                RefractiveIndexAggregatorModel refractiveIndexAggregatorModel = (RefractiveIndexAggregatorModel) nestedModelList.stream()
+                        .filter(entity -> entity instanceof RefractiveIndexAggregatorModel)
+                        .findFirst()
+                        .get();
+
+                List<RefractiveIndexModel> refractiveIndexModelList = new ArrayList<>();
+                refractiveIndexAggregatorModel
+                        .getShapeBoxes()
+                        .forEach(box -> {
+                            refractiveIndexModelList.add((RefractiveIndexModel) box.getModel());
+                        });
+                refractiveIndexModelList.add((RefractiveIndexModel) refractiveIndexAggregatorModel.getGranulBox().getModel());
+
+
+                OrientationModel orientationModel = (OrientationModel) nestedModelList.stream()
+                        .filter(entity -> entity instanceof OrientationModel)
+                        .findFirst()
+                        .get();
+
+
                 objectOutputStream = new ObjectOutputStream(
                         new FileOutputStream(name));
                 objectOutputStream.writeObject(nestedModelList);
+                objectOutputStream.writeObject(refractiveIndexModelList);
+                objectOutputStream.writeObject(orientationModel.getOrientationAverageBox().getModel());
+                final IBox paramsBox = shapeSelectorModel.getParamsBox();
+                objectOutputStream.writeObject(paramsBox != null ? paramsBox.getModel() : new BicoatedModel());
+
                 objectOutputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -158,7 +276,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
     }
 
     public void setLoading(boolean loading) {
-        if(isLoading != loading) {
+        if (isLoading != loading) {
             this.isLoading = loading;
             notifyObservers(IS_LOADING_FIELD_NAME, isLoading);
         }
@@ -169,11 +287,11 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
     }
 
     public void setActive(boolean active) {
-        if(isActive != active) {
+        if (isActive != active) {
             this.isActive = active;
             notifyObservers(IS_ACTIVE_FIELD_NAME, isActive);
 
-            if(this.isActive) {
+            if (this.isActive) {
                 timer.setRepeats(true);
                 timer.start();
             } else {
@@ -188,7 +306,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
     }
 
     public void setRunning(boolean running) {
-        if(isRunning != running) {
+        if (isRunning != running) {
             this.isRunning = running;
             notifyObservers(IS_RUNNING_FIELD_NAME, isRunning);
         }
@@ -196,11 +314,13 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
 
 
     private OutputDisplayer outputDisplayer;
+
     public void setOutputDisplayer(OutputDisplayer outputDisplayer) {
         this.outputDisplayer = outputDisplayer;
     }
 
     private OptionsModel optionsModel;
+
     public void setOptionsModel(OptionsModel optionsModel) {
         this.optionsModel = optionsModel;
     }
@@ -218,7 +338,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         args.add("-dir");
         Date now = new Date();
         SimpleDateFormat pattern = new SimpleDateFormat("dd-MM-yyyy_HH_mm_ss");
-        args.add(Context.getInstance().getProjectTreeModel().getSelectedPath().getFolder() + "/run_"+pattern.format(now));
+        args.add(Context.getInstance().getProjectTreeModel().getSelectedPath().getFolder() + "/run_" + pattern.format(now));
 
 
         ProcessBuilder builder = new ProcessBuilder(args);
