@@ -72,10 +72,17 @@ public class ProjectTreeController extends ControllerBase {
                                     } else {
                                         javax.swing.SwingUtilities.invokeLater(new Runnable() {
                                             public void run() {
-                                                ((ProjectTreeModel) model).setSelectedPath(node);
-                                                if (mainForm != null) {
-                                                    mainForm.setLoadingVisible(false);
+
+                                                try {
+                                                    ((ProjectTreeModel) model).setSelectedPath(node);
+                                                } catch (Exception ex) {
+                                                    ex.printStackTrace();
+                                                } finally {
+                                                    if (mainForm != null) {
+                                                        mainForm.setLoadingVisible(false);
+                                                    }
                                                 }
+
                                             }
                                         });
                                     }
@@ -113,10 +120,16 @@ public class ProjectTreeController extends ControllerBase {
                                         }
                                         javax.swing.SwingUtilities.invokeLater(new Runnable() {
                                             public void run() {
-                                                ((ProjectTreeModel) model).setSelectedPath(node);
-                                                if (mainForm != null) {
-                                                    mainForm.setLoadingVisible(false);
+                                                try {
+                                                    ((ProjectTreeModel) model).setSelectedPath(node);
+                                                } catch (Exception ex) {
+                                                    ex.printStackTrace();
+                                                } finally {
+                                                    if (mainForm != null) {
+                                                        mainForm.setLoadingVisible(false);
+                                                    }
                                                 }
+
                                             }
                                         });
                                     }

@@ -41,6 +41,10 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
 
     private final Timer timer = new Timer(1500, new ActionListener() {
         public void actionPerformed(ActionEvent e) {
+            if (Context.getInstance().isGlobalBlockDialogs()) {
+                Context.getInstance().setGlobalBlockDialogs(false);
+            }
+            Context.getInstance().setGlobalBlockDialogs(false);
             if (isChangedNestedModelList) {
                 saveNestedModelList();
                 isChangedNestedModelList = false;
@@ -69,7 +73,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
 
 
 
-        loadNestedModelList();
+        //loadNestedModelList();
 
 //        if (this.nestedModelList != null) {
 //            for (IModel model : this.nestedModelList) {
@@ -96,6 +100,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
             return;
         }
         setLoading(true);
+        Context.getInstance().getMainForm().setLoadingVisible(true);
         Context.getInstance().setGlobalBlockDialogs(true);
         Thread t = new Thread(() -> {
             ObjectInputStream objectInputStream = null;
@@ -164,14 +169,25 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
                             GranulesModel granulesModel = (GranulesModel) model;
                             GranulesModel savedGranulesModel = (GranulesModel) savedModel;
 
-                            granulesModel.setUnderCopy(true);
-                            granulesModel.setUseGranul(savedGranulesModel.isUseGranul());
-                            granulesModel.setUnderCopy(false);
-
-                            granulesModel.setSave(savedGranulesModel.isSave());
                             granulesModel.setDiameter(savedGranulesModel.getDiameter());
                             granulesModel.setDomainNumber(savedGranulesModel.getDomainNumber());
                             granulesModel.setFraction(savedGranulesModel.getFraction());
+                            granulesModel.setSave(savedGranulesModel.isSave());
+                            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                                public void run() {
+                                    try {
+                                        if (savedGranulesModel.isUseGranul()) {
+                                            granulesModel.setUnderCopy(true);
+                                            granulesModel.setUseGranul(true);
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        granulesModel.setUnderCopy(false);
+                                    }
+                                }
+                            });
+                            //
 
                             continue;
                         }
@@ -184,7 +200,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
 //                        });
                     }
                 }
-            } catch (IOException | ClassNotFoundException ignore) {
+            } catch (Exception ignore) {
             } finally {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
@@ -195,10 +211,12 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
                             }
                         }
 
-                        timer.setRepeats(true);
-                        timer.start();
+
                         setLoading(false);
                         Context.getInstance().setGlobalBlockDialogs(false);
+                        Context.getInstance().getMainForm().setLoadingVisible(false);
+                        timer.setRepeats(true);
+                        timer.start();
                     }
                 });
             }

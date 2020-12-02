@@ -34,8 +34,12 @@ public class ProjectTreeView extends ViewBase {
         gbc.fill = GridBagConstraints.BOTH;
 
         this.panel.add(jtree, gbc);
-
-        jtree.setCellRenderer(new CustomTreeCellRenderer());
+        IconFontSwing.register(FontAwesome.getIconFont());
+        jtree.setCellRenderer(new CustomTreeCellRenderer(
+                IconFontSwing.buildIcon(FontAwesome.DESKTOP, 14, Color.black),
+                IconFontSwing.buildIcon(FontAwesome.FOLDER_O, 14, Color.black),
+                IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN_O, 14, Color.black)
+        ));
         jtree.addTreeWillExpandListener(new TreeWillExpandListener() {
             @Override
             public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
@@ -76,15 +80,28 @@ public class ProjectTreeView extends ViewBase {
     }
 
     private class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
+
+        Icon desc;
+        Icon folder;
+        Icon folderExp;
+
+        public CustomTreeCellRenderer(Icon desc, Icon folder, Icon folderExp) {
+            this.desc = desc;
+            this.folder = folder;
+            this.folderExp = folderExp;
+        }
+
         @Override
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
             super.getTreeCellRendererComponent(tree, value, selected,expanded, leaf, row, hasFocus);
             ProjectTreeNode node = (ProjectTreeNode) value;
+
             if (tree.getModel().getRoot().equals(node)) {
-                IconFontSwing.register(FontAwesome.getIconFont());
-                Icon icon = IconFontSwing.buildIcon(FontAwesome.DESKTOP, 14, Color.gray);
-                setIcon(icon);
+                setIcon(desc);
+            } else if (node != null && node.isProject()) {
+                setIcon(expanded ? folderExp : folder);
             }
+
             return this;
         }
     }

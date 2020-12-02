@@ -56,6 +56,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
             node.desc = String.format("<HTML><b>%s</b><br><small>%s</small></HTML>", projectSetting.getName(), projectSetting.getPath());
             node.folder = projectSetting.getPath();
             node.isPath = true;
+            node.isProject = true;
             JNotifyListener directoryListener = new JNotifyListener() {
                 @Override
                 public void fileCreated(int wd, String rootPath, String name) {
@@ -128,6 +129,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
                     d.folder = entry.getKey();
                     d.desc = d.name;
                     d.isPath = entry.getValue();
+                    d.isProject = false;
                     children.add(d);
                 }
             } else

@@ -36,6 +36,22 @@ import adda.item.tab.shape.dipoleShape.DipoleShapeModel;
 import adda.item.tab.shape.granules.GranulesModel;
 import adda.item.tab.shape.orientation.OrientationModel;
 import adda.item.tab.shape.selector.ShapeSelectorModel;
+import adda.item.tab.shape.selector.params.bicoated.BicoatedModel;
+import adda.item.tab.shape.selector.params.biellipsoid.BiellipsoidModel;
+import adda.item.tab.shape.selector.params.bisphere.BisphereModel;
+import adda.item.tab.shape.selector.params.capsule.CapsuleModel;
+import adda.item.tab.shape.selector.params.chebyshev.ChebyshevModel;
+import adda.item.tab.shape.selector.params.coated.CoatedModel;
+import adda.item.tab.shape.selector.params.cuboid.CuboidModel;
+import adda.item.tab.shape.selector.params.cylinder.CylinderModel;
+import adda.item.tab.shape.selector.params.egg.EggModel;
+import adda.item.tab.shape.selector.params.ellipsoid.EllipsoidModel;
+import adda.item.tab.shape.selector.params.plate.PlateBox;
+import adda.item.tab.shape.selector.params.plate.PlateModel;
+import adda.item.tab.shape.selector.params.prism.PrismModel;
+import adda.item.tab.shape.selector.params.rbc.RbcBox;
+import adda.item.tab.shape.selector.params.rbc.RbcModel;
+import adda.item.tab.shape.selector.params.spherecuboid.SphereCuboidModel;
 import adda.item.tab.shape.surface.SurfaceModel;
 import adda.utils.StringHelper;
 
@@ -92,6 +108,20 @@ public class HelpProvider {
         idMapper.put(OrientationModel.class, Arrays.asList("definition_of_scattering_plane_and_angles", StringHelper.toDisplayString("about particle orientation")));
         idMapper.put(ShapeSelectorModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("see all predefined shapes")));
         idMapper.put(SurfaceModel.class, Arrays.asList("surface_mode", StringHelper.toDisplayString("about surface mode")));
+        idMapper.put(BicoatedModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about bicoated")));
+        idMapper.put(BiellipsoidModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about biellipsoid")));
+        idMapper.put(BisphereModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about bisphere")));
+        idMapper.put(CuboidModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about box")));
+        idMapper.put(CapsuleModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about capsule")));
+        idMapper.put(ChebyshevModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about chebyshev")));
+        idMapper.put(CoatedModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about coated")));
+        idMapper.put(CylinderModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about cylinder")));
+        idMapper.put(EggModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about egg")));
+        idMapper.put(EllipsoidModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about ellipsoid")));
+        idMapper.put(PlateModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about plate")));
+        idMapper.put(PrismModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about prism")));
+        idMapper.put(RbcModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about rbc")));
+        idMapper.put(SphereCuboidModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about spherebox")));
 
     }
 
@@ -113,9 +143,9 @@ public class HelpProvider {
         panel.add(label);
 
         int buttonHeight = 0;
-        for (int i = 0; i < list.size(); i+=2) {
+        for (int i = 0; i < list.size(); i += 2) {
             String id = list.get(i);
-            String displayString = list.get(i +1);
+            String displayString = list.get(i + 1);
             JButton button = new JButton("<HTML><FONT color=\"#000099\"><U>" + displayString + "</U></FONT></HTML>");
             CSH.setHelpIDString(button, id);
             button.addActionListener(Context.getInstance().getHelpActionListener());
@@ -127,7 +157,7 @@ public class HelpProvider {
             button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             panel.add(button);
             html.append(getShortDescByID(id));
-            buttonHeight +=25;
+            buttonHeight += 25;
         }
 
 
@@ -136,8 +166,8 @@ public class HelpProvider {
 
         int height = getTextHeight(label, width);
 
-        label.setPreferredSize( new Dimension(width, height));
-        panel.setPreferredSize( new Dimension(width, height + buttonHeight));
+        label.setPreferredSize(new Dimension(width, height));
+        panel.setPreferredSize(new Dimension(width, height + buttonHeight));
 
         return panel;
     }
@@ -149,7 +179,8 @@ public class HelpProvider {
         AttributedCharacterIterator paragraph = attributedString.getIterator();
         int paragraphStart = paragraph.getBeginIndex();
         int paragraphEnd = paragraph.getEndIndex();
-        FontRenderContext frc = label.getFontMetrics(label.getFont()).getFontRenderContext();;
+        FontRenderContext frc = label.getFontMetrics(label.getFont()).getFontRenderContext();
+        ;
 //                    FontRenderContext frc = new FontRenderContext(FONT.getTransform(), true, true);
         LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, BreakIterator.getWordInstance(), frc);
 
@@ -174,7 +205,7 @@ public class HelpProvider {
             drawPosY += layout.getDescent() + layout.getLeading();
         }
 
-        return (int) drawPosY;
+        return (int) drawPosY + 15;
     }
 
     public static List<String> getHelpID(IModel model) {
@@ -188,15 +219,15 @@ public class HelpProvider {
     public static String getShortDescByClass(Class clazz) {
         if (RefractiveIndexAggregatorModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
-                    "Sets refractive "+
-                    "indices, float. Each pair of arguments specifies real and imaginary part of the refractive index of one of "+
-                    "the domains. If '-anisotr' is specified, three refractive indices correspond to one domain (diagonal elements "+
-                    "of refractive index tensor in particle reference frame). Maximum number of different refractive indices is "+
-                    "defined at compilation time by the parameter MAX_NMAT in file const.h (by default, 15). None of the "+
-                    "refractive indices can be equal to 1+0i.\n"+
-                    "Specifies that refractive index is anisotropic (its tensor is limited to be diagonal in particle "+
-                    "reference frame). '-m' then accepts 6 arguments per each domain. Can not be used with CLDR polarizability and "+
-                    "all SO formulations."
+                    "Sets refractive " +
+                            "indices, float. Each pair of arguments specifies real and imaginary part of the refractive index of one of " +
+                            "the domains. If '-anisotr' is specified, three refractive indices correspond to one domain (diagonal elements " +
+                            "of refractive index tensor in particle reference frame). Maximum number of different refractive indices is " +
+                            "defined at compilation time by the parameter MAX_NMAT in file const.h (by default, 15). None of the " +
+                            "refractive indices can be equal to 1+0i.\n" +
+                            "Specifies that refractive index is anisotropic (its tensor is limited to be diagonal in particle " +
+                            "reference frame). '-m' then accepts 6 arguments per each domain. Can not be used with CLDR polarizability and " +
+                            "all SO formulations."
             );
         }
         if (BeamModel.class.equals(clazz)) {
@@ -221,22 +252,22 @@ public class HelpProvider {
         }
         if (AccuracyModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
-                    "Specifies the stopping criterion for the iterative solver by setting the relative norm of the "+
-                    "residual 'epsilon' to reach. <arg> is an exponent of base 10 (float), i.e. epsilon=10^(-<arg>).\n"+
-                    "Default: 5 (epsilon=1E-5)"
+                    "Specifies the stopping criterion for the iterative solver by setting the relative norm of the " +
+                            "residual 'epsilon' to reach. <arg> is an exponent of base 10 (float), i.e. epsilon=10^(-<arg>).\n" +
+                            "Default: 5 (epsilon=1E-5)"
             );
         }
         if (GranulesModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
-                    "Specifies that one particle domain should be randomly filled with "+
-                    "spherical granules with specified diameter <diam> and volume fraction <vol_frac>. Domain number to fill is "+
-                    "given by the last optional argument. Algorithm may fail for volume fractions > 30-50%.\n"
+                    "Specifies that one particle domain should be randomly filled with " +
+                            "spherical granules with specified diameter <diam> and volume fraction <vol_frac>. Domain number to fill is " +
+                            "given by the last optional argument. Algorithm may fail for volume fractions > 30-50%.\n"
             );
         }
         if (DplGridModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
-                    "<b>Dipoles per lambda</b>: sets parameter 'dipoles per lambda' (along the x-axis). "+
-                    "<b>Grid along X axis</b>: sets dimensions of the computation grid (any positive integers). If '-jagged' option is used the grid dimension is effectively multiplied by the specified number.\n"
+                    "<b>Dipoles per lambda</b>: sets parameter 'dipoles per lambda' (along the x-axis). " +
+                            "<b>Grid along X axis</b>: sets dimensions of the computation grid (any positive integers). If '-jagged' option is used the grid dimension is effectively multiplied by the specified number.\n"
             );
         }
         if (InitialFieldModel.class.equals(clazz)) {
@@ -246,8 +277,8 @@ public class HelpProvider {
         }
         if (JaggedModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
-                    "Sets a size of a big dipole in units of small dipoles, integer. It is used to improve the "+
-                    "discretization of the particle without changing the shape.\n"
+                    "Sets a size of a big dipole in units of small dipoles, integer. It is used to improve the " +
+                            "discretization of the particle without changing the shape.\n"
             );
         }
         if (LambdaModel.class.equals(clazz)) {
@@ -262,52 +293,134 @@ public class HelpProvider {
         }
         if (OrientationModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
-                    "<b>Rotation</b>: either sets an orientation of the particle by three "+
-                    "Euler angles 'alpha','beta','gamma' (in degrees) or specifies that orientation averaging should be "+
-                    "performed. <b>Average</b> sets a file with parameters for orientation averaging. Here zyz-notation (or "+
-                    "y-convention) is used for Euler angles.\n"
+                    "<b>Rotation</b>: either sets an orientation of the particle by three " +
+                            "Euler angles 'alpha','beta','gamma' (in degrees) or specifies that orientation averaging should be " +
+                            "performed. <b>Average</b> sets a file with parameters for orientation averaging. Here zyz-notation (or " +
+                            "y-convention) is used for Euler angles.\n"
             );
         }
         if (SurfaceModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
-                    "Specifies that scatterer is located above the plane surface, parallel to the "+
-                    "xy-plane. <h> specifies the height of particle center above the surface (along the z-axis, in um). Particle "+
-                    "must be entirely above the substrate. Following argument(s) specify the refractive index of the substrate "+
-                    "(below the surface), assuming that the vacuum is above the surface. It is done either by two values (real and "+
-                    "imaginary parts of the complex value) or as effectively infinite 'inf' which corresponds to perfectly"+
-                    "reflective surface. The latter implies certain simplifications during calculations."
+                    "Specifies that scatterer is located above the plane surface, parallel to the " +
+                            "xy-plane. <h> specifies the height of particle center above the surface (along the z-axis, in um). Particle " +
+                            "must be entirely above the substrate. Following argument(s) specify the refractive index of the substrate " +
+                            "(below the surface), assuming that the vacuum is above the surface. It is done either by two values (real and " +
+                            "imaginary parts of the complex value) or as effectively infinite 'inf' which corresponds to perfectly" +
+                            "reflective surface. The latter implies certain simplifications during calculations."
             );
         }
-        if (SymmetryModel.class.equals(clazz)){
+        if (SymmetryModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
                     "Automatically determine particle symmetries ('auto'), do not take them into account ('no'), or enforce them ('enf').\n"
             );
         }
-        if (SizeModel.class.equals(clazz)){
+        if (SizeModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
-                    "<b>Size along X axis</b>: sets the size of the computational grid along the x-axis in um, float. If default wavelength "+
-                    "is used, this option specifies the 'size parameter' of the computational grid. Can not be used together with "+
-                    "'-eq_rad'. Size is defined by some shapes themselves, then this option can be used to override the internal "+
-                    "specification and scale the shape.\n"+
-                            "<b>Equivalent radius</b>: sets volume-equivalent radius of the particle in um, float. If default wavelength is used, "+
-                    "this option specifies the volume-equivalent size parameter. Can not be used together with '-size'. Size is "+
-                    "defined by some shapes themselves, then this option can be used to override the internal specification and "+
-                    "scale the shape.\n"
+                    "<b>Size along X axis</b>: sets the size of the computational grid along the x-axis in um, float. If default wavelength " +
+                            "is used, this option specifies the 'size parameter' of the computational grid. Can not be used together with " +
+                            "'-eq_rad'. Size is defined by some shapes themselves, then this option can be used to override the internal " +
+                            "specification and scale the shape.\n" +
+                            "<b>Equivalent radius</b>: sets volume-equivalent radius of the particle in um, float. If default wavelength is used, " +
+                            "this option specifies the volume-equivalent size parameter. Can not be used together with '-size'. Size is " +
+                            "defined by some shapes themselves, then this option can be used to override the internal specification and " +
+                            "scale the shape.\n"
 
             );
         }
-        if (PropagationModel.class.equals(clazz)){
+        if (PropagationModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
-                    "Sets propagation direction of incident radiation, float. Normalization (to the unity "+
-                    "vector) is performed automatically. For point-dipole incident beam this determines its direction.\n"
+                    "Sets propagation direction of incident radiation, float. Normalization (to the unity " +
+                            "vector) is performed automatically. For point-dipole incident beam this determines its direction.\n"
             );
         }
-        //        if (.class.equals(clazz)) {
-//            return StringHelper.toDisplayString();
-//        }
-//        if (.class.equals(clazz)) {
-////            return StringHelper.toDisplayString();
-////        }
+        if (BicoatedModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Two identical concentric coated spheres with outer diameter d (first domain), " +
+                            "inner diameter d_in, and center-to-center distance R_cc (along the z-axis). It describes both separate and " +
+                            "sintered coated spheres. In the latter case sintering is considered symmetrically for cores and shells."
+            );
+        }
+        if (BiellipsoidModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Two general ellipsoids in default orientations with " +
+                            "centers on the z-axis, touching each other. Their semi-axes are x1,y1,z1 (lower one, first domain) and " +
+                            "x2,y2,z2 (upper one, second domain)."
+            );
+        }
+        if (BisphereModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Two identical spheres with diameter d and center-to-center distance R_cc (along the " +
+                            "z-axis). It describe both separate and sintered spheres."
+            );
+        }
+        if (CuboidModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Homogeneous cube (if no arguments are given) or a rectangular parallelepiped with edges x,y,z."
+            );
+        }
+        if (CapsuleModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Homogeneous capsule (cylinder with half-spherical end caps) with cylinder height h and " +
+                            "diameter d (its axis of symmetry coincides with the z-axis)."
+            );
+        }
+        if (ChebyshevModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Axisymmetric Chebyshev particle of amplitude eps and order n, r=r_0[1+eps*cos(n*theta)]. " +
+                            "eps is a real number, such that |eps|<=1, while n is a natural number"
+            );
+        }
+        if (CoatedModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sphere with a spherical inclusion; outer sphere has a diameter d (first " +
+                            "domain). The included sphere has a diameter d_in (optional position of the center: x,y,z)."
+            );
+        }
+        if (CylinderModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Homogeneous cylinder with height (length) h and diameter d (its axis of symmetry coincides " +
+                            "with the z-axis)."
+            );
+        }
+        if (EggModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Axisymmetric egg shape given by a^2=r^2+nu*r*z-(1-eps)z^2, where 'a' is scaling factor. " +
+                            "Parameters must satisfy 0<eps<=1, 0<=nu<eps."
+            );
+        }
+        if (EllipsoidModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Homogeneous general ellipsoid with semi-axes x,y,z"
+            );
+        }
+        if (PlateModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Homogeneous plate (cylinder with rounded side) with cylinder height h and full diameter d (i.e. " +
+                            "diameter of the constituent cylinder is d-h). Its axis of symmetry coincides with the z-axis."
+            );
+        }
+        if (PrismModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Homogeneous right prism with height (length along the z-axis) h based on a regular polygon " +
+                            "with n sides of size 'a'. The polygon is oriented so that positive x-axis is a middle perpendicular for one " +
+                            "of its sides. Dx is size of the polygon along the x-axis, equal to 2Ri and Rc+Ri for even and odd n " +
+                            "respectively. Rc=a/[2sin(pi/n)] and Ri=Rc*cos(pi/n) are radii of circumscribed and inscribed circles " +
+                            "respectively."
+            );
+        }
+        if (RbcModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Red Blood Cell, an axisymmetric (over z-axis) biconcave homogeneous particle, which is " +
+                            "characterized by diameter d, maximum and minimum width h, b, and diameter at the position of the maximum " +
+                            "width c. The surface is described by ro^4+2S*ro^2*z^2+z^4+P*ro^2+Q*z^2+R=0, ro^2=x^2+y^2, P,Q,R,S are " +
+                            "determined by the described parameters."
+            );
+        }
+        if (SphereCuboidModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sphere (diameter d_sph) in a cube (size Dx, first domain)"
+            );
+        }
 
 
 //            idMapper.put(BeamModel.class, Arrays.asList("beam_type", StringHelper.toDisplayString("more about beams")));
@@ -598,9 +711,9 @@ public class HelpProvider {
 
             case "parallel_performance":
                 return StringHelper.toDisplayString("ADDA is capable of running on a multiprocessor system, parallelizing a" +
-                                "single DDA simulation. It uses MPI for communication routines. This feature can" +
-                                "be used both to accelerate the computations and to circumvent the" +
-                                "single-computer limit of the available memory, thus enabling simulations with a...");
+                        "single DDA simulation. It uses MPI for communication routines. This feature can" +
+                        "be used both to accelerate the computations and to circumvent the" +
+                        "single-computer limit of the available memory, thus enabling simulations with a...");
 
             case "checkpoints":
                 return StringHelper.toDisplayString("To facilitate very long simulations ADDA incorporates a checkpoint system," +

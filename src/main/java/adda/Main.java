@@ -66,7 +66,7 @@ public class Main {
 
                 frame.setContentPane(app.getMainPanel());
                 frame.setMinimumSize(new Dimension(1024, 700));
-                frame.setPreferredSize(new Dimension(1250, 700));
+                frame.setPreferredSize(new Dimension(1260, 700));
                 frame.setJMenuBar(getMenuBar());
                 //todo set custom menubar between app icon and close button in header https://medium.com/swlh/customizing-the-title-bar-of-an-application-window-50a4ac3ed27e
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,10 +100,16 @@ public class Main {
                     public void run() {
                         javax.swing.SwingUtilities.invokeLater(new Runnable() {
                             public void run() {
-                                if (Context.getInstance().projectTreeModel.getChildCount(Context.getInstance().projectTreeModel.getRoot()) > 0) {
-                                    Context.getInstance().projectTreeModel.setSelectedPath((ProjectTreeNode) Context.getInstance().projectTreeModel.getChild(Context.getInstance().projectTreeModel.getRoot(), 0));
+                                try {
+                                    if (Context.getInstance().projectTreeModel.getChildCount(Context.getInstance().projectTreeModel.getRoot()) > 0) {
+                                        Context.getInstance().projectTreeModel.setSelectedPath((ProjectTreeNode) Context.getInstance().projectTreeModel.getChild(Context.getInstance().projectTreeModel.getRoot(), 0));
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    app.setLoadingVisible(false);
                                 }
-                                app.setLoadingVisible(false);
+
                             }
                         });
                     }

@@ -32,7 +32,7 @@ public class PropagationDialog extends CustomOkCancelModalDialog {
         JNumericField numericFieldX = new JNumericField();
         numericFieldX.setMaxLength(20);
         numericFieldX.setPrecision(10);
-        numericFieldX.setAllowNegative(false);
+        numericFieldX.setAllowNegative(true);
         numericFieldX.setDouble(propagationModel.getX());
         numericFieldX.getDocument().addDocumentListener(ListenerHelper.getSimpleDocumentListener(() -> {
             if (!StringHelper.isEmpty(numericFieldX.getText())) {
@@ -56,7 +56,7 @@ public class PropagationDialog extends CustomOkCancelModalDialog {
         JNumericField numericFieldY = new JNumericField();
         numericFieldY.setMaxLength(20);
         numericFieldY.setPrecision(10);
-        numericFieldY.setAllowNegative(false);
+        numericFieldY.setAllowNegative(true);
         numericFieldY.setDouble(propagationModel.getY());
         numericFieldY.getDocument().addDocumentListener(ListenerHelper.getSimpleDocumentListener(() -> {
             if (!StringHelper.isEmpty(numericFieldY.getText())) {
@@ -79,7 +79,7 @@ public class PropagationDialog extends CustomOkCancelModalDialog {
         JNumericField numericFieldZ = new JNumericField();
         numericFieldZ.setMaxLength(20);
         numericFieldZ.setPrecision(10);
-        numericFieldZ.setAllowNegative(false);
+        numericFieldZ.setAllowNegative(true);
         numericFieldZ.setDouble(propagationModel.getZ());
         numericFieldZ.getDocument().addDocumentListener(ListenerHelper.getSimpleDocumentListener(() -> {
             if (!StringHelper.isEmpty(numericFieldZ.getText())) {

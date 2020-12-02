@@ -92,16 +92,17 @@ public abstract class ControllerDialogBase extends ControllerBase {
         processValue(numericField, numericField.getDouble());
     }
     protected void processValue(JComponent component, Object value) {
-        //invokeLater for fix combobox close list issue
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                if (validate(component, value)) {
-                    if (!Context.getInstance().isGlobalBlockDialogs()
-                            && !model.isUnderCopy()
-                            && !isDialogModelDisabled
-                            && needOpenDialog(component.getName(), value)
-                            && view instanceof ViewDialogBase
-                    ) {
+
+        if (validate(component, value)) {
+            if (!Context.getInstance().isGlobalBlockDialogs()
+                    && !model.isUnderCopy()
+                    && !isDialogModelDisabled
+                    && needOpenDialog(component.getName(), value)
+                    && view instanceof ViewDialogBase
+            ) {
+                //invokeLater for fix combobox close list issue
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
                         try {
                             IModel clone = (IModel) model.clone();
                             ReflectionHelper.setPropertyValue(clone, component.getName(), value);
@@ -124,15 +125,22 @@ public abstract class ControllerDialogBase extends ControllerBase {
                         } catch (CloneNotSupportedException e) {
                             e.printStackTrace();
                         }
-                    } else {
-                        ReflectionHelper.setPropertyValue(model, component.getName(), value);
-                        isDialogModelDisabled = false;
+                        if (component.getInputVerifier() != null) {
+                            component.getInputVerifier().verify(component);
+                        }
                     }
-                }
+                });
+            } else {
+                ReflectionHelper.setPropertyValue(model, component.getName(), value);
+                isDialogModelDisabled = false;
                 if (component.getInputVerifier() != null) {
                     component.getInputVerifier().verify(component);
                 }
             }
-        });
+
+        }
+
+
+
     }
 }

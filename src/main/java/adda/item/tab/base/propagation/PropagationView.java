@@ -1,5 +1,6 @@
 package adda.item.tab.base.propagation;
 
+import adda.application.controls.JNumericField;
 import adda.base.models.IModel;
 import adda.base.views.ViewDialogBase;
 
@@ -23,6 +24,10 @@ public class PropagationView extends ViewDialogBase {
 
         }
         return panel;
+    }
+
+    protected void initFromModelInner(IModel model) {
+        super.initFromModelInner(model);
     }
 
 }

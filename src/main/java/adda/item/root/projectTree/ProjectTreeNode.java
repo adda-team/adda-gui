@@ -6,6 +6,11 @@ public class ProjectTreeNode {
     protected String desc;
     protected String folder;
     protected boolean isPath;
+    protected boolean isProject;
+
+    public boolean isProject() {
+        return isProject;
+    }
 
     public String getId() {
         return id;

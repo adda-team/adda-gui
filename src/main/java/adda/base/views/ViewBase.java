@@ -130,6 +130,7 @@ public class ViewBase implements IView {
                         if (addLabel && !StringHelper.isEmpty(label)) {
                             JPanel wrapper = getWrapperPanel();
                             final JLabel infoLabel = new JLabel(label);
+                            setHelpTooltip(model, infoLabel);
                             wrapper.add(panel.add(infoLabel));
                             wrapper.add(component);
                             wrappers.put(entryName + WRAPPER_POSTFIX, wrapper);
