@@ -75,11 +75,12 @@ public class FormulationDialog extends CustomOkCancelModalDialog {
                 formulationModel.scatteringQuantities = (ScatteringQuantitiesEnum) selectedItem.getKey();
             }
         });
-
+        mainPanel.setPreferredSize(new Dimension(400, 150));
         getDialogContentPanel().add(getCurrentContent());
 
 
     }
+
     protected JPanel getCurrentContent() {
         return mainPanel;
     }
@@ -104,8 +105,6 @@ public class FormulationDialog extends CustomOkCancelModalDialog {
         interactionComboBox.getInputVerifier().verify(interactionComboBox);
         buttonOK.setEnabled(model.validate());
     }
-
-
 
 
     /**

@@ -106,7 +106,7 @@
           <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties/>
-        <border type="none" title="Configured Options"/>
+        <border type="none" title=""/>
         <children/>
       </grid>
     </children>

@@ -17,7 +17,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <scrollpane id="9b8a8">
+          <scrollpane id="9b8a8" binding="treeScroll">
             <constraints border-constraint="Center"/>
             <properties/>
             <border type="none"/>

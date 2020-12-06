@@ -278,15 +278,17 @@ public class RefractiveIndexAggregatorModel extends ModelBaseAddaOptionsContaine
 
         int count = Math.min(shapeBoxes.size(), shapeModel.getShapeDomainInfos().size());
 
-        for (int i = 0; i < count; i++) {
-            isDefault = isShowShape && shapeBoxes.get(i).getModel().isDefaultState();
-            if (!isDefault) {
-                break;
-            }
-        }
+//        for (int i = 0; i < count; i++) {
+//            isDefault = isShowShape && shapeBoxes.get(i).getModel().isDefaultState();
+//            if (!isDefault) {
+//                break;
+//            }
+//        }
+
+        isDefault = count == 1;
 
         if (isDefault && isShowGranul) {
-            isDefault = granulBox.getModel().isDefaultState();
+            isDefault = false;
         }
 
         if (isDefault && isShowSurface) {

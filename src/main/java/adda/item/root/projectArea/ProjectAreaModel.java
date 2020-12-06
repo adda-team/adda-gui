@@ -72,7 +72,6 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         this.nestedModelList = nestedModelList;
 
 
-
         //loadNestedModelList();
 
 //        if (this.nestedModelList != null) {
@@ -88,23 +87,21 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
 
     public void loadNestedModelList() {
         //this.nestedModelList = nestedModelList;
-
-        if (StringHelper.isEmpty(pathToState)) {
-            return;
-        }
-
-
-        final String name = pathToState + "/adda_gui_state.data";
-
-        if (!(new File(name)).exists()) {
-            return;
-        }
         setLoading(true);
         Context.getInstance().getMainForm().setLoadingVisible(true);
         Context.getInstance().setGlobalBlockDialogs(true);
         Thread t = new Thread(() -> {
             ObjectInputStream objectInputStream = null;
             try {
+                if (StringHelper.isEmpty(pathToState)) {
+                    return;
+                }
+
+                final String name = pathToState + "/adda_gui_state.data";
+
+                if (!(new File(name)).exists()) {
+                    return;
+                }
 
                 objectInputStream = new ObjectInputStream(
                         new FileInputStream(name));
@@ -187,17 +184,9 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
                                     }
                                 }
                             });
-                            //
-
                             continue;
                         }
-
-//                        SwingUtilities.invokeLater(new Runnable() {
-//                            @Override
-//                            public void run() {
-                                model.copyProperties(savedModel);
-//                            }
-//                        });
+                        model.copyProperties(savedModel);
                     }
                 }
             } catch (Exception ignore) {
@@ -272,6 +261,18 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
                         .findFirst()
                         .get();
 
+                File f = new File(name);
+                if (!f.exists()) {
+                    if (!f.createNewFile()) {
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                JOptionPane.showMessageDialog(null, "Cannot create state file: " + name);
+                            }
+                        });
+                        return;
+                    }
+                }
 
                 objectOutputStream = new ObjectOutputStream(
                         new FileOutputStream(name));
@@ -283,6 +284,13 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
 
                 objectOutputStream.close();
             } catch (IOException e) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        JOptionPane.showMessageDialog(null, "Cannot create state file: " + name + ", " +
+                                e.getMessage());
+                    }
+                });
                 e.printStackTrace();
             }
         });

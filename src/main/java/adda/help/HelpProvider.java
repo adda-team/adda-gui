@@ -82,7 +82,7 @@ public class HelpProvider {
         idMapper.put(RefractiveIndexAggregatorModel.class, Arrays.asList("extensions_of_the_dda", StringHelper.toDisplayString("more about refractive index")));
         idMapper.put(SizeModel.class, Arrays.asList("the_computational_grid", StringHelper.toDisplayString("more about size")));
         idMapper.put(AccuracyModel.class, Arrays.asList("general_applicability", StringHelper.toDisplayString("more about accuracy")));
-        idMapper.put(FormulationModel.class, Arrays.asList("dda_formulation", StringHelper.toDisplayString(" all DDA formulations")));
+        idMapper.put(FormulationModel.class, Arrays.asList("dda_formulation", StringHelper.toDisplayString(" all DDA formulations"), "polarizability_prescription", StringHelper.toDisplayString(" about polarizability"), "interaction_term", StringHelper.toDisplayString(" about interaction"), "how_to_calculate_scattering_quantities", StringHelper.toDisplayString(" about calculating scattering quantities")));
         idMapper.put(InitialFieldModel.class, Arrays.asList("iterative_solver", StringHelper.toDisplayString("about initial field")));
         idMapper.put(IterativeSolverModel.class, Arrays.asList("iterative_solver", StringHelper.toDisplayString("more about iterative solver")));
         idMapper.put(JaggedModel.class, Arrays.asList("construction_of_a_dipole_set", StringHelper.toDisplayString("more about 'jagged' option")));
@@ -95,7 +95,7 @@ public class HelpProvider {
         idMapper.put(GeometrySaveModel.class, Arrays.asList("geometry_files", StringHelper.toDisplayString("about geometry file")));
         idMapper.put(GranulSaveModel.class, Arrays.asList("granules", StringHelper.toDisplayString("more about granules")));
         idMapper.put(InternalFieldSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("more about saving internal field")));
-        idMapper.put(PlaneSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("more about saving incident field")));
+        idMapper.put(PlaneSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("more about plane")));
         idMapper.put(PolarizationSaveModel.class, Arrays.asList("intfield,_dippol,_and_incbeam", StringHelper.toDisplayString("")));
         idMapper.put(QabsSaveModel.class, Arrays.asList("crosssec", StringHelper.toDisplayString("more about Qabs")));
         idMapper.put(QextSaveModel.class, Arrays.asList("crosssec", StringHelper.toDisplayString("more about Qext")));
@@ -135,11 +135,12 @@ public class HelpProvider {
         int width = 300;
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setMaximumSize(new Dimension(200, 9999));
-        panel.setMinimumSize(new Dimension(200, 10));
+        panel.setMaximumSize(new Dimension(width, 9999));
+        panel.setMinimumSize(new Dimension(width, 10));
         panel.setBackground(Color.white);
         StringBuilder html = new StringBuilder();
         final JLabel label = new JLabel();
+        label.setHorizontalAlignment(JLabel.LEFT);
         panel.add(label);
 
         int buttonHeight = 0;
@@ -155,6 +156,7 @@ public class HelpProvider {
             button.setContentAreaFilled(false);
             button.setFocusable(false);
             button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            button.setHorizontalAlignment(JButton.LEFT);
             panel.add(button);
             html.append(getShortDescByID(id));
             buttonHeight += 25;
@@ -245,11 +247,72 @@ public class HelpProvider {
                     "Calculate the total radiation force, expressed as cross section."
             );
         }
+
+        if (QabsSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Calculate absorption cross section"
+            );
+        }
+
+        if (QextSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Calculate extinction cross section"
+            );
+        }
+
         if (QscaSaveModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
                     "Calculate scattering cross section (by integrating the scattered field)"
             );
         }
+
+        if (FormulationModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "ADDA implements the following of expressions for the <b>polarizability</b>: the Clausius-Mossotti (CM), the radiative" +
+                            "reaction correction," +
+                            "formulation by Lakhtakia," +
+                            "digitized Green's function," +
+                            "integration of Green's and other." +
+                            "formulations for the direct <b>interaction</b> term are known. Currently," +
+                            "ADDA can use the simplest one (interaction of point dipoles), the FCD " +
+                            "(in other words, filtered Green's tensor)," +
+                            "quasistatic version of the FCD, the Integrated Green's Tensor," +
+                            "approximation of IGT"
+            );
+        }
+
+        if (VolCorrectionModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Do not use 'dpl (volume) correction'. If this option is given, ADDA will try to match size of "+
+                    "the dipole grid along x-axis to that of the particle, either given by '-size' or calculated analytically from "+
+                    "'-eq_rad'. Otherwise (by default) ADDA will try to match the volumes, using either '-eq_rad' or the value "+
+                    "calculated analytically from '-size'."
+            );
+        }
+
+        if (IterativeSolverModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "The main computation of a DDA simulation," +
+                    "usually taking the major part the execution time, is finding a solution of a large" +
+                    "system of linear equations. ADDA uses the following: Bi-CGStab(2), Bi-CG, Bi-CGStab, CGNR, CSYM, QMR, QMR2."
+            );
+        }
+
+        if (ThetaSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sets the number of intervals, into which the range of scattering angles [0,180] (degrees) is "+
+                            "equally divided, integer. This is used for scattering angles in yz-plane. If particle is not symmetric and "+
+                            "orientation averaging is not used, the range is extended to 360 degrees (with the same length of elementary "+
+                            "interval, i.e. number of intervals is doubled)."
+            );
+        }
+
+        if (OptimizationModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sets whether ADDA should optimize itself for maximum speed or for minimum memory usage."
+            );
+        }
+
         if (AccuracyModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
                     "Specifies the stopping criterion for the iterative solver by setting the relative norm of the " +
@@ -257,6 +320,75 @@ public class HelpProvider {
                             "Default: 5 (epsilon=1E-5)"
             );
         }
+
+        if (ScatteringMatrixSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Specifies which scattering matrices (from Mueller and amplitude) should "+
+                    "be saved to file. Amplitude matrix is never integrated"
+            );
+        }
+
+        if (AsymParamsSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Calculate the asymmetry vector. Implies '-Csca' and '-vec'"
+            );
+        }
+
+        if (GeometrySaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Save dipole configuration to a file."+
+                            "Specifies format for saving geometry files. First two are ADDA "+
+                    "default formats for single- and multi-domain particles respectively. 'text' is automatically changed to "+
+                    "'text_ext' for multi-domain particles. Two DDSCAT formats correspond to its shape options 'FRMFIL' (version "+
+                    "6) and 'FROM_FILE' (version 7) and output of 'calltarget' utility."
+            );
+        }
+
+        if (BeamSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Save incident beam to a file"
+            );
+        }
+
+        if (PolarizationSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Save dipole polarizations to a file"
+            );
+        }
+
+        if (GranulSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Save granule coordinates (placed by '-granul' option) to a file"
+            );
+        }
+
+        if (InternalFieldSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Save internal fields to a file"
+            );
+        }
+
+        if (PlaneSaveModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Explicitly enables calculation of the scattering in the yz-plane (in incident-wave reference frame). "+
+                    "It can also be implicitly enabled by other options."
+            );
+        }
+//
+//        if (.class.equals(clazz)) {
+//            return StringHelper.toDisplayString(
+//
+//            );
+//        }
+//
+//        if (.class.equals(clazz)) {
+//            return StringHelper.toDisplayString(
+//
+//            );
+//        }
+
+
+
         if (GranulesModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
                     "Specifies that one particle domain should be randomly filled with " +

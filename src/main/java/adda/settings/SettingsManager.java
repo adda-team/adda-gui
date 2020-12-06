@@ -32,7 +32,7 @@ public class SettingsManager {
 
     public static Setting recreateSettings() {
         String userDir = System.getProperty("user.dir");
-        String firstProjectDir = userDir + "/first-project";
+        String firstProjectDir = userDir + "/adda-project";
 
         File file = new File(firstProjectDir);
         //deleteFolder(file);
@@ -54,7 +54,7 @@ public class SettingsManager {
         List<ProjectSetting> list = new ArrayList<>();
         if (firstProjectIsCreated) {
             ProjectSetting projectSetting = new ProjectSetting();
-            projectSetting.setName("First Project");
+            projectSetting.setName("ADDA Project");
             projectSetting.setPath(firstProjectDir);
             list.add(projectSetting);
         }

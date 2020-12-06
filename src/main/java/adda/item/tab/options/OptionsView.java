@@ -93,9 +93,6 @@ public class OptionsView implements IView {
             public boolean isSortable(int column) {
                 return false;
             }
-
-            ;
-
         };
         table.setRowSorter(sorter);
         table.getTableHeader().setReorderingAllowed(false);

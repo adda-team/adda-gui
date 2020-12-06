@@ -1,6 +1,7 @@
 package adda.item.root.projectArea;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class ProjectAreaForm {
@@ -59,6 +60,15 @@ public class ProjectAreaForm {
         scrollOutput.getVerticalScrollBar().setUnitIncrement(16);
         scrollOutput.getVerticalScrollBar().setUnitIncrement(16);
         scrollShape.getVerticalScrollBar().setUnitIncrement(16);
+
+        final JLabel label = new JLabel("Configured Options");
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setPreferredSize(new Dimension(150, 25));
+        panelOptions.add(label, BorderLayout.NORTH);
+        scrollShape.setMinimumSize(new Dimension(60, 300));
+
+
     }
 
     {
@@ -116,6 +126,15 @@ public class ProjectAreaForm {
         panelOutput = new JPanel();
         panelOutput.setLayout(new BorderLayout(0, 0));
         scrollOutput.setViewportView(panelOutput);
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        panelMain.add(panel1, gbc);
         scrollShape = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -123,20 +142,29 @@ public class ProjectAreaForm {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panelMain.add(scrollShape, gbc);
+        panel1.add(scrollShape, gbc);
         panelShape = new JPanel();
         panelShape.setLayout(new BorderLayout(0, 0));
         scrollShape.setViewportView(panelShape);
-        panelOptions = new JPanel();
-        panelOptions.setLayout(new BorderLayout(0, 0));
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panelMain.add(panelOptions, gbc);
-        panelOptions.setBorder(BorderFactory.createTitledBorder("Configured Options"));
+        panelMain.add(panel2, gbc);
+        panelOptions = new JPanel();
+        panelOptions.setLayout(new BorderLayout(0, 0));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel2.add(panelOptions, gbc);
+        panelOptions.setBorder(BorderFactory.createTitledBorder(""));
     }
 
     /**

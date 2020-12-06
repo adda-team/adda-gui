@@ -15,6 +15,7 @@ public class MainForm {
     private JPanel treePanel;
     private JTextArea actualCommandLineTextArea;
     private JTextArea consoleTextArea;
+    private JScrollPane treeScroll;
 
 
     public JPanel getMainPanel() {
@@ -81,13 +82,12 @@ public class MainForm {
         actualCommandLineTextArea.setAlignmentY(Component.CENTER_ALIGNMENT);
 
 
-
         bufferPanel = new JPanel();
         bufferPanel.setLayout(new OverlayLayout(bufferPanel));
 
         overlay = new JPanel(new BorderLayout());
         overlay.setBackground(new Color(255, 255, 255, 190));
-        final JLabel label = new JLabel("Loading ...");
+        final JLabel label = new JLabel("Please wait ...");
         label.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
@@ -96,6 +96,8 @@ public class MainForm {
         bufferPanel.add(overlay);
         bufferPanel.add(mainPanel);
 
+        treeScroll.getVerticalScrollBar().setUnitIncrement(16);
+        treeScroll.getHorizontalScrollBar().setUnitIncrement(16);
 
 
     }
@@ -126,11 +128,11 @@ public class MainForm {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(treePanel, gbc);
-        final JScrollPane scrollPane1 = new JScrollPane();
-        treePanel.add(scrollPane1, BorderLayout.CENTER);
+        treeScroll = new JScrollPane();
+        treePanel.add(treeScroll, BorderLayout.CENTER);
         leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout(0, 0));
-        scrollPane1.setViewportView(leftPanel);
+        treeScroll.setViewportView(leftPanel);
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -173,15 +175,15 @@ public class MainForm {
         actualCommandLinePanel.setLayout(new BorderLayout(0, 0));
         actualCommandLinePanel.setBackground(new Color(-855310));
         tabbedPane1.addTab("ADDA command line", actualCommandLinePanel);
-        final JScrollPane scrollPane2 = new JScrollPane();
-        scrollPane2.setBackground(new Color(-855310));
-        scrollPane2.setHorizontalScrollBarPolicy(31);
-        actualCommandLinePanel.add(scrollPane2, BorderLayout.CENTER);
-        scrollPane2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setBackground(new Color(-855310));
+        scrollPane1.setHorizontalScrollBarPolicy(31);
+        actualCommandLinePanel.add(scrollPane1, BorderLayout.CENTER);
+        scrollPane1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
         actualCommandLineTextArea = new JTextArea();
         actualCommandLineTextArea.setBackground(new Color(-855310));
         actualCommandLineTextArea.setDisabledTextColor(new Color(-1));
-        scrollPane2.setViewportView(actualCommandLineTextArea);
+        scrollPane1.setViewportView(actualCommandLineTextArea);
         infoPanel = new JPanel();
         infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         infoPanel.setBackground(new Color(-855310));
@@ -189,14 +191,14 @@ public class MainForm {
         consolePanel = new JPanel();
         consolePanel.setLayout(new BorderLayout(0, 0));
         tabbedPane1.addTab("Console", consolePanel);
-        final JScrollPane scrollPane3 = new JScrollPane();
-        scrollPane3.setBackground(new Color(-1));
-        scrollPane3.setEnabled(false);
-        scrollPane3.setHorizontalScrollBarPolicy(31);
-        consolePanel.add(scrollPane3, BorderLayout.CENTER);
-        scrollPane3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
+        final JScrollPane scrollPane2 = new JScrollPane();
+        scrollPane2.setBackground(new Color(-1));
+        scrollPane2.setEnabled(false);
+        scrollPane2.setHorizontalScrollBarPolicy(31);
+        consolePanel.add(scrollPane2, BorderLayout.CENTER);
+        scrollPane2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
         consoleTextArea = new JTextArea();
-        scrollPane3.setViewportView(consoleTextArea);
+        scrollPane2.setViewportView(consoleTextArea);
         shortcutPanel = new JPanel();
         shortcutPanel.setLayout(new BorderLayout(0, 0));
         gbc = new GridBagConstraints();
