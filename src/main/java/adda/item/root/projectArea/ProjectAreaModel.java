@@ -372,7 +372,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         args.add(path);
 
         args.add("-so_buf");
-        args.add("no");
+        args.add("line");
 
 //        try {
 //            File folder = new File(path);
