@@ -124,7 +124,7 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
             String file = "";
             if (orientationAverageBox.getModel() != null && orientationAverageBox.getModel() instanceof OrientationAverageModel) {
                 file = ((OrientationAverageModel) orientationAverageBox.getModel()).getAverageFile();
-                file = StringHelper.isEmpty(file) ? " custom.dat" : (" " + file);
+                file = StringHelper.isEmpty(file) ? " avg_params.dat" : (" " + file);
             }
 
             return Arrays.asList(new AddaOption(ORIENT, commandValue + file, StringHelper.toDisplayString(enumValue) + file));

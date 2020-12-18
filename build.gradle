@@ -39,6 +39,7 @@ manifest {
 
 launch4j {
     mainClassName = 'adda.Main'
+    icon = "${projectDir}/help/en/adda_logo.ico"
 }
 
 sourceSets {

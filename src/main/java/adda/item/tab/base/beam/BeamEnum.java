@@ -13,10 +13,10 @@ public enum BeamEnum {
     @DisplayString("Gaussian beam (1st order)")
     lminus,
 
-    @DisplayString("Gaussian beam (3st order)")
+    @DisplayString("Gaussian beam (3rd order)")
     davis3,
 
-    @DisplayString("Gaussian beam (5st order)")
+    @DisplayString("Gaussian beam (5th order)")
     barton5
 
 

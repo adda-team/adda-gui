@@ -24,9 +24,12 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import static java.nio.file.StandardCopyOption.*;
 
 public class ProjectAreaModel extends ModelBase implements IModelObserver {
 
@@ -357,15 +360,29 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         }
         setRunning(true);
         List<String> args = new ArrayList<String>();
-        String path = System.getProperty("user.dir");
-        String addaPath = path + "/win64/adda.exe";
-        args.add(addaPath);
+        String currentPath = System.getProperty("user.dir");
+        String binPath = currentPath + "/bin";
+        args.add(binPath + "/adda");
         args.addAll(Arrays.asList(optionsModel.getActualCommandLine().split(" ")));
         args.add("-dir");
         Date now = new Date();
         SimpleDateFormat pattern = new SimpleDateFormat("dd-MM-yyyy_HH_mm_ss");
-        args.add(Context.getInstance().getProjectTreeModel().getSelectedPath().getFolder() + "/run_" + pattern.format(now));
+        String path = Context.getInstance().getProjectTreeModel().getSelectedPath().getFolder() + "/run_" + pattern.format(now);
+        //path = path.replace("/", "\\");
+        args.add(path);
 
+        args.add("-so_buf");
+        args.add("no");
+
+//        try {
+//            File folder = new File(path);
+//            if (!folder.exists()) {
+//                folder.mkdir();
+//            }
+//            Files.copy(new File(String.format("%s/alldir_params.dat", binPath)).toPath(), new File(String.format("%s/alldir_params.dat", path)).toPath(), REPLACE_EXISTING);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         ProcessBuilder builder = new ProcessBuilder(args);
         builder.redirectErrorStream(true);

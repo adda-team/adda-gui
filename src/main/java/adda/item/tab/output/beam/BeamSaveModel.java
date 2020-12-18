@@ -19,13 +19,12 @@ import java.util.List;
 
 public class BeamSaveModel extends BooleanFlagModel implements IModelObserver {
 
-    public static final String SAVE_BEAM = "save_beam";
+    public static final String SAVE_BEAM = "store_beam";
 
     public BeamSaveModel() {
         this.setLabel("Beam");//todo localization
         isVisibleIfDisabled = true;
     }
-
 
     @Override
     protected String getAddaCommand() {

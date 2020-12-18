@@ -158,7 +158,11 @@ public class Main {
         openHelpSystem.addActionListener(new CSH.DisplayHelpFromSource(Context.getInstance().getHelpBroker()));
 
         helpMenu.add(openHelpSystem);
-        helpMenu.add(new JMenuItem("About"));
+        final JMenuItem about = new JMenuItem("About");
+        about.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "<html>Version <b>0.1beta</b>.<br> Use adda-discuss@googlegroups.com to contact dev team</html>");
+        });
+        helpMenu.add(about);
 
         menuBar.add(helpMenu);
 

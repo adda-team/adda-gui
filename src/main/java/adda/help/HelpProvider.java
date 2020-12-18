@@ -254,6 +254,13 @@ public class HelpProvider {
             );
         }
 
+        if (DipoleShapeModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Use rectangular-cuboid dipoles. Three arguments are the relative dipole sizes along "+
+                    "the corresponding axes. Absolute scale is not relevant, i.e. '1 2 2' is equivalent to '0.5 1 1'."
+            );
+        }
+
         if (QextSaveModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
                     "Calculate extinction cross section"

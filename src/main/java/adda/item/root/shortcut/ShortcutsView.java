@@ -56,6 +56,7 @@ public class ShortcutsView extends ViewBase {
         panel.add( Box.createHorizontalStrut(20) );
         Icon icon = IconFontSwing.buildIcon(FontAwesome.STEP_FORWARD, 25, Color.blue);
         JButton button = new JButton("Prognosis",icon);
+        button.setEnabled(false);
 //        button.setBorder(new RoundedBorder(10)); //10 is the radius
         panel.add(button);
         prognosisButton = button;

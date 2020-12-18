@@ -69,6 +69,7 @@ public class ProjectTreeView extends ViewBase {
                         javax.swing.SwingUtilities.invokeLater(new Runnable() {
                             public void run() {
                                 jtree.setSelectionRow(rowIndex);
+                                jtree.expandRow(rowIndex);
                             }
                         });
                         break;
