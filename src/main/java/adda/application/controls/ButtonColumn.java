@@ -201,11 +201,14 @@ public class ButtonColumn extends AbstractCellEditor
 
         //  Invoke the Action
 
-        ActionEvent event = new ActionEvent(
-                table,
-                ActionEvent.ACTION_PERFORMED,
-                "" + row);
-        action.actionPerformed(event);
+        if (renderButton.isEnabled()) {
+            ActionEvent event = new ActionEvent(
+                    table,
+                    ActionEvent.ACTION_PERFORMED,
+                    "" + row);
+            action.actionPerformed(event);
+        }
+
     }
 
     //

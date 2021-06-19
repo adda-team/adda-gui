@@ -33,6 +33,8 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
     private static final String ROOT_NAME = "This PC";
     private static final String ROOT_ID = "local_computer";
 
+    public volatile boolean enableAutoReload = true;
+
     public ProjectTreeModel() {
         this.root = new ProjectTreeNode();
         root.id = ROOT_ID;
@@ -241,8 +243,16 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
     }
 
     public void reload() {
+        if (enableAutoReload) {
+            notifyObservers(REFRESH, true);
+        }
+    }
+
+    public void reloadForce() {
         notifyObservers(REFRESH, true);
     }
+
+
 
 
 }

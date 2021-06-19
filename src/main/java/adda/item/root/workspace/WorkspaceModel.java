@@ -1,7 +1,6 @@
 package adda.item.root.workspace;
 
 import adda.Context;
-import adda.base.boxes.BoxBase;
 import adda.base.boxes.IBox;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
@@ -11,10 +10,12 @@ import adda.item.root.projectArea.ProjectAreaBox;
 import adda.item.root.projectArea.ProjectAreaModel;
 import adda.item.root.projectTree.ProjectTreeModel;
 import adda.item.root.projectTree.ProjectTreeNode;
+import adda.utils.SwingUtils;
 
 import java.util.*;
 
 public class WorkspaceModel extends ModelBase implements IModelObserver {
+    public static final String FOCUSED_BOX_FIELD_NAME = "focusedBox";
     protected Map<ProjectTreeNode, IBox> boxes = new HashMap<>(); //todo may be initialization can delete
     protected List<ProjectTreeNode> keys = new ArrayList<ProjectTreeNode>(); //todo may be initialization can delete
     protected IBox focusedBox;
@@ -71,7 +72,7 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
                 || (this.focusedBox == null && focusedBox != null)) { //todo if condition to func
             setAreaActive(false);
             this.focusedBox = focusedBox;
-            notifyObservers("focusedBox", focusedBox);
+            notifyObservers(FOCUSED_BOX_FIELD_NAME, focusedBox);
             setAreaActive(true);
         }
     }
@@ -86,11 +87,11 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
         if (sender instanceof ProjectTreeModel) {
             if (event.getPropertyName().equals("selectedPath")) {
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        Context.getInstance().getMainForm().setLoadingVisible(true);
-                    }
-                });
+//                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+//                    public void run() {
+//                        Context.getInstance().getMainForm().setLoadingVisible(true);
+//                    }
+//                });
                 ProjectTreeModel projectTreeModel = (ProjectTreeModel) sender;
 
                 final IBox focusedBox;
@@ -105,6 +106,16 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
                     final ProjectAreaModel projectAreaModel = (ProjectAreaModel) focusedBox.getModel();
                     projectAreaModel.setPathToState(projectTreeModel.getSelectedPath().getFolder());
                     projectAreaModel.loadNestedModelList();
+                    if (!projectTreeModel.getSelectedPath().isProject()) {
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                focusedBox
+                                        .getChildren()
+                                        .forEach(child -> SwingUtils.setBoxEnabled(child, false));
+                            }
+                        });
+                    }
+
 
                     boxes.put(projectTreeModel.getSelectedPath(), focusedBox);
                     keys.add(projectTreeModel.getSelectedPath());

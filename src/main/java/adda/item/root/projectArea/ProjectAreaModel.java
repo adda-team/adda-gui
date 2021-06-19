@@ -216,6 +216,11 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
 
         });
         t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getPathToState() {
@@ -363,11 +368,12 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         String currentPath = System.getProperty("user.dir");
         String binPath = currentPath + "/bin";
         args.add(binPath + "/adda");
-        args.addAll(Arrays.asList(optionsModel.getActualCommandLine().split(" ")));
+        final List<String> params = Arrays.asList(optionsModel.getActualCommandLine().split(" "));
+        args.addAll(params);
         args.add("-dir");
-        Date now = new Date();
-        SimpleDateFormat pattern = new SimpleDateFormat("dd-MM-yyyy_HH_mm_ss");
-        String path = Context.getInstance().getProjectTreeModel().getSelectedPath().getFolder() + "/run_" + pattern.format(now);
+//        Date now = new Date();
+//        SimpleDateFormat pattern = new SimpleDateFormat("dd-MM-yyyy_HH_mm_ss");
+        String path = Context.getInstance().getProjectTreeModel().getSelectedPath().getFolder();// + "/run_" + pattern.format(now);
         //path = path.replace("/", "\\");
         args.add(path);
 

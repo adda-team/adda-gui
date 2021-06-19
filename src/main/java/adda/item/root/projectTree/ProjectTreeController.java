@@ -70,6 +70,7 @@ public class ProjectTreeController extends ControllerBase {
                                     if (jtree.getModel().getRoot().equals(node)) {
                                         showPopup = true;
                                     } else {
+                                        Context.getInstance().getMainForm().setLoadingVisible(true);
                                         javax.swing.SwingUtilities.invokeLater(new Runnable() {
                                             public void run() {
 

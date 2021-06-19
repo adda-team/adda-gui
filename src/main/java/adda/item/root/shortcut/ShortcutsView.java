@@ -58,7 +58,7 @@ public class ShortcutsView extends ViewBase {
         JButton button = new JButton("Prognosis",icon);
         button.setEnabled(false);
 //        button.setBorder(new RoundedBorder(10)); //10 is the radius
-        panel.add(button);
+        //panel.add(button);
         prognosisButton = button;
 
 
