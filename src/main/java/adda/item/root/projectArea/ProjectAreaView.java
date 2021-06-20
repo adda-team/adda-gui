@@ -5,16 +5,20 @@ import adda.application.controls.JNumericField;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.views.ViewBase;
+import adda.item.root.lineChart.LineChartBox;
+import adda.item.root.lineChart.LineChartModel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.io.File;
 import java.util.Map;
 
 public class ProjectAreaView extends ViewBase {
 
     public JButton closeButton;
     public JTextArea textArea;
+    public JPanel resultPanel;
 
     @Override
     public void initFromModel(IModel model) {
@@ -56,7 +60,9 @@ public class ProjectAreaView extends ViewBase {
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        popupPanel.add(scroll, BorderLayout.CENTER);
+        resultPanel = new JPanel(new BorderLayout());
+        resultPanel.add(scroll, BorderLayout.CENTER);
+        popupPanel.add(resultPanel, BorderLayout.CENTER);
 
         bufferPanel = createBufferPanel(padding);
         //textarea stop event propagation to back panel
@@ -119,6 +125,23 @@ public class ProjectAreaView extends ViewBase {
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
         if (ProjectAreaModel.IS_RUNNING_FIELD_NAME.equals(event.getPropertyName())) {
             panel.setVisible((Boolean) event.getPropertyValue());
+        }
+        if (ProjectAreaModel.IS_SUCCESSFULLY_FINISHED_FIELD_NAME.equals(event.getPropertyName())) {
+            ProjectAreaModel projectAreaModel = (ProjectAreaModel) sender;
+            final String pathname = projectAreaModel.getPathToState() + "/mueller";
+            if ((new File(pathname).exists())) {
+                LineChartBox lineChartBox = new LineChartBox();
+                lineChartBox.init();
+                final LineChartModel lineChartModel = (LineChartModel) lineChartBox.getModel();
+                lineChartModel.setDescription(pathname);
+                lineChartModel.loadFromFileAsync(pathname);
+                lineChartBox.getLayout().setMinimumSize(new Dimension(resultPanel.getWidth(), 350));
+                resultPanel.removeAll();
+                resultPanel.add(lineChartBox.getLayout(), BorderLayout.CENTER);
+                resultPanel.revalidate();
+                resultPanel.repaint();
+            }
+
         }
     }
 

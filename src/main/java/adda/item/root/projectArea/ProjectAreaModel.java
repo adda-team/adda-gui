@@ -9,7 +9,6 @@ import adda.base.models.ModelBase;
 import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.item.tab.options.OptionsModel;
-import adda.item.tab.output.polarization.PolarizationSaveModel;
 import adda.item.tab.shape.granules.GranulesModel;
 import adda.item.tab.shape.orientation.OrientationModel;
 import adda.item.tab.shape.orientation.avarage.OrientationAverageModel;
@@ -24,21 +23,19 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import static java.nio.file.StandardCopyOption.*;
 
 public class ProjectAreaModel extends ModelBase implements IModelObserver {
 
     public static final String IS_ACTIVE_FIELD_NAME = "isActive";
     public static final String IS_RUNNING_FIELD_NAME = "isRunning";
     public static final String IS_LOADING_FIELD_NAME = "isLoading";
+    public static final String IS_SUCCESSFULLY_FINISHED_FIELD_NAME = "isSuccessfullyFinished";
 
     protected boolean isRunning;
     protected boolean isActive;
+    protected boolean isSuccessfullyFinished;
     protected boolean isLoading;
     protected volatile boolean isChangedNestedModelList;
 
@@ -346,6 +343,16 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         }
     }
 
+    public boolean isSuccessfullyFinished() {
+        return isSuccessfullyFinished;
+    }
+
+    public void setSuccessfullyFinished(boolean successfullyFinished) {
+        if (isSuccessfullyFinished != successfullyFinished) {
+            this.isSuccessfullyFinished = successfullyFinished;
+            notifyObservers(IS_SUCCESSFULLY_FINISHED_FIELD_NAME, isRunning);
+        }
+    }
 
     private OutputDisplayer outputDisplayer;
 
@@ -395,7 +402,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
 
         try {
             Process addaProcess = builder.start();
-            outputDisplayer.commence(addaProcess);
+            outputDisplayer.commence(addaProcess, () -> javax.swing.SwingUtilities.invokeLater(() -> setSuccessfullyFinished(true)));
         } catch (IOException e) {
             setRunning(false);
             JOptionPane.showMessageDialog(null, e.getMessage());

@@ -38,7 +38,8 @@ public class ProjectTreeView extends ViewBase {
         jtree.setCellRenderer(new CustomTreeCellRenderer(
                 IconFontSwing.buildIcon(FontAwesome.DESKTOP, 14, Color.black),
                 IconFontSwing.buildIcon(FontAwesome.FOLDER_O, 14, Color.black),
-                IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN_O, 14, Color.black)
+                IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN_O, 14, Color.black),
+                IconFontSwing.buildIcon(FontAwesome.LINE_CHART, 12, Color.gray)
         ));
         jtree.addTreeWillExpandListener(new TreeWillExpandListener() {
             @Override
@@ -85,11 +86,13 @@ public class ProjectTreeView extends ViewBase {
         Icon desc;
         Icon folder;
         Icon folderExp;
+        Icon chart;
 
-        public CustomTreeCellRenderer(Icon desc, Icon folder, Icon folderExp) {
+        public CustomTreeCellRenderer(Icon desc, Icon folder, Icon folderExp, Icon chart) {
             this.desc = desc;
             this.folder = folder;
             this.folderExp = folderExp;
+            this.chart = chart;
         }
 
         @Override
@@ -101,6 +104,8 @@ public class ProjectTreeView extends ViewBase {
                 setIcon(desc);
             } else if (node != null && node.isProject()) {
                 setIcon(expanded ? folderExp : folder);
+            } else if (node != null && !node.isPath && "mueller".equals(node.getName())) {
+                setIcon(chart);
             }
 
             return this;

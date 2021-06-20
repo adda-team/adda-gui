@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.function.Function;
 
 
 public class OutputDisplayer implements Runnable {
@@ -14,6 +15,8 @@ public class OutputDisplayer implements Runnable {
     protected InputStream reader_ = null;
     protected Thread thread_ = null;
     protected Process proc_;
+
+    protected Runnable afterFinishFunc;
 
     public OutputDisplayer(JTextArea textArea) {
         textArea_ = textArea;
@@ -30,12 +33,14 @@ public class OutputDisplayer implements Runnable {
         }
     }
 
-    public void commence(Process proc) {
+    public void commence(Process proc, Runnable afterFinishFunc) {
         cancel();
         proc_ = proc;
+        this.afterFinishFunc = afterFinishFunc;
         reader_ = proc_.getInputStream();
         thread_ = new Thread(this);
         thread_.start();
+        //thread_.
     }
 
     public void run() {
@@ -59,6 +64,7 @@ public class OutputDisplayer implements Runnable {
         } finally {
             try {
                 reader_.close();
+                afterFinishFunc.run();
             } catch ( IOException ioe ) {
                 ioe.printStackTrace();
             }

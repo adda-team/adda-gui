@@ -50,6 +50,14 @@ public class ProjectTreeNode {
         return name;
     }
 
+    public boolean isPath() {
+        return isPath;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
     public String toString() {
         return desc;
     }

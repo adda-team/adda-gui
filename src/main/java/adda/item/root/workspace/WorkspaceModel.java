@@ -1,15 +1,19 @@
 package adda.item.root.workspace;
 
 import adda.Context;
+import adda.base.boxes.BoxBase;
 import adda.base.boxes.IBox;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.models.ModelBase;
 import adda.base.models.IModelObserver;
+import adda.item.root.lineChart.LineChartBox;
+import adda.item.root.lineChart.LineChartModel;
 import adda.item.root.projectArea.ProjectAreaBox;
 import adda.item.root.projectArea.ProjectAreaModel;
 import adda.item.root.projectTree.ProjectTreeModel;
 import adda.item.root.projectTree.ProjectTreeNode;
+import adda.item.tab.base.BaseTabBox;
 import adda.utils.SwingUtils;
 
 import java.util.*;
@@ -99,22 +103,36 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
                     focusedBox = boxes.get(projectTreeModel.getSelectedPath());
                 } else {
                     //todo get selected item type then get right box (may be fabric method)
+                    if ((projectTreeModel.getSelectedPath().isPath())) {
+                        focusedBox = new ProjectAreaBox(projectTreeModel.getSelectedPath().getName());
 
-                    focusedBox = new ProjectAreaBox(projectTreeModel.getSelectedPath().getName());
-
-                    focusedBox.init();
-                    final ProjectAreaModel projectAreaModel = (ProjectAreaModel) focusedBox.getModel();
-                    projectAreaModel.setPathToState(projectTreeModel.getSelectedPath().getFolder());
-                    projectAreaModel.loadNestedModelList();
-                    if (!projectTreeModel.getSelectedPath().isProject()) {
-                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                focusedBox
-                                        .getChildren()
-                                        .forEach(child -> SwingUtils.setBoxEnabled(child, false));
-                            }
-                        });
+                        focusedBox.init();
+                        final ProjectAreaModel projectAreaModel = (ProjectAreaModel) focusedBox.getModel();
+                        projectAreaModel.setPathToState(projectTreeModel.getSelectedPath().getFolder());
+                        projectAreaModel.loadNestedModelList();
+                        if (!projectTreeModel.getSelectedPath().isProject()) {
+                            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                                public void run() {
+                                    Context.getInstance().getMainForm().setLoadingVisible(true);
+                                    focusedBox
+                                            .getChildren()
+                                            .forEach(child -> SwingUtils.setBoxEnabled(child, false));
+                                    Context.getInstance().getMainForm().setLoadingVisible(false);
+                                }
+                            });
+                        }
+                    } else if ("mueller".equals(projectTreeModel.getSelectedPath().getName())) {
+                        focusedBox = new LineChartBox(projectTreeModel.getSelectedPath().getName());
+                        focusedBox.init();
+                        final LineChartModel lineChartModel = (LineChartModel) focusedBox.getModel();
+                        lineChartModel.setDisplayName(projectTreeModel.getSelectedPath().getName());
+                        lineChartModel.setDescription(projectTreeModel.getSelectedPath().getFolder());
+                        lineChartModel.loadFromFileAsync(projectTreeModel.getSelectedPath().getFolder());
+                    } else {
+                        focusedBox = new BoxBase(projectTreeModel.getSelectedPath().getName());
+                        focusedBox.init();
                     }
+
 
 
                     boxes.put(projectTreeModel.getSelectedPath(), focusedBox);
