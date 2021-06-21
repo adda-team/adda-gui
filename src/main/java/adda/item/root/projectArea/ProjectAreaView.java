@@ -1,23 +1,24 @@
 package adda.item.root.projectArea;
 
-import adda.application.controls.ComboBoxItem;
-import adda.application.controls.JNumericField;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.views.ViewBase;
 import adda.item.root.lineChart.LineChartBox;
 import adda.item.root.lineChart.LineChartModel;
+import adda.utils.StringHelper;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.File;
-import java.util.Map;
 
 public class ProjectAreaView extends ViewBase {
 
     public JButton closeButton;
     public JTextArea textArea;
+    public JTabbedPane tabbedPane;
     public JPanel resultPanel;
 
     @Override
@@ -32,7 +33,7 @@ public class ProjectAreaView extends ViewBase {
 
         JPanel bufferPanel = createBufferPanel(padding);
         bufferPanel.add(createBufferTextarea());
-        popupPanel.add(bufferPanel, BorderLayout.NORTH);
+        popupPanel.add(bufferPanel, BorderLayout.SOUTH);
 
         bufferPanel = createBufferPanel(padding);
         bufferPanel.add(createBufferTextarea());
@@ -60,21 +61,47 @@ public class ProjectAreaView extends ViewBase {
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+        JPanel terminalPanel = new JPanel(new BorderLayout());
+        terminalPanel.add(scroll, BorderLayout.CENTER);
+
+        tabbedPane = new JTabbedPane();
+        tabbedPane.setBackground(new Color(-855310));
+        //tabbedPane.setBackground(new Color(255, 255, 255, 190));
+        tabbedPane.addTab(StringHelper.toDisplayString("Execution output"), terminalPanel);
+
         resultPanel = new JPanel(new BorderLayout());
-        resultPanel.add(scroll, BorderLayout.CENTER);
-        popupPanel.add(resultPanel, BorderLayout.CENTER);
+
+        tabbedPane.addTab(StringHelper.toDisplayString("Result"), resultPanel);
+        tabbedPane.setEnabledAt(1, false);
+
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(tabbedPane);
+        //centerPanel.setBackground(new Color(255, 255, 255, 190));
+        centerPanel.setBackground(new Color(-855310));
+
+        popupPanel.add(centerPanel, BorderLayout.CENTER);
 
         bufferPanel = createBufferPanel(padding);
         //textarea stop event propagation to back panel
         //todo think about better workaround
         bufferPanel.add(createBufferTextarea());
 
+        IconFontSwing.register(FontAwesome.getIconFont());
         JButton popupCloseButton = new JButton("Close");
-        JPanel bottomPanel = new JPanel();
+        popupCloseButton.setIcon(IconFontSwing.buildIcon(FontAwesome.TIMES, 17, Color.DARK_GRAY));
+        //popupCloseButton.setHorizontalAlignment(SwingConstants.RIGHT);
+//        popupCloseButton.setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 5));
+//        popupCloseButton.setBorderPainted(false);
+//        popupCloseButton.setOpaque(false);
+        //popupCloseButton.setContentAreaFilled(false);
+        popupCloseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        //bottomPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
         bottomPanel.add(popupCloseButton);
         bottomPanel.setBackground(new Color(255, 255, 255, 190));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(15,0,0,20));
 
-        JPanel overlayPanel = new JPanel(){
+        JPanel overlayPanel = new JPanel() {
             @Override
             public boolean isOptimizedDrawingEnabled() {
                 return false;
@@ -85,8 +112,8 @@ public class ProjectAreaView extends ViewBase {
         overlayPanel.add(bufferPanel);
         overlayPanel.setBackground(new Color(255, 255, 255, 0));
 
-        popupPanel.add(overlayPanel, BorderLayout.SOUTH);
-
+        popupPanel.add(overlayPanel, BorderLayout.NORTH);
+        //popupPanel.setBackground(new Color(255, 255, 255, 0));
 //        popupCloseButton.addActionListener(e -> {
 //            popupPanel.setVisible(false);
 //        });
@@ -133,13 +160,27 @@ public class ProjectAreaView extends ViewBase {
                 LineChartBox lineChartBox = new LineChartBox();
                 lineChartBox.init();
                 final LineChartModel lineChartModel = (LineChartModel) lineChartBox.getModel();
+                lineChartModel.setDisplayName("mueller");
                 lineChartModel.setDescription(pathname);
                 lineChartModel.loadFromFileAsync(pathname);
                 lineChartBox.getLayout().setMinimumSize(new Dimension(resultPanel.getWidth(), 350));
+
+                tabbedPane.setEnabledAt(1, true);
+                tabbedPane.setSelectedIndex(1);
+
                 resultPanel.removeAll();
                 resultPanel.add(lineChartBox.getLayout(), BorderLayout.CENTER);
+
+                panel.revalidate();
+                panel.repaint();
+
+                tabbedPane.revalidate();
+                tabbedPane.repaint();
+
                 resultPanel.revalidate();
                 resultPanel.repaint();
+
+
             }
 
         }

@@ -126,15 +126,6 @@ public class ProjectAreaForm {
         panelOutput = new JPanel();
         panelOutput.setLayout(new BorderLayout(0, 0));
         scrollOutput.setViewportView(panelOutput);
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panelMain.add(panel1, gbc);
         scrollShape = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -142,28 +133,19 @@ public class ProjectAreaForm {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(scrollShape, gbc);
+        panelMain.add(scrollShape, gbc);
         panelShape = new JPanel();
         panelShape.setLayout(new BorderLayout(0, 0));
         scrollShape.setViewportView(panelShape);
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridBagLayout());
+        panelOptions = new JPanel();
+        panelOptions.setLayout(new BorderLayout(0, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panelMain.add(panel2, gbc);
-        panelOptions = new JPanel();
-        panelOptions.setLayout(new BorderLayout(0, 0));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel2.add(panelOptions, gbc);
+        panelMain.add(panelOptions, gbc);
         panelOptions.setBorder(BorderFactory.createTitledBorder(""));
     }
 

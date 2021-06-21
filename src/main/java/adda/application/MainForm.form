@@ -109,32 +109,6 @@
                     <border type="none"/>
                     <children/>
                   </grid>
-                  <grid id="8004a" binding="consolePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
-                    <constraints>
-                      <tabbedpane title="Console"/>
-                    </constraints>
-                    <properties/>
-                    <border type="none"/>
-                    <children>
-                      <scrollpane id="94e22">
-                        <constraints border-constraint="Center"/>
-                        <properties>
-                          <background color="-1"/>
-                          <enabled value="false"/>
-                          <horizontalScrollBarPolicy value="31"/>
-                        </properties>
-                        <border type="empty">
-                          <size top="5" left="5" bottom="5" right="5"/>
-                        </border>
-                        <children>
-                          <component id="92f5b" class="javax.swing.JTextArea" binding="consoleTextArea">
-                            <constraints/>
-                            <properties/>
-                          </component>
-                        </children>
-                      </scrollpane>
-                    </children>
-                  </grid>
                 </children>
               </tabbedpane>
             </children>

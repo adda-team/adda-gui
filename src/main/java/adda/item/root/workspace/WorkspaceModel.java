@@ -9,6 +9,8 @@ import adda.base.models.ModelBase;
 import adda.base.models.IModelObserver;
 import adda.item.root.lineChart.LineChartBox;
 import adda.item.root.lineChart.LineChartModel;
+import adda.item.root.numberedText.NumberedTextBox;
+import adda.item.root.numberedText.NumberedTextModel;
 import adda.item.root.projectArea.ProjectAreaBox;
 import adda.item.root.projectArea.ProjectAreaModel;
 import adda.item.root.projectTree.ProjectTreeModel;
@@ -129,8 +131,12 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
                         lineChartModel.setDescription(projectTreeModel.getSelectedPath().getFolder());
                         lineChartModel.loadFromFileAsync(projectTreeModel.getSelectedPath().getFolder());
                     } else {
-                        focusedBox = new BoxBase(projectTreeModel.getSelectedPath().getName());
+                        focusedBox = new NumberedTextBox(projectTreeModel.getSelectedPath().getName());
                         focusedBox.init();
+                        final NumberedTextModel numberedTextModel = (NumberedTextModel) focusedBox.getModel();
+                        numberedTextModel.setDisplayName(projectTreeModel.getSelectedPath().getName());
+                        numberedTextModel.setDescription(projectTreeModel.getSelectedPath().getFolder());
+                        numberedTextModel.loadFromFileAsync(projectTreeModel.getSelectedPath().getFolder());
                     }
 
 

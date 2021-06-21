@@ -188,17 +188,6 @@ public class MainForm {
         infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         infoPanel.setBackground(new Color(-855310));
         tabbedPane1.addTab("Info", infoPanel);
-        consolePanel = new JPanel();
-        consolePanel.setLayout(new BorderLayout(0, 0));
-        tabbedPane1.addTab("Console", consolePanel);
-        final JScrollPane scrollPane2 = new JScrollPane();
-        scrollPane2.setBackground(new Color(-1));
-        scrollPane2.setEnabled(false);
-        scrollPane2.setHorizontalScrollBarPolicy(31);
-        consolePanel.add(scrollPane2, BorderLayout.CENTER);
-        scrollPane2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
-        consoleTextArea = new JTextArea();
-        scrollPane2.setViewportView(consoleTextArea);
         shortcutPanel = new JPanel();
         shortcutPanel.setLayout(new BorderLayout(0, 0));
         gbc = new GridBagConstraints();

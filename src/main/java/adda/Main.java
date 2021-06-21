@@ -13,6 +13,7 @@ import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.HelpSetException;
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,9 +31,13 @@ public class Main {
             public void run() {
                 try {
 //                    BasicLookAndFeel darcula = new DarculaLaf();
+                    UIManager.put("TextField.disabledBackground", new Color(-855310));
+                    UIManager.put("TextField.inactiveBackground", new Color(-855310));
                     UIManager.setLookAndFeel(new FlatLightLaf());
 //                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //                    UIManager.put("Label.disabledForeground",Color.lightGray);
+                    UIManager.put("TextField.disabledBackground", new Color(-855310));
+                    UIManager.put("TextField.inactiveBackground", new Color(-855310));
                 } catch (/*ClassNotFoundException |
                         IllegalAccessException |*/
                         UnsupportedLookAndFeelException /*|
