@@ -190,6 +190,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
                     }
                 }
             } catch (Exception ignore) {
+                int e = 2;
             } finally {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override

@@ -37,7 +37,7 @@ public class InitialFieldModel extends TabEnumModel<InitialFieldEnum> {
         String error = "";
         if (enumValue == InitialFieldEnum.wkb) {
             SurfaceModel surfaceModel = (SurfaceModel) Context.getInstance().getChildModelFromSelectedBox(SurfaceModel.class);
-            if (surfaceModel.isUseSurface()) {
+            if (surfaceModel != null && surfaceModel.isUseSurface()) {
                 isValid = false;
                 error = StringHelper.toDisplayString("WKB initial field for the iterative solver  does`t compatible with 'surface' option");
             }

@@ -75,7 +75,13 @@ public class ProjectTreeController extends ControllerBase {
                                             public void run() {
 
                                                 try {
-                                                    ((ProjectTreeModel) model).setSelectedPath(node);
+                                                    final ProjectTreeModel projectTreeModel = (ProjectTreeModel) ProjectTreeController.this.model;
+                                                    if (node.equals(projectTreeModel.getSelectedPath())) {
+                                                        projectTreeModel.forceNotifySelectedPath();
+                                                    } else {
+                                                        projectTreeModel.setSelectedPath(node);
+                                                    }
+
                                                 } catch (Exception ex) {
                                                     ex.printStackTrace();
                                                 } finally {
@@ -122,7 +128,12 @@ public class ProjectTreeController extends ControllerBase {
                                         javax.swing.SwingUtilities.invokeLater(new Runnable() {
                                             public void run() {
                                                 try {
-                                                    ((ProjectTreeModel) model).setSelectedPath(node);
+                                                    final ProjectTreeModel projectTreeModel = (ProjectTreeModel) ProjectTreeController.this.model;
+                                                    if (node.equals(projectTreeModel.getSelectedPath())) {
+                                                        projectTreeModel.forceNotifySelectedPath();
+                                                    } else {
+                                                        projectTreeModel.setSelectedPath(node);
+                                                    }
                                                 } catch (Exception ex) {
                                                     ex.printStackTrace();
                                                 } finally {

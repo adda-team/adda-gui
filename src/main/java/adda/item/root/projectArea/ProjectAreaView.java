@@ -87,7 +87,7 @@ public class ProjectAreaView extends ViewBase {
         bufferPanel.add(createBufferTextarea());
 
         IconFontSwing.register(FontAwesome.getIconFont());
-        JButton popupCloseButton = new JButton("Close");
+        JButton popupCloseButton = new JButton("close output");
         popupCloseButton.setIcon(IconFontSwing.buildIcon(FontAwesome.TIMES, 17, Color.DARK_GRAY));
         //popupCloseButton.setHorizontalAlignment(SwingConstants.RIGHT);
 //        popupCloseButton.setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 5));

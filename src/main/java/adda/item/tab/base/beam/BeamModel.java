@@ -267,7 +267,7 @@ public class BeamModel extends TabEnumModel<BeamEnum> implements IModelObserver 
         String error = "";
         if (enumValue != BeamEnum.plane) {
             SurfaceModel surfaceModel = (SurfaceModel) Context.getInstance().getChildModelFromSelectedBox(SurfaceModel.class);
-            if (surfaceModel.isUseSurface()) {
+            if (surfaceModel != null && surfaceModel.isUseSurface()) {
                 isValid = false;
                 error = StringHelper.toDisplayString("Non plane beam does`t compatible with 'surface' option");
             }

@@ -68,7 +68,7 @@ public class JNumericField extends JTextField {
             setBackground(Color.white);
             setForeground(Color.black);
         } else {
-            setBackground(Color.lightGray);
+            setBackground(new Color(-855310));
             setForeground(Color.darkGray);
         }
     }

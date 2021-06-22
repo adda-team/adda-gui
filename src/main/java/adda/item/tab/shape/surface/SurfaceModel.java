@@ -212,15 +212,15 @@ public class SurfaceModel extends ModelBaseAddaOptionsContainer implements IMode
 
         String error = "<html>";
         boolean isValid = true;
-        if (radiationForceSaveModel.getFlag()) {
+        if (radiationForceSaveModel != null && radiationForceSaveModel.getFlag()) {
             isValid = false;
             error += "<br>" + StringHelper.toDisplayString("Radiation Force does`t compatible with 'surface' option");
         }
-        if (beamModel.getEnumValue() != BeamEnum.plane) {
+        if (beamModel != null && beamModel.getEnumValue() != BeamEnum.plane) {
             isValid = false;
             error += "<br>" + StringHelper.toDisplayString("Non plane beam does`t compatible with 'surface' option");
         }
-        if (initialFieldModel.getEnumValue() == InitialFieldEnum.wkb) {
+        if (initialFieldModel != null && initialFieldModel.getEnumValue() == InitialFieldEnum.wkb) {
             isValid = false;
             error += "<br>" + StringHelper.toDisplayString("WKB initial field for the iterative solver  does`t compatible with 'surface' option");
         }

@@ -190,15 +190,15 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
             InternalFieldSaveModel internalFieldSaveModel = (InternalFieldSaveModel) Context.getInstance().getChildModelFromSelectedBox(InternalFieldSaveModel.class);
             PolarizationSaveModel polarizationSaveModel = (PolarizationSaveModel) Context.getInstance().getChildModelFromSelectedBox(PolarizationSaveModel.class);
             error = "<html>";
-            if (beamSaveModel.getFlag()) {
+            if (beamSaveModel != null && beamSaveModel.getFlag()) {
                 isValid = false;
                 error += "<br>" + StringHelper.toDisplayString("Beam saving does`t compatible<br>with orientation average");
             }
-            if (internalFieldSaveModel.getFlag()) {
+            if (internalFieldSaveModel != null && internalFieldSaveModel.getFlag()) {
                 isValid = false;
                 error += "<br>" + StringHelper.toDisplayString("Internal field saving does`t compatible<br>with orientation average");
             }
-            if (polarizationSaveModel.getFlag()) {
+            if (polarizationSaveModel != null && polarizationSaveModel.getFlag()) {
                 isValid = false;
                 error += "<br>" + StringHelper.toDisplayString("Dipole polarization saving does`t compatible with<br>orientation average");
             }

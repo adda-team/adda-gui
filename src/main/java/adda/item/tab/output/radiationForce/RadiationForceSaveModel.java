@@ -28,7 +28,7 @@ public class RadiationForceSaveModel extends BooleanFlagModel implements IModelO
         SurfaceModel surfaceModel = (SurfaceModel) Context.getInstance().getChildModelFromSelectedBox(SurfaceModel.class);
         boolean isValid = true;
         String error = "";
-        if (surfaceModel.isUseSurface()) {
+        if (surfaceModel != null && surfaceModel.isUseSurface()) {
             isValid = false;
             error = StringHelper.toDisplayString("Radiation Force does`t compatible with 'surface' option");
         }

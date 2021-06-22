@@ -37,7 +37,7 @@ public class InternalFieldSaveModel extends BooleanFlagModel implements IModelOb
         OrientationModel orientationModel = (OrientationModel) Context.getInstance().getChildModelFromSelectedBox(OrientationModel.class);
         boolean isValid = true;
         String error = "";
-        if (orientationModel.getEnumValue() == OrientationEnum.Average) {
+        if (orientationModel != null && orientationModel.getEnumValue() == OrientationEnum.Average) {
             isValid = false;
             error = "<html>" + StringHelper.toDisplayString("Internal field saving does`t compatible<br>with orientation average") + "</html>";
         }

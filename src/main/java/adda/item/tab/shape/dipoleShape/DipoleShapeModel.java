@@ -98,7 +98,7 @@ public class DipoleShapeModel extends TabEnumModel<DipoleShapeEnum> implements I
                         (RefractiveIndexAggregatorModel) Context.getInstance().getChildModelFromSelectedBox(RefractiveIndexAggregatorModel.class);
 
 
-                int max = refractiveIndexAggregatorModel.getShapeModel().getShapeDomainInfos().size();
+                int max = refractiveIndexAggregatorModel == null ? 0 : refractiveIndexAggregatorModel.getShapeModel().getShapeDomainInfos().size();
 
                 for (int i = 0; i < max; i++) {
                     if (((RefractiveIndexModel) refractiveIndexAggregatorModel.getShapeBoxes().get(i).getModel()).isAnisotrop()) {

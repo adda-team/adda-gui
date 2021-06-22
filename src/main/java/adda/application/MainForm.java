@@ -68,7 +68,7 @@ public class MainForm {
         leftPanel.setMaximumSize(new Dimension(200, 9999999));
 
 
-        actualCommandLineTextArea.setPreferredSize(new Dimension(120, 30));
+        actualCommandLineTextArea.setMinimumSize(new Dimension(120, 63));
         actualCommandLineTextArea.setWrapStyleWord(true);
         actualCommandLineTextArea.setLineWrap(true);
         actualCommandLineTextArea.setAlignmentX(Component.CENTER_ALIGNMENT);

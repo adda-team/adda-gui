@@ -33,7 +33,7 @@ public class ShortcutsController extends ControllerBase {
                             if (WorkspaceModel.FOCUSED_BOX_FIELD_NAME.equals(event.getPropertyName())) {
                                 WorkspaceModel workspaceModel = (WorkspaceModel) sender;
                                 ProjectTreeNode projectTreeNode = workspaceModel.getPathByBox(workspaceModel.getFocusedBox());
-                                shortcutsView.runButton.setEnabled(projectTreeNode.isProject());
+                                shortcutsView.runButton.setEnabled(projectTreeNode != null && projectTreeNode.isProject());
                             }
                         }
                     });
@@ -51,7 +51,7 @@ public class ShortcutsController extends ControllerBase {
                     } else {
 
                         Date now = new Date();
-                        SimpleDateFormat pattern = new SimpleDateFormat("dd-MM-yyyy_HH_mm_ss");
+                        SimpleDateFormat pattern = new SimpleDateFormat("MMddHHmmss");
                         String name =  "run_" + pattern.format(now);
                         final String projectPath = projectTreeNode.getFolder();
                         String path = projectPath + "/" + name;

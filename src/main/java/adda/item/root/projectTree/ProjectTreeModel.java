@@ -204,6 +204,10 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         }
     }
 
+    public void forceNotifySelectedPath() {
+        notifyObservers(SELECTED_PATH_FIELD_NAME, selectedPath);
+    }
+
     public Object clone() {
         try {
             ProjectTreeModel clone = (ProjectTreeModel) super.clone();

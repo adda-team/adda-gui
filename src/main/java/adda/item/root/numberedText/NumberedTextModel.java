@@ -59,7 +59,7 @@ public class NumberedTextModel extends ModelBase {
         Thread t = new Thread(() -> {
             try (BufferedReader in = new BufferedReader(new FileReader(path))) {
                 String str;
-                int bulkVolume = 100;
+                int bulkVolume = 1000;
                 int counter = 0;
                 StringBuilder part = new StringBuilder();
                 StringBuilder full = new StringBuilder();

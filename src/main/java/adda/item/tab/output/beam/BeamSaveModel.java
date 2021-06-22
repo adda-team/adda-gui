@@ -36,7 +36,7 @@ public class BeamSaveModel extends BooleanFlagModel implements IModelObserver {
         OrientationModel orientationModel = (OrientationModel) Context.getInstance().getChildModelFromSelectedBox(OrientationModel.class);
         boolean isValid = true;
         String error = "";
-        if (orientationModel.getEnumValue() == OrientationEnum.Average) {
+        if (orientationModel != null && orientationModel.getEnumValue() == OrientationEnum.Average) {
             isValid = false;
             error = "<html>" + StringHelper.toDisplayString("Beam saving does`t compatible<br>with orientation average") + "</html>";
         }

@@ -36,7 +36,7 @@ public class PolarizationSaveModel extends BooleanFlagModel implements IModelObs
         OrientationModel orientationModel = (OrientationModel) Context.getInstance().getChildModelFromSelectedBox(OrientationModel.class);
         boolean isValid = true;
         String error = "";
-        if (orientationModel.getEnumValue() == OrientationEnum.Average) {
+        if (orientationModel != null && orientationModel.getEnumValue() == OrientationEnum.Average) {
             isValid = false;
             error =  "<html>" + StringHelper.toDisplayString("Dipole polarization saving does`t compatible<br>with orientation average") + "</html>";
         }
