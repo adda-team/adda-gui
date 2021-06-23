@@ -668,7 +668,7 @@ public class HelpProvider {
                         "specifying scattere...");
 
             case "predefined_shapes":
-                return StringHelper.toDisplayString("Predefined" +
+                return StringHelper.toDisplayString("Predefined " +
                         "shapes are initialized by the command line option...");
 
             case "granule_generator":

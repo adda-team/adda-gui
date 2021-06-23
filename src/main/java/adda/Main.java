@@ -47,7 +47,7 @@ public class Main {
 
 
 
-                JFrame frame = new JFrame("   ADDA GUI");
+                JFrame frame = new JFrame("   ADDA GUI ["+ Context.VERSION + "]");
                 MainForm app = new MainForm();
                 app.setLoadingVisible(true);
                 app.getShortcutPanel().setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
@@ -165,7 +165,7 @@ public class Main {
         helpMenu.add(openHelpSystem);
         final JMenuItem about = new JMenuItem("About");
         about.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "<html>Version <b>0.1beta</b>.<br> Use adda-discuss@googlegroups.com to contact dev team</html>");
+            JOptionPane.showMessageDialog(null, "<html>Version <b>" + Context.VERSION +"</b>.<br> Use adda-discuss@googlegroups.com to contact dev team</html>");
         });
         helpMenu.add(about);
 

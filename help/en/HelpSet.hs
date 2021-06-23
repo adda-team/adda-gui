@@ -4,7 +4,7 @@
          "http://java.sun.com/products/javahelp/helpset_1_0.dtd">
 
 <helpset version="1.0">
-     <title>ADDA GUI Help</title>
+     <title>ADDA GUI Help [beta version, under developing]</title>
      <maps>
           <mapref location="Map.jhm"/>
           <homeID>introduction</homeID>
@@ -29,11 +29,10 @@
         <size width="1024" height="700" />
         <location x="200" y="200" />
         <image>icon</image>
-        <title>ADDA GUI Help</title>
+        <title>ADDA GUI Help [beta version, under developing]</title>
         <toolbar>
            <helpaction>javax.help.BackAction</helpaction>
            <helpaction>javax.help.ForwardAction</helpaction>
-
         </toolbar>
      </presentation>
 </helpset>

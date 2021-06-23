@@ -75,7 +75,7 @@ public class RefractiveIndexAggregatorModel extends ModelBaseAddaOptionsContaine
 
 
     public RefractiveIndexAggregatorModel() {
-        setLabel("Refractive indexes");//todo localization
+        setLabel(StringHelper.toDisplayString("Refractive indices"));//todo localization
         SwingUtilities.invokeLater(() -> {
             shapeBoxes.forEach(BoxBase::init);
             granulBox.init();

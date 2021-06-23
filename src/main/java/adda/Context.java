@@ -25,6 +25,8 @@ import java.net.URL;
 
 public class Context {
 
+    public static final String VERSION = "beta0.2.1";
+
     protected JFrame mainFrame;
 
     protected MainForm mainForm;

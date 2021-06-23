@@ -131,7 +131,7 @@ public class ProjectTreeNewItemDialog  extends CustomOkCancelModalDialog {
 
         fileOpenButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("ADDA orientation average");//todo localization
+            fileChooser.setDialogTitle(StringHelper.toDisplayString("Project directory"));//todo localization
             FileNameExtensionFilter filter = new FileNameExtensionFilter("ADDA config", "dat");
             fileChooser.setFileFilter(filter);
 
