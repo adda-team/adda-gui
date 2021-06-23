@@ -21,6 +21,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 import java.text.DecimalFormat;
@@ -143,6 +145,12 @@ public class LineChartView extends ViewBase {
         panel.add(topPanel, BorderLayout.NORTH);
         chartWrapperPanel = new JPanel();
         panel.add(chartWrapperPanel);
+        panel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                refreshChart(model);
+            }
+        });
         refreshChart(model);
 
 
@@ -200,6 +208,10 @@ public class LineChartView extends ViewBase {
             XYSeries series = new XYSeries(lineChartModel.getHeaders()[oyIndex]);
             double maxY = Double.NEGATIVE_INFINITY;
             double minY = Double.POSITIVE_INFINITY;
+
+            double maxX = Double.NEGATIVE_INFINITY;
+            double minX = Double.POSITIVE_INFINITY;
+
             for (int i = 0; i < lineChartModel.getData()[0].length; i++) {
                 final double x = lineChartModel.getData()[oxIndex][i];
                 final double y = lineChartModel.getData()[oyIndex][i];
@@ -210,10 +222,16 @@ public class LineChartView extends ViewBase {
                 if (y < minY) {
                     minY = y;
                 }
+                if (x > maxX) {
+                    maxX = x;
+                }
+                if (x < minX) {
+                    minX = x;
+                }
             }
             NumberAxis xAxis = new NumberAxis(lineChartModel.getHeaders()[oxIndex]);
             xAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-
+            xAxis.setRange(minX, maxX+1);
             ValueAxis yAxis;
             if (lineChartModel.isLog()) {
                 if (minY > 0) {
@@ -231,6 +249,7 @@ public class LineChartView extends ViewBase {
                 }
             } else {
                 yAxis = new NumberAxis(lineChartModel.getHeaders()[oyIndex]);
+                yAxis.setRange(minY * (minY > 0 ? 0.99 : 1.01), maxY*(maxY > 0 ? 1.01 : 0.99));
             }
 
 

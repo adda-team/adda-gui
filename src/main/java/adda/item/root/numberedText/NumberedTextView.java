@@ -93,6 +93,10 @@ public class NumberedTextView extends ViewBase {
             descriptionTextPane.setText(numberedTextModel.getDescription());
         }
 
+        if (NumberedTextModel.REFRESH_FIELD_NAME.equals(event.getPropertyName())) {
+            textPane.setText("");
+        }
+
         if (NumberedTextModel.APPEND_FIELD_NAME.equals(event.getPropertyName())) {
             try {
                 double percent = 1.0*scroll.getVerticalScrollBar().getValue()/scroll.getVerticalScrollBar().getMaximum();

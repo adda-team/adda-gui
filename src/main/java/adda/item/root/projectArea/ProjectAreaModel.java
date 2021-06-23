@@ -116,12 +116,15 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
                 for (IModel model : nestedModelList) {
 
                     if (RefractiveIndexAggregatorModel.class.equals(model.getClass())) {
-                        RefractiveIndexAggregatorModel refractiveIndexAggregatorModel = (RefractiveIndexAggregatorModel) model;
-                        final int[] index = {0};
-                        refractiveIndexAggregatorModel.getShapeBoxes().forEach(box -> {
-                            box.getModel().copyProperties(refractiveIndexModelList.get(index[0]++));
+                        //using SwingUtilities.invokeLater is required since RefractiveIndexAggregatorModel constructor has SwingUtilities.invokeLater
+                        SwingUtilities.invokeLater(() -> {
+                            RefractiveIndexAggregatorModel refractiveIndexAggregatorModel = (RefractiveIndexAggregatorModel) model;
+                            final int[] index = {0};
+                            refractiveIndexAggregatorModel.getShapeBoxes().forEach(box -> {
+                                box.getModel().copyProperties(refractiveIndexModelList.get(index[0]++));
+                            });
+                            refractiveIndexAggregatorModel.getGranulBox().getModel().copyProperties(refractiveIndexModelList.get(index[0]++));
                         });
-                        refractiveIndexAggregatorModel.getGranulBox().getModel().copyProperties(refractiveIndexModelList.get(index[0]++));
                         continue;
                     }
 

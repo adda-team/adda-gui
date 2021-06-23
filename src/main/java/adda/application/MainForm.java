@@ -16,6 +16,7 @@ public class MainForm {
     private JTextArea actualCommandLineTextArea;
     private JTextArea consoleTextArea;
     private JScrollPane treeScroll;
+    private JPanel bottomPanel;
 
 
     public JPanel getMainPanel() {
@@ -56,6 +57,10 @@ public class MainForm {
 
     public void setLoadingVisible(boolean isVisible) {
         overlay.setVisible(isVisible);
+    }
+
+    public JPanel getBottomPanel() {
+        return bottomPanel;
     }
 
     JPanel bufferPanel;
@@ -99,6 +104,7 @@ public class MainForm {
         treeScroll.getVerticalScrollBar().setUnitIncrement(16);
         treeScroll.getHorizontalScrollBar().setUnitIncrement(16);
 
+        bottomPanel.setMinimumSize(new Dimension(300, 100));
 
     }
 
@@ -152,8 +158,8 @@ public class MainForm {
         gbc.weighty = 5.0;
         gbc.fill = GridBagConstraints.BOTH;
         panel1.add(centerPanel, gbc);
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridBagLayout());
+        bottomPanel = new JPanel();
+        bottomPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -161,7 +167,7 @@ public class MainForm {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(panel2, gbc);
+        panel1.add(bottomPanel, gbc);
         final JTabbedPane tabbedPane1 = new JTabbedPane();
         tabbedPane1.setBackground(new Color(-855310));
         gbc = new GridBagConstraints();
@@ -170,7 +176,7 @@ public class MainForm {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel2.add(tabbedPane1, gbc);
+        bottomPanel.add(tabbedPane1, gbc);
         actualCommandLinePanel = new JPanel();
         actualCommandLinePanel.setLayout(new BorderLayout(0, 0));
         actualCommandLinePanel.setBackground(new Color(-855310));

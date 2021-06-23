@@ -45,63 +45,70 @@ public class ShortcutsController extends ControllerBase {
                 IBox focusedBox = Context.getInstance().getWorkspaceModel().getFocusedBox();
                 ProjectTreeNode projectTreeNode = Context.getInstance().getWorkspaceModel().getPathByBox(focusedBox);
                 if (projectTreeNode.isProject() && focusedBox instanceof ProjectAreaBox) {
+
                     ProjectAreaModel projectAreaModel = ((ProjectAreaModel) focusedBox.getModel());
                     if (projectAreaModel.isRunning()) {
                         JOptionPane.showMessageDialog(null, "Already active, please close previous run");
                     } else {
+                        Context.getInstance().getMainForm().setLoadingVisible(true);
+                        javax.swing.SwingUtilities.invokeLater(() -> {
+                            Date now = new Date();
+                            SimpleDateFormat pattern = new SimpleDateFormat("MMddHHmmss");
+                            String name = "run_" + pattern.format(now);
+                            final String projectPath = projectTreeNode.getFolder();
+                            String path = projectPath + "/" + name;
 
-                        Date now = new Date();
-                        SimpleDateFormat pattern = new SimpleDateFormat("MMddHHmmss");
-                        String name =  "run_" + pattern.format(now);
-                        final String projectPath = projectTreeNode.getFolder();
-                        String path = projectPath + "/" + name;
+                            File file = new File(path);
+                            Context.getInstance().getProjectTreeModel().enableAutoReload = false;
 
-                        File file = new File(path);
-                        Context.getInstance().getProjectTreeModel().enableAutoReload = false;
-
-                        //deleteFolder(file);
-                        boolean runCreated = true;
-                        if (!file.exists()) {
-                            if (!file.mkdir()) {
-                                //throw new FileNotFoundException("Directory " + firstProjectDir + "cannot be created");
-                                runCreated = false;
-                            } else {
-                                File from = new File(projectPath + "/adda_gui_state.data");
-                                File to = new File(path + "/adda_gui_state.data");
-                                try {
-                                    Files.copy(from.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                } catch (IOException ex) {
+                            //deleteFolder(file);
+                            boolean runCreated = true;
+                            if (!file.exists()) {
+                                if (!file.mkdir()) {
+                                    //throw new FileNotFoundException("Directory " + firstProjectDir + "cannot be created");
                                     runCreated = false;
-                                }
-                                Context.getInstance().getProjectTreeModel().reloadForce();
-                            }
-                        }
-                        Context.getInstance().getProjectTreeModel().enableAutoReload = true;
-
-                        if (runCreated) {
-                            ProjectTreeNode newRunTreeNode = new ProjectTreeNode();
-                            newRunTreeNode.setId(path);
-                            newRunTreeNode.setName(name);
-                            newRunTreeNode.setFolder(path);
-                            newRunTreeNode.setDesc(name);
-                            newRunTreeNode.setPath(true);
-                            newRunTreeNode.setProject(false);
-
-                            Context.getInstance().getProjectTreeModel().setSelectedPath(newRunTreeNode);
-
-                            javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                                public void run() {
-                                    IBox focusedBox = Context.getInstance().getWorkspaceModel().getFocusedBox();
-                                    ProjectTreeNode projectTreeNode = Context.getInstance().getWorkspaceModel().getPathByBox(focusedBox);
-                                    if (projectTreeNode.equals(newRunTreeNode) && focusedBox instanceof ProjectAreaBox) {
-                                        ProjectAreaModel projectAreaModel = ((ProjectAreaModel) focusedBox.getModel());
-                                        projectAreaModel.start();
+                                } else {
+                                    File from = new File(projectPath + "/adda_gui_state.data");
+                                    File to = new File(path + "/adda_gui_state.data");
+                                    try {
+                                        if (from.exists()) {
+                                            Files.copy(from.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                                        }
+                                    } catch (IOException ex) {
+                                        runCreated = false;
                                     }
+                                    Context.getInstance().getProjectTreeModel().reloadForce();
                                 }
-                            });
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Directory " + path + "cannot be created or UI state cannot be moved");
-                        }
+                            }
+                            Context.getInstance().getProjectTreeModel().enableAutoReload = true;
+
+                            if (runCreated) {
+                                ProjectTreeNode newRunTreeNode = new ProjectTreeNode();
+                                newRunTreeNode.setId(path);
+                                newRunTreeNode.setName(name);
+                                newRunTreeNode.setFolder(path);
+                                newRunTreeNode.setDesc(name);
+                                newRunTreeNode.setPath(true);
+                                newRunTreeNode.setProject(false);
+
+                                Context.getInstance().getProjectTreeModel().setSelectedPath(newRunTreeNode);
+
+                                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                                    public void run() {
+                                        IBox focusedBox = Context.getInstance().getWorkspaceModel().getFocusedBox();
+                                        ProjectTreeNode projectTreeNode = Context.getInstance().getWorkspaceModel().getPathByBox(focusedBox);
+                                        if (projectTreeNode.equals(newRunTreeNode) && focusedBox instanceof ProjectAreaBox) {
+                                            ProjectAreaModel projectAreaModel = ((ProjectAreaModel) focusedBox.getModel());
+                                            projectAreaModel.start();
+                                        }
+                                    }
+                                });
+                            } else {
+                                javax.swing.SwingUtilities.invokeLater(() -> Context.getInstance().getMainForm().setLoadingVisible(false));
+
+                                JOptionPane.showMessageDialog(null, "Directory " + path + "cannot be created or UI state cannot be moved");
+                            }
+                        });
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Selected tab does`t contain any runnable item");

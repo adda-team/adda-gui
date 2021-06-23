@@ -104,7 +104,7 @@ public class ProjectTreeView extends ViewBase {
                 setIcon(desc);
             } else if (node != null && node.isProject()) {
                 setIcon(expanded ? folderExp : folder);
-            } else if (node != null && !node.isPath && "mueller".equals(node.getName())) {
+            } else if (node != null && !node.isPath && ("mueller".equals(node.getName()) || "ampl".equals(node.getName()))) {
                 setIcon(chart);
             }
 

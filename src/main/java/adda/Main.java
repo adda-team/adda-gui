@@ -31,8 +31,6 @@ public class Main {
             public void run() {
                 try {
 //                    BasicLookAndFeel darcula = new DarculaLaf();
-                    UIManager.put("TextField.disabledBackground", Color.lightGray);
-                    UIManager.put("TextField.inactiveBackground", Color.lightGray);
                     UIManager.setLookAndFeel(new FlatLightLaf());
 //                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //                    UIManager.put("Label.disabledForeground",Color.lightGray);

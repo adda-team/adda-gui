@@ -7,10 +7,13 @@ import adda.settings.ProjectSetting;
 import adda.settings.Setting;
 import adda.settings.SettingsManager;
 
+import javax.swing.Timer;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -23,9 +26,10 @@ import net.contentobjects.jnotify.JNotifyListener;
 public class ProjectTreeModel extends ModelBase implements TreeModel, Serializable, Cloneable {
 
     public static final String REFRESH = "refresh";
-    public static final int DIRECTORY_LISTENER_MASK = JNotify.FILE_CREATED | JNotify.FILE_DELETED | JNotify.FILE_RENAMED;
+    public static final int DIRECTORY_LISTENER_MASK = JNotify.FILE_ANY;
     public static final String SELECTED_PATH_FIELD_NAME = "selectedPath";
-    protected Map<ProjectTreeNode, Integer> directoryListenerIds  = new HashMap<>();
+    public static final String FILE_MODIFIED_FIELD_NAME = "FILE_MODIFIED";
+    protected Map<ProjectTreeNode, Integer> directoryListenerIds = new HashMap<>();
     private ProjectTreeNode selectedPath;
     protected EventListenerList listeners;
     private Map<String, List<ProjectTreeNode>> map;
@@ -43,7 +47,6 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         root.isPath = false;
 
 
-
         this.listeners = new EventListenerList();
 
         this.map = new HashMap<>();
@@ -59,30 +62,10 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
             node.folder = projectSetting.getPath();
             node.isPath = true;
             node.isProject = true;
-            JNotifyListener directoryListener = new JNotifyListener() {
-                @Override
-                public void fileCreated(int wd, String rootPath, String name) {
-                    reload();
-                }
-
-                @Override
-                public void fileDeleted(int wd, String rootPath, String name) {
-                    reload();
-                }
-
-                @Override
-                public void fileModified(int wd, String rootPath, String name) {
-
-                }
-
-                @Override
-                public void fileRenamed(int wd, String rootPath, String oldName, String newName) {
-                    reload();
-                }
-            };
+            JNotifyListener directoryListener = getjNotifyListener();
 
             try {
-                int watchID = JNotify.addWatch(projectSetting.getPath(), DIRECTORY_LISTENER_MASK, false, directoryListener);
+                int watchID = JNotify.addWatch(projectSetting.getPath(), DIRECTORY_LISTENER_MASK, true, directoryListener);
                 directoryListenerIds.put(node, watchID);
             } catch (JNotifyException e) {
                 e.printStackTrace();
@@ -92,6 +75,35 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         }
 
         map.put(root.id, rootChildren);
+    }
+
+    private JNotifyListener getjNotifyListener() {
+        return new JNotifyListener() {
+                    @Override
+                    public void fileCreated(int wd, String rootPath, String name) {
+                        //reload();
+                        isChanged = true;
+                    }
+
+                    @Override
+                    public void fileDeleted(int wd, String rootPath, String name) {
+                        //reload();
+                        isChanged = true;
+                    }
+
+                    @Override
+                    public void fileModified(int wd, String rootPath, String name) {
+                        //System.err.println("modified " + rootPath + " : " + name);
+
+                        javax.swing.SwingUtilities.invokeLater(() -> notifyObservers(FILE_MODIFIED_FIELD_NAME, rootPath + "/" + name));
+                    }
+
+                    @Override
+                    public void fileRenamed(int wd, String rootPath, String oldName, String newName) {
+                        //reload();
+                        isChanged = true;
+                    }
+                };
     }
 
     @Override
@@ -197,7 +209,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
     }
 
     public void setSelectedPath(ProjectTreeNode selectedPath) {
-        if((this.selectedPath != null && !this.selectedPath.equals(selectedPath))
+        if ((this.selectedPath != null && !this.selectedPath.equals(selectedPath))
                 || (this.selectedPath == null && selectedPath != null)) {
             this.selectedPath = selectedPath;
             notifyObservers(SELECTED_PATH_FIELD_NAME, selectedPath);
@@ -229,6 +241,15 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         node.isPath = true;
         map.get(root.id).add(node);
 
+        JNotifyListener directoryListener = getjNotifyListener();
+
+        try {
+            int watchID = JNotify.addWatch(newItemModel.getDirectory(), DIRECTORY_LISTENER_MASK, true, directoryListener);
+            directoryListenerIds.put(node, watchID);
+        } catch (JNotifyException e) {
+            e.printStackTrace();
+        }
+
         reload();
     }
 
@@ -246,17 +267,29 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         }
     }
 
+
+    private final javax.swing.Timer timer = new Timer(1000, new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            if (isChanged) {
+                reload();
+                isChanged = false;
+            }
+        }
+    });
+
+
+    protected volatile boolean isChanged;
+
+
     public void reload() {
         if (enableAutoReload) {
-            notifyObservers(REFRESH, true);
+            reloadForce();
         }
     }
 
     public void reloadForce() {
         notifyObservers(REFRESH, true);
     }
-
-
 
 
 }

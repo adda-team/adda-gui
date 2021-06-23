@@ -49,7 +49,7 @@
             <border type="none"/>
             <children/>
           </grid>
-          <grid id="851e1" layout-manager="GridBagLayout">
+          <grid id="851e1" binding="bottomPanel" layout-manager="GridBagLayout">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="1.0" weighty="1.0"/>

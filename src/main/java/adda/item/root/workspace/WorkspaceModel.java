@@ -80,6 +80,7 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
             this.focusedBox = focusedBox;
             notifyObservers(FOCUSED_BOX_FIELD_NAME, focusedBox);
             setAreaActive(true);
+            Context.getInstance().getMainForm().getBottomPanel().setVisible(this.focusedBox instanceof ProjectAreaBox);
         }
     }
 
@@ -123,12 +124,13 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
                                 }
                             });
                         }
-                    } else if ("mueller".equals(projectTreeModel.getSelectedPath().getName())) {
+                    } else if ("mueller".equals(projectTreeModel.getSelectedPath().getName()) || "ampl".equals(projectTreeModel.getSelectedPath().getName()) ) {
                         focusedBox = new LineChartBox(projectTreeModel.getSelectedPath().getName());
                         focusedBox.init();
                         final LineChartModel lineChartModel = (LineChartModel) focusedBox.getModel();
                         lineChartModel.setDisplayName(projectTreeModel.getSelectedPath().getName());
                         lineChartModel.setDescription(projectTreeModel.getSelectedPath().getFolder());
+                        lineChartModel.setLog("mueller".equals(projectTreeModel.getSelectedPath().getName()));
                         lineChartModel.loadFromFileAsync(projectTreeModel.getSelectedPath().getFolder());
                     } else {
                         focusedBox = new NumberedTextBox(projectTreeModel.getSelectedPath().getName());
@@ -136,7 +138,7 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
                         final NumberedTextModel numberedTextModel = (NumberedTextModel) focusedBox.getModel();
                         numberedTextModel.setDisplayName(projectTreeModel.getSelectedPath().getName());
                         numberedTextModel.setDescription(projectTreeModel.getSelectedPath().getFolder());
-                        numberedTextModel.loadFromFileAsync(projectTreeModel.getSelectedPath().getFolder());
+                        numberedTextModel.bindWithFile(projectTreeModel.getSelectedPath().getFolder());
                     }
 
 
