@@ -16,8 +16,15 @@ import adda.item.root.projectArea.ProjectAreaModel;
 import adda.item.root.projectTree.ProjectTreeModel;
 import adda.item.root.projectTree.ProjectTreeNode;
 import adda.item.tab.base.BaseTabBox;
+import adda.item.tab.shape.orientation.OrientationEnum;
+import adda.item.tab.shape.orientation.OrientationModel;
 import adda.utils.SwingUtils;
 
+import javax.swing.*;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class WorkspaceModel extends ModelBase implements IModelObserver {
@@ -114,7 +121,19 @@ public class WorkspaceModel extends ModelBase implements IModelObserver {
                         projectAreaModel.setPathToState(projectTreeModel.getSelectedPath().getFolder());
                         projectAreaModel.loadNestedModelList();
                         if (!projectTreeModel.getSelectedPath().isProject()) {
+
+                            OrientationModel orientationModel = (OrientationModel) projectAreaModel.getNestedModelList().stream()
+                                    .filter(model -> model != null && model.getClass().equals(OrientationModel.class))
+                                    .findFirst()
+                                    .get();
+
+                            if (OrientationEnum.Average.equals(orientationModel.getEnumValue())) {
+                                orientationModel.setPathToRun(projectAreaModel.getPathToState());
+
+                            }
+
                             javax.swing.SwingUtilities.invokeLater(new Runnable() {
+
                                 public void run() {
                                     Context.getInstance().getMainForm().setLoadingVisible(true);
                                     focusedBox

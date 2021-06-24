@@ -25,7 +25,7 @@ import java.net.URL;
 
 public class Context {
 
-    public static final String VERSION = "beta0.2.1";
+    public static final String VERSION = "beta0.2.2";
 
     protected JFrame mainFrame;
 

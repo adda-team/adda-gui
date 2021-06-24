@@ -40,9 +40,37 @@ public class OrientationAverageBox extends BoxBase implements Serializable {
     protected void initChildren() {
         super.initChildren();
         if (model instanceof OrientationAverageModel) {
-            ((OrientationAverageModel)model).setAlphaModel((AlphaOrientationAverageModel) alphaBox.getModel());
-            ((OrientationAverageModel)model).setBetaModel((AlphaOrientationAverageModel) betaBox.getModel());
-            ((OrientationAverageModel)model).setGammaModel((AlphaOrientationAverageModel) gammaBox.getModel());
+
+            final AlphaOrientationAverageModel alphaModel = (AlphaOrientationAverageModel) alphaBox.getModel();
+            alphaModel.setMin(0);
+            alphaModel.setMax(360);
+            alphaModel.setJmin(2);
+            alphaModel.setJmax(5);
+            alphaModel.setEps(0);
+            alphaModel.setEquivalent(true);
+            alphaModel.setPeriodic(true);
+            ((OrientationAverageModel) this.model).setAlphaModel(alphaModel);
+
+            final AlphaOrientationAverageModel betaModel = (AlphaOrientationAverageModel) betaBox.getModel();
+            betaModel.setMin(0);
+            betaModel.setMax(180);
+            betaModel.setJmin(2);
+            betaModel.setJmax(4);
+            betaModel.setEps(0.001);
+            betaModel.setEquivalent(false);
+            betaModel.setPeriodic(false);
+            ((OrientationAverageModel) this.model).setBetaModel(betaModel);
+
+
+            final AlphaOrientationAverageModel gammaModel = (AlphaOrientationAverageModel) gammaBox.getModel();
+            gammaModel.setMin(0);
+            gammaModel.setMax(360);
+            gammaModel.setJmin(2);
+            gammaModel.setJmax(4);
+            gammaModel.setEps(0.001);
+            gammaModel.setEquivalent(true);
+            gammaModel.setPeriodic(true);
+            ((OrientationAverageModel) this.model).setGammaModel(gammaModel);
         }
 
     }
