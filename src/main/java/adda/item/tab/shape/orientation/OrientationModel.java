@@ -14,11 +14,15 @@ import adda.item.tab.output.internalField.InternalFieldSaveModel;
 import adda.item.tab.output.polarization.PolarizationSaveModel;
 import adda.item.tab.shape.orientation.avarage.OrientationAverageBox;
 import adda.item.tab.shape.orientation.avarage.OrientationAverageModel;
+import adda.item.tab.shape.orientation.avarage.alpha.AlphaOrientationAverageModel;
 import adda.item.tab.shape.surface.SurfaceModel;
 import adda.utils.StringHelper;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class OrientationModel extends TabEnumModel<OrientationEnum> implements IModelObserver {
@@ -31,10 +35,10 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
     public static final String ORIENT_COMMAND_LINE = "orient";
     public static final String AVG_COMMAND_LINE = "avg";
     public static final String DELIMITER = " ";
+    public static final String PATH_TO_RUN_FIELD_NAME = "pathToRun";
     double alpha = 0;
     double beta = 0;
     double gamma = 0;
-
 
 
     transient OrientationAverageBox orientationAverageBox;
@@ -55,7 +59,7 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
     }
 
     protected void setOrientationAverageBox(OrientationAverageBox orientationAverageBox) {
-        if(this.orientationAverageBox == null || !this.orientationAverageBox.equals(orientationAverageBox)) {
+        if (this.orientationAverageBox == null || !this.orientationAverageBox.equals(orientationAverageBox)) {
             if (orientationAverageBox != null) {
                 if (!orientationAverageBox.isInitialized()) {
                     orientationAverageBox.init();
@@ -112,22 +116,36 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
         return Arrays.asList(Integer.toString((int) alpha), Integer.toString((int) beta), Integer.toString((int) gamma));
     }
 
+    transient String pathToRun = "";
 
+    public String getPathToRun() {
+        return pathToRun;
+    }
 
+    public void setPathToRun(String pathToRun) {
+        this.pathToRun = pathToRun;
+        notifyObservers(PATH_TO_RUN_FIELD_NAME, gamma);
+    }
 
+    public String getAvgPath() {
+        String file = "";
+        if (orientationAverageBox.getModel() != null && orientationAverageBox.getModel() instanceof OrientationAverageModel) {
+            file = ((OrientationAverageModel) orientationAverageBox.getModel()).getAverageFile();
+            //file = StringHelper.isEmpty(file) ? " avg_params.dat" : (" " + file);
+            file = StringHelper.isEmpty(file) ? (pathToRun + (StringHelper.isEmpty(pathToRun) ? "" : File.separator) + "avg_params.dat") : file;
+        }
+        return file;
+    }
 
     @Override
     protected List<IAddaOption> getAddaOptionsInner() {
 
         if (OrientationEnum.Average.equals(enumValue)) {
             String commandValue = AVG_COMMAND_LINE;
-            String file = "";
-            if (orientationAverageBox.getModel() != null && orientationAverageBox.getModel() instanceof OrientationAverageModel) {
-                file = ((OrientationAverageModel) orientationAverageBox.getModel()).getAverageFile();
-                file = StringHelper.isEmpty(file) ? " avg_params.dat" : (" " + file);
-            }
+            String file = getAvgPath();
 
-            return Arrays.asList(new AddaOption(ORIENT, commandValue + file, StringHelper.toDisplayString(enumValue) + file));
+
+            return Arrays.asList(new AddaOption(ORIENT, commandValue + " " + file, StringHelper.toDisplayString(enumValue) + " " +file));
         }
 
         List<String> list = getOrientParamsList();
@@ -166,18 +184,65 @@ public class OrientationModel extends TabEnumModel<OrientationEnum> implements I
             OrientationAverageModel cloneOrientationAvgModel = (OrientationAverageModel) orientationModel.getOrientationAverageBox().getModel();
             OrientationAverageModel thisOrientationAvgModel = (OrientationAverageModel) getOrientationAverageBox().getModel();
 
-            thisOrientationAvgModel.getGammaModel().copyProperties(cloneOrientationAvgModel.getGammaModel());
-            thisOrientationAvgModel.getBetaModel().copyProperties(cloneOrientationAvgModel.getBetaModel());
-            thisOrientationAvgModel.getAlphaModel().copyProperties(cloneOrientationAvgModel.getAlphaModel());
-            thisOrientationAvgModel.setAverageFile(cloneOrientationAvgModel.getAverageFile());
+            cloneOrientationAvgModel.getGammaModel().copyProperties(thisOrientationAvgModel.getGammaModel());
+            cloneOrientationAvgModel.getBetaModel().copyProperties(thisOrientationAvgModel.getBetaModel());
+            cloneOrientationAvgModel.getAlphaModel().copyProperties(thisOrientationAvgModel.getAlphaModel());
+            cloneOrientationAvgModel.setAverageFile(thisOrientationAvgModel.getAverageFile());
         }
         setUnderCopy(false);
+    }
+
+    public String getAvgConfig() {
+        StringBuilder config = new StringBuilder();
+        if (orientationAverageBox.getModel() != null && orientationAverageBox.getModel() instanceof OrientationAverageModel) {
+            OrientationAverageModel thisOrientationAvgModel = (OrientationAverageModel) getOrientationAverageBox().getModel();
+
+            Map<String, AlphaOrientationAverageModel> map = new LinkedHashMap<String, AlphaOrientationAverageModel>() {{
+               put("alpha", thisOrientationAvgModel.getAlphaModel());
+               put("beta", thisOrientationAvgModel.getBetaModel());
+               put("gamma", thisOrientationAvgModel.getGammaModel());
+            }};
+
+            map.forEach((key, value) -> {
+                config.append(key);
+                config.append(":\n");
+                config.append("min");
+                config.append("=");
+                config.append((int) Math.round(value.getMin()));
+                config.append("\n");
+                config.append("max");
+                config.append("=");
+                config.append((int) Math.round(value.getMin()));
+                config.append("\n");
+                config.append("Jmin");
+                config.append("=");
+                config.append((int) Math.round(value.getJmin()));
+                config.append("\n");
+                config.append("Jmax");
+                config.append("=");
+                config.append((int) Math.round(value.getJmax()));
+                config.append("\n");
+                config.append("eps");
+                config.append("=");
+                config.append(value.getEps());
+                config.append("\n");
+                config.append("equiv");
+                config.append("=");
+                config.append(value.isEquivalent());
+                config.append("\n");
+                config.append("periodic");
+                config.append("=");
+                config.append(value.isPeriodic());
+                config.append("\n");
+                config.append("\n");
+            });
+        }
+        return config.toString();
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
-
     }
 
     @Override

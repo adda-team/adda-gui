@@ -10,6 +10,7 @@ import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.item.tab.options.OptionsModel;
 import adda.item.tab.shape.granules.GranulesModel;
+import adda.item.tab.shape.orientation.OrientationEnum;
 import adda.item.tab.shape.orientation.OrientationModel;
 import adda.item.tab.shape.orientation.avarage.OrientationAverageModel;
 import adda.item.tab.shape.selector.ShapeSelectorModel;
@@ -23,6 +24,9 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -375,6 +379,22 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
             return;
         }
         setRunning(true);
+
+        OrientationModel orientationModel = (OrientationModel) nestedModelList.stream()
+                .filter(model -> model != null && model.getClass().equals(OrientationModel.class))
+                .findFirst()
+                .get();
+
+        if (OrientationEnum.Average.equals(orientationModel.getEnumValue())) {
+            orientationModel.setPathToRun(pathToState);
+            try {
+                Files.write(Paths.get(orientationModel.getAvgPath()), orientationModel.getAvgConfig().getBytes(StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "File " + orientationModel.getAvgPath() + "cannot be created");
+                return;
+            }
+        }
+
         List<String> args = new ArrayList<String>();
         String currentPath = System.getProperty("user.dir");
         String binPath = currentPath + "/bin";
@@ -384,7 +404,7 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         args.add("-dir");
 //        Date now = new Date();
 //        SimpleDateFormat pattern = new SimpleDateFormat("dd-MM-yyyy_HH_mm_ss");
-        String path = Context.getInstance().getProjectTreeModel().getSelectedPath().getFolder();// + "/run_" + pattern.format(now);
+        String path = pathToState;// + "/run_" + pattern.format(now);
         //path = path.replace("/", "\\");
         args.add(path);
 

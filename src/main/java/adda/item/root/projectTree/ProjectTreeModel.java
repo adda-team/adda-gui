@@ -239,6 +239,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         node.desc = String.format("<HTML><b>%s</b><br><small>%s</small></HTML>", newItemModel.getDisplayName(), newItemModel.getDirectory());
         node.folder = newItemModel.getDirectory();
         node.isPath = true;
+        node.isProject = true;
         map.get(root.id).add(node);
 
         JNotifyListener directoryListener = getjNotifyListener();
@@ -250,7 +251,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
             e.printStackTrace();
         }
 
-        reload();
+        reloadForce();
     }
 
     public void showNewProjectDialog() {
