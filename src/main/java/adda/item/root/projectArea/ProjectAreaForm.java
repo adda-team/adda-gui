@@ -1,5 +1,7 @@
 package adda.item.root.projectArea;
 
+import adda.utils.StringHelper;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -21,6 +23,8 @@ public class ProjectAreaForm {
     private JScrollPane scrollDdaInternal;
     private JScrollPane scrollOutput;
     private JScrollPane scrollShape;
+
+    //private JButton clearButton;
 
     public JPanel getPanelMain() {
         return panelMain;
@@ -61,11 +65,14 @@ public class ProjectAreaForm {
         scrollOutput.getVerticalScrollBar().setUnitIncrement(16);
         scrollShape.getVerticalScrollBar().setUnitIncrement(16);
 
-        final JLabel label = new JLabel("Configured Options");
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.CENTER);
-        label.setPreferredSize(new Dimension(150, 25));
-        panelOptions.add(label, BorderLayout.NORTH);
+//        final JLabel label = new JLabel("Configured Options");
+//        label.setHorizontalAlignment(JLabel.CENTER);
+//        label.setVerticalAlignment(JLabel.CENTER);
+//        label.setPreferredSize(new Dimension(150, 25));
+//
+//        //clearButton = new JButton(StringHelper.toDisplayString("clear all"));
+//
+//        panelOptions.add(label, BorderLayout.NORTH);
         scrollShape.setMinimumSize(new Dimension(60, 300));
 
 

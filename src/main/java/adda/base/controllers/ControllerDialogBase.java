@@ -26,6 +26,7 @@ public abstract class ControllerDialogBase extends ControllerBase {
         CustomOkCancelModalDialog dialog = getDialog(dialogModel);
         if (dialog != null) {
             dialog.pack();
+            dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
             return dialog.isOkPressed();
         }

@@ -6,6 +6,7 @@ import adda.base.IAddaOptionsContainer;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.events.ModelPropertyChangeType;
 import adda.base.models.IModel;
+import adda.base.models.ModelBase;
 import adda.base.views.IView;
 import adda.item.tab.base.size.SizeEnum;
 import adda.item.tab.base.size.SizeMeasureEnum;
@@ -31,6 +32,14 @@ public class OptionsView implements IView {
 
     JScrollPane scrollPane;
 
+    JPanel panelOptions;
+
+    JButton clearAllButton;
+
+    public JButton getClearAllButton() {
+        return clearAllButton;
+    }
+
     @Override
     public void refresh() {
 
@@ -38,7 +47,7 @@ public class OptionsView implements IView {
 
     @Override
     public JComponent getRootComponent() {
-        return scrollPane;
+        return panelOptions;
     }
 
     public JComponent getTable() {
@@ -101,6 +110,27 @@ public class OptionsView implements IView {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
+        panelOptions = new JPanel(new BorderLayout());
+        JPanel additionalPanel = new JPanel(new BorderLayout());
+
+        clearAllButton = new JButton("Clear all");
+
+        clearAllButton.setEnabled(isClearAllEnabled(optionsModel));
+
+        final JLabel label = new JLabel("Configured Options");
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setPreferredSize(new Dimension(150, 25));
+
+        //clearButton = new JButton(StringHelper.toDisplayString("clear all"));
+
+        additionalPanel.add(label);
+        additionalPanel.add(clearAllButton, BorderLayout.EAST);
+        additionalPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+
+        panelOptions.add(additionalPanel, BorderLayout.NORTH);
+        panelOptions.add(scrollPane);
+
     }
 
     @Override
@@ -147,6 +177,27 @@ public class OptionsView implements IView {
 
         }
 
+        if (sender instanceof OptionsModel) {
+            OptionsModel optionsModel = (OptionsModel) sender;
+            clearAllButton.setEnabled(isClearAllEnabled(optionsModel));
+            //clearIcon = optionsModel.getContainers().stream().map(IAddaOptionsContainer::getAddaOptions).coll(List::).anyMatch(x -> x.)
+        }
+
+    }
+
+    private boolean isClearAllEnabled(OptionsModel optionsModel) {
+        boolean isEnabled = false;
+        for (IAddaOptionsContainer container: optionsModel.getContainers()){
+            if (container instanceof SizeModel) {
+                SizeModel sizeModel = (SizeModel) container;
+                isEnabled = !SizeEnum.AlongOX.equals(sizeModel.getType()) || sizeModel.getValue() != 1 || !SizeMeasureEnum.um.equals(sizeModel.getMeasure());
+            } else if (container instanceof ModelBase && !((ModelBase) container).isDefaultState()) {
+                isEnabled = true;
+            }
+
+            if (isEnabled) break;
+        }
+        return isEnabled;
     }
 
 //    private void updateRowHeights()

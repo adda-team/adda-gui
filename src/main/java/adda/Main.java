@@ -1,8 +1,10 @@
 package adda;
 
 import adda.application.MainForm;
+import adda.application.SettingDialog;
 import adda.item.root.projectTree.*;
 import adda.item.root.workspace.WorkspaceModel;
+import adda.settings.SettingsManager;
 import adda.utils.Binder;
 import adda.item.root.shortcut.ShortcutsBox;
 import adda.item.root.workspace.WorkspaceBox;
@@ -22,7 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Main {
-//    static {
+    //    static {
 //        System.loadLibrary("flatlaf");
 //    }
     public static void main(String[] args) {
@@ -45,9 +47,9 @@ public class Main {
                     e.printStackTrace();
                 }
 
+                boolean isOpenSettings = !SettingsManager.isSettingExist();
 
-
-                JFrame frame = new JFrame("   ADDA GUI ["+ Context.VERSION + "]");
+                JFrame frame = new JFrame("   ADDA GUI [" + Context.VERSION + "]");
                 MainForm app = new MainForm();
                 app.setLoadingVisible(true);
                 app.getShortcutPanel().setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
@@ -76,15 +78,13 @@ public class Main {
                 //todo set custom menubar between app icon and close button in header https://medium.com/swlh/customizing-the-title-bar-of-an-application-window-50a4ac3ed27e
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
+                frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
 
                 Context.getInstance().mainFrame = frame;
                 Context.getInstance().mainForm = app;
                 Context.getInstance().workspaceModel = (WorkspaceModel) workspaceBox.getModel();
                 Context.getInstance().projectTreeModel = (ProjectTreeModel) treeBox.getModel();
-
-
-
 
 
                 //Binder.bind(Context.getInstance().getWorkspaceModel(), shortcutsBox.getModel());
@@ -120,6 +120,14 @@ public class Main {
                     }
                 }).start();
 
+
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    if (isOpenSettings) {
+                        SettingsManager.recreateSettings();
+                        SettingsManager.openSettingsDialog();
+                    }
+                });
+
             }
         });
     }
@@ -144,6 +152,14 @@ public class Main {
         });
         newMenu.add(project);
 
+        JMenuItem settingMenu = new JMenuItem("Setting");
+
+        settingMenu.addActionListener(e -> {
+            SettingsManager.openSettingsDialog();
+        });
+
+        fileMenu.add(settingMenu);
+
         fileMenu.addSeparator();
 
         JMenuItem exitItem = new JMenuItem("Exit");
@@ -165,7 +181,7 @@ public class Main {
         helpMenu.add(openHelpSystem);
         final JMenuItem about = new JMenuItem("About");
         about.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "<html>Version <b>" + Context.VERSION +"</b>.<br> Use adda-discuss@googlegroups.com to contact dev team</html>");
+            JOptionPane.showMessageDialog(null, "<html>Version <b>" + Context.VERSION + "</b>.<br> Use adda-discuss@googlegroups.com to contact dev team</html>");
         });
         helpMenu.add(about);
 

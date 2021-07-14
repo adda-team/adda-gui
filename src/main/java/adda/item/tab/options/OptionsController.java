@@ -5,12 +5,15 @@ import adda.base.IAddaOption;
 import adda.base.IAddaOptionsContainer;
 import adda.base.controllers.ControllerBase;
 import adda.base.models.IModel;
+import adda.base.models.ModelBase;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class OptionsController extends ControllerBase {
 
@@ -35,6 +38,9 @@ public class OptionsController extends ControllerBase {
 
             ButtonColumn buttonColumn = new ButtonColumn(table, delete, 2);
             buttonColumn.setMnemonic(KeyEvent.VK_D);
+
+            optionsView.getClearAllButton().addActionListener(e -> new ArrayList<>(optionsModel.getContainers()).forEach(container -> ((ModelBase) container).applyDefaultState()));
+
         }
     }
 }

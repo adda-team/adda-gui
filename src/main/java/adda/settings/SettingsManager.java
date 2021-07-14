@@ -1,8 +1,10 @@
 package adda.settings;
 
+import adda.application.SettingDialog;
 import adda.settings.formatters.json.JsonFormatter;
 import adda.settings.formatters.xml.XmlFormatter;
 import adda.settings.serializer.AddaSerializer;
+import adda.utils.OsUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -16,18 +18,22 @@ public class SettingsManager {
     //todo read from file
     //todo observe when settings file changed
     public static Setting getSettings() {
-        String userDir = System.getProperty("user.dir");
-        String settingsDir = userDir + "/setting.xml";
+        String settingsDir = getSettingsPath();
         Setting setting;
         try {
-            String json = new String(Files.readAllBytes(Paths.get(settingsDir)), StandardCharsets.UTF_8);
+            String xml = new String(Files.readAllBytes(Paths.get(settingsDir)), StandardCharsets.UTF_8);
             AddaSerializer serializer = new AddaSerializer(new XmlFormatter());
-            setting = serializer.deserialize(json, Setting.class);
+            setting = serializer.deserialize(xml, Setting.class);
         } catch (IOException e) {
             setting = recreateSettings();
         }
 
         return setting;
+    }
+
+    public static boolean isSettingExist() {
+        File f = new File(getSettingsPath());
+        return f.exists() && !f.isDirectory();
     }
 
     public static Setting recreateSettings() {
@@ -46,8 +52,19 @@ public class SettingsManager {
 
         Setting setting = new Setting();
         AppSetting appSetting = new AppSetting();
-        appSetting.setDefaultProjectName("New Project");
+        appSetting.setDefaultProjectName("ADDA Project");
+        appSetting.setDefaultProjectPath(userDir);
         appSetting.setLanguage("EN");
+        appSetting.setFontSize(12);
+        appSetting.setAddaExecSeq("");
+        appSetting.setAddaExecMpi("");
+        appSetting.setAddaExecGpu("");
+        appSetting.setGitPath("https://github.com/adda-team/adda/archive/refs/heads/master.zip");
+        if (OsUtils.isWindows()) {
+            String binPath = userDir + "/bin/adda.exe";
+            appSetting.setAddaExecSeq(binPath);
+        }
+
         //appSetting.setDefaultAddaValues(new HashMap<>());
         setting.setAppSetting(appSetting);
 
@@ -70,16 +87,29 @@ public class SettingsManager {
         return setting;
 
     }
+    public static void saveSettings(Setting setting) {
+        String settingsDir = getSettingsPath();
+        try {
+            saveSettings(setting, settingsDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getSettingsPath() {
+        String userDir = System.getProperty("user.dir");
+        return userDir + "/setting.xml";
+    }
 
     public static void saveSettings(Setting setting, String path) throws IOException {
         AddaSerializer serializer = new AddaSerializer(new XmlFormatter());
 
-        String json = serializer.serialize(setting);
+        String xml = serializer.serialize(setting);
         BufferedWriter output = null;
         try {
             File file = new File(path);
             output = new BufferedWriter(new FileWriter(file));
-            output.write(json);
+            output.write(xml);
         } catch ( IOException e ) {
             e.printStackTrace();
         } finally {
@@ -87,6 +117,13 @@ public class SettingsManager {
                 output.close();
             }
         }
+    }
+
+    public static void openSettingsDialog() {
+        SettingDialog dialog = new SettingDialog(getSettings().getAppSetting());
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
     }
 
     public static void deleteFolder(File folder) {

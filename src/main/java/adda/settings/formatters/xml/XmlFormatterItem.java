@@ -41,9 +41,14 @@ public class XmlFormatterItem implements IFormatterItem {
         return element.getNodeName();
     }
 
+    private static final String EMPTY_STRING = "";
+
     @Override
     public String getValue() {
-        return element.getFirstChild().getNodeValue();
+        if (element.hasChildNodes()) {
+            return element.getFirstChild().getNodeValue();
+        }
+        return EMPTY_STRING;
     }
 
     @Override
