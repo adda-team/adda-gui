@@ -25,26 +25,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Main {
-    //    static {
-//        System.loadLibrary("flatlaf");
-//    }
     public static void main(String[] args) {
-
-        if (OsUtils.isUnix()) {
-            System.load(System.getProperty("user.dir") + "/lib/libjnotify.so");
-        }
-
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
-//                    BasicLookAndFeel darcula = new DarculaLaf();
                     UIManager.setLookAndFeel(new FlatLightLaf());
-//                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//                    UIManager.put("Label.disabledForeground",Color.lightGray);
                     UIManager.getLookAndFeel().getDefaults().put("TextField.disabledBackground", new Color(-855310));
                     UIManager.getLookAndFeel().getDefaults().put("TextField.inactiveBackground", new Color(-855310));
-                    //UIManager.put("TextField.inactiveBackground", new ColorUIResource(Color.white));
-//                    UIManager.put("TextField.inactiveBackground", new Color(-855310));
                 } catch (/*ClassNotFoundException |
                         IllegalAccessException |*/
                         UnsupportedLookAndFeelException /*|

@@ -2,12 +2,15 @@ package adda.application;
 
 import adda.Context;
 import adda.application.controls.VerticalLayout;
+import adda.application.runner.Downloader;
 import adda.settings.AppSetting;
 import adda.settings.Setting;
 import adda.settings.SettingsManager;
 import adda.utils.OsUtils;
 import adda.utils.ReflectionHelper;
 import adda.utils.StringHelper;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.help.CSH;
 import javax.swing.*;
@@ -16,9 +19,12 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Vector;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SettingDialog extends JDialog {
     protected JPanel wrapperPanel;
@@ -28,8 +34,8 @@ public class SettingDialog extends JDialog {
 
     protected JPanel contentPanel;
     protected boolean isOkPressed = false;
+    protected boolean isDownloading = false;
     protected AppSetting appSetting;
-
 
 
     public boolean isOkPressed() {
@@ -100,9 +106,133 @@ public class SettingDialog extends JDialog {
         //button.setHorizontalAlignment(JButton.LEFT);
 
         JPanel buttonPanel = new JPanel(new BorderLayout());
-        buttonPanel.add(button, BorderLayout.EAST);
-        buttonPanel.setPreferredSize(new Dimension(500, 20));
+        buttonPanel.add(button, BorderLayout.WEST);
+        buttonPanel.setPreferredSize(new Dimension(450, 20));
+
+
         addaPanel.add(buttonPanel);
+
+        JTextArea textArea = new JTextArea();
+
+        textArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+        textArea.setOpaque(true);
+        textArea.setEditable(false);
+
+
+        textArea.setFocusable(true);
+        textArea.setBackground(Color.white);
+        textArea.setForeground(Color.black);
+        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+
+        JScrollPane scroll = new JScrollPane(textArea,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        JPanel terminalPanel = new JPanel(new BorderLayout());
+        terminalPanel.add(scroll, BorderLayout.CENTER);
+        terminalPanel.setPreferredSize(new Dimension(450, 300));
+        terminalPanel.setVisible(false);
+        addaPanel.add(terminalPanel);
+
+        button.addActionListener(e -> {
+            if (!isDownloading && !StringHelper.isEmpty(appSetting.getGitPath())) {
+                isDownloading = true;
+                javax.swing.SwingUtilities.invokeLater(() -> terminalPanel.setVisible(true));
+                javax.swing.SwingUtilities.invokeLater(() -> terminalPanel.revalidate());
+                javax.swing.SwingUtilities.invokeLater(() -> terminalPanel.repaint());
+                javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Retrieve data from  " + appSetting.getGitPath() + "\n"));
+                Thread t = new Thread(() -> {
+                    try {
+                        BufferedReader reader = null;
+                        String response;
+                        try {
+                            URL url = new URL(appSetting.getGitPath());
+                            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                            StringBuffer buffer = new StringBuffer();
+                            int read;
+                            char[] chars = new char[1024];
+                            while ((read = reader.read(chars)) != -1)
+                                buffer.append(chars, 0, read);
+
+                            response = buffer.toString();
+                        } finally {
+                            if (reader != null)
+                                reader.close();
+                        }
+
+                        JSONObject json = new JSONObject(response);
+
+                        String zipUrl = String.valueOf(json.get("zipball_url"));
+
+                        if (OsUtils.isWindows()) {
+                            zipUrl = String.valueOf(((JSONObject) ((JSONArray) json.get("assets")).get(0)).get("browser_download_url"));
+                        }
+
+                        String finalZipUrl = zipUrl;
+                        javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Latest release is  " + finalZipUrl + "\n"));
+
+                        String downloadDir = System.getProperty("user.dir") + "/download";
+                        OsUtils.createFolder(downloadDir);
+
+                        Date now = new Date();
+                        SimpleDateFormat pattern = new SimpleDateFormat("MMddHHmmss");
+                        String path = downloadDir + "/adda_release_" + pattern.format(now);
+                        OsUtils.createFolder(path);
+
+                        String zipFileName = path + "/release.zip";
+
+                        javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Downloading to " + zipFileName + "\n"));
+                        Downloader downloader = new Downloader(new URL(zipUrl), zipFileName);
+                        downloader.run();
+                        Thread.sleep(100);
+                        while (downloader.getStatus() == 0) {
+                            Thread.sleep(100);
+                            javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Downloaded " + downloader.getDownloaded() + " from " + downloader.getSize()));
+                        }
+
+                        javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Downloaded \nUnzipping \n"));
+
+                        String unzipDestination = path;
+
+                        OsUtils.unzip(zipFileName, unzipDestination);
+
+                        javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Unzipped to " + unzipDestination + " \n"));
+
+                        if (OsUtils.isWindows()) {
+                            Optional<File> releaseDirOptional = Arrays.stream((new File(path)).listFiles()).filter(file -> file.isDirectory()).findFirst();
+                            if (releaseDirOptional.isPresent()) {
+                                String win64Dir = releaseDirOptional.get().getAbsolutePath() + "\\win64";
+
+                                final JTextField seq = map.get("addaExecSeq");
+                                seq.setText(win64Dir + "\\adda.exe");
+                                seq.setCaretPosition(seq.getText().length());
+                                final JTextField mpi = map.get("addaExecMpi");
+                                mpi.setText(win64Dir + "\\adda_mpi.exe");
+                                mpi.setCaretPosition(mpi.getText().length());
+                                final JTextField gpu = map.get("addaExecGpu");
+                                gpu.setText(win64Dir + "\\adda_ocl.exe");
+                                gpu.setCaretPosition(gpu.getText().length());
+
+                                javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Succesfully finished \n"));
+                            }
+
+                        } else {
+
+                        }
+
+
+
+                    } catch (Exception e1) {
+                        javax.swing.SwingUtilities.invokeLater(() -> textArea.append(e1.getMessage()));
+                        javax.swing.SwingUtilities.invokeLater(() -> textArea.append("\n"));
+                    } finally {
+                        isDownloading = false;
+                    }
+                });
+                t.start();
+
+            }
+        });
 
         tabs.addTab("ADDA", addaPanel);
 
@@ -141,6 +271,8 @@ public class SettingDialog extends JDialog {
 
     }
 
+    Map<String, JTextField> map = new HashMap<>();
+
     private JPanel createAddaExecConfigPanel(String field) {
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -173,6 +305,8 @@ public class SettingDialog extends JDialog {
         });
         addaTextField.setPreferredSize(new Dimension(350, 20));
         panel.add(addaTextField);
+
+        map.put(field, addaTextField);
 
         JButton addaButton = new JButton("...");
 
@@ -291,8 +425,6 @@ public class SettingDialog extends JDialog {
         gbc.fill = GridBagConstraints.BOTH;
         wrapperPanel.add(contentPanel, gbc);
     }
-
-
 
 
 }

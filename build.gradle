@@ -25,6 +25,7 @@ dependencies {
     compile group: 'net.java.balloontip', name: 'balloontip', version: '1.2.4.1'
     compile group: 'javax.help', name: 'javahelp', version: '2.0.05'
     compile group: 'org.jfree', name: 'jfreechart', version: '1.5.3'
+    compile group: 'net.lingala.zip4j', name: 'zip4j', version: '2.9.0'
     compile fileTree(dir: 'lib', include: ['*'])
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'

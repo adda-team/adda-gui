@@ -81,7 +81,7 @@ class AddaSerializerTest {
 
         AppSetting appSetting = new AppSetting();
         appSetting.setLanguage("ru");
-        appSetting.setDefaultAddaValues(defaultValues);
+
         appSetting.setDefaultProjectName("projectName");
 
         List<ProjectSetting> projectSettingList = new ArrayList<>();
