@@ -9,6 +9,7 @@ import adda.utils.OsUtils;
 import adda.utils.ReflectionHelper;
 import adda.utils.StringHelper;
 
+import javax.help.CSH;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -88,6 +89,20 @@ public class SettingDialog extends JDialog {
         addaPanel.add(createAddaExecConfigPanel("addaExecSeq"));
         addaPanel.add(createAddaExecConfigPanel("addaExecMpi"));
         addaPanel.add(createAddaExecConfigPanel("addaExecGpu"));
+
+        JButton button = new JButton("<HTML><FONT color=\"#000099\"><U>" + StringHelper.toDisplayString("download latest ADDA release from github") + "</U></FONT></HTML>");
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setFocusable(false);
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        //button.setHorizontalAlignment(JButton.LEFT);
+
+        JPanel buttonPanel = new JPanel(new BorderLayout());
+        buttonPanel.add(button, BorderLayout.EAST);
+        buttonPanel.setPreferredSize(new Dimension(500, 20));
+        addaPanel.add(buttonPanel);
 
         tabs.addTab("ADDA", addaPanel);
 

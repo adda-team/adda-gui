@@ -26,9 +26,14 @@ public class Downloader extends Observable implements Runnable {
     private int downloaded; // number of bytes downloaded
     private int status; // current status of download
 
+    private String path;
+
+
+
     // Constructor for Download.
-    public Downloader(URL url) {
+    public Downloader(URL url, String path) {
         this.url = url;
+        this.path = path;
         size = -1;
         downloaded = 0;
         status = DOWNLOADING;
@@ -130,7 +135,8 @@ public class Downloader extends Observable implements Runnable {
             }
 
             // Open file and seek to the end of it.
-            file = new RandomAccessFile(getFileName(url), "rw");
+            //file = new RandomAccessFile(getFileName(url), "rw");
+            file = new RandomAccessFile(path, "rw");
             file.seek(downloaded);
 
             stream = connection.getInputStream();

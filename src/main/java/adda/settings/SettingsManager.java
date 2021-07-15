@@ -56,7 +56,7 @@ public class SettingsManager {
         appSetting.setDefaultProjectPath(userDir);
         appSetting.setLanguage("EN");
         appSetting.setFontSize(12);
-        appSetting.setAddaExecSeq("");
+        appSetting.setAddaExecSeq("adda");
         appSetting.setAddaExecMpi("");
         appSetting.setAddaExecGpu("");
         appSetting.setGitPath("https://github.com/adda-team/adda/archive/refs/heads/master.zip");

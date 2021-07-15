@@ -8,6 +8,7 @@ import adda.settings.SettingsManager;
 import adda.utils.Binder;
 import adda.item.root.shortcut.ShortcutsBox;
 import adda.item.root.workspace.WorkspaceBox;
+import adda.utils.OsUtils;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.help.CSH;
@@ -28,6 +29,10 @@ public class Main {
 //        System.loadLibrary("flatlaf");
 //    }
     public static void main(String[] args) {
+
+        if (OsUtils.isUnix()) {
+            System.load(System.getProperty("user.dir") + "/lib/libjnotify.so");
+        }
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
