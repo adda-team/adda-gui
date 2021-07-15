@@ -61,7 +61,7 @@ public class SettingsManager {
         appSetting.setAddaExecGpu("");
         appSetting.setGitPath("https://github.com/adda-team/adda/archive/refs/heads/master.zip");
         if (OsUtils.isWindows()) {
-            String binPath = userDir + "/bin/adda.exe";
+            String binPath = userDir + "\\bin\\adda.exe";
             appSetting.setAddaExecSeq(binPath);
         }
 

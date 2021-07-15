@@ -10,6 +10,9 @@ import adda.item.root.projectArea.ProjectAreaBox;
 import adda.item.root.projectArea.ProjectAreaModel;
 import adda.item.root.projectTree.ProjectTreeNode;
 import adda.item.root.workspace.WorkspaceModel;
+import adda.settings.AppSetting;
+import adda.settings.SettingsManager;
+import adda.utils.StringHelper;
 
 import javax.swing.*;
 import java.io.File;
@@ -42,6 +45,13 @@ public class ShortcutsController extends ControllerBase {
 
 
             shortcutsView.runButton.addActionListener(e -> {
+                final AppSetting appSetting = SettingsManager.getSettings().getAppSetting();
+                if (StringHelper.isEmpty(appSetting.getAddaExecSeq())) {
+                    JOptionPane.showMessageDialog(null, "Executable ADDA path does`t configured");
+                    SettingsManager.openSettingsDialog();
+                    return;
+                }
+
                 IBox focusedBox = Context.getInstance().getWorkspaceModel().getFocusedBox();
                 ProjectTreeNode projectTreeNode = Context.getInstance().getWorkspaceModel().getPathByBox(focusedBox);
                 if (projectTreeNode.isProject() && focusedBox instanceof ProjectAreaBox) {

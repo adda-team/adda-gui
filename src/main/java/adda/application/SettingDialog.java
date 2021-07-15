@@ -10,6 +10,8 @@ import adda.utils.ReflectionHelper;
 import adda.utils.StringHelper;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
@@ -134,6 +136,26 @@ public class SettingDialog extends JDialog {
         JTextField addaTextField = new JTextField();
         final String path = String.valueOf(ReflectionHelper.getPropertyValue(appSetting, field));
         addaTextField.setText(path);
+        addaTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                update();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update();
+            }
+
+            private void update() {
+                ReflectionHelper.setPropertyValue(appSetting, field, addaTextField.getText());
+            }
+        });
         addaTextField.setPreferredSize(new Dimension(350, 20));
         panel.add(addaTextField);
 

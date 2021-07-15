@@ -16,6 +16,8 @@ import adda.item.tab.shape.orientation.avarage.OrientationAverageModel;
 import adda.item.tab.shape.selector.ShapeSelectorModel;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
 import adda.item.tab.shape.selector.params.bicoated.BicoatedModel;
+import adda.settings.AppSetting;
+import adda.settings.SettingsManager;
 import adda.utils.OutputDisplayer;
 import adda.utils.StringHelper;
 
@@ -378,6 +380,9 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         if (optionsModel == null || outputDisplayer == null) {
             return;
         }
+
+        final AppSetting appSetting = SettingsManager.getSettings().getAppSetting();
+
         setRunning(true);
 
         OrientationModel orientationModel = (OrientationModel) nestedModelList.stream()
@@ -396,30 +401,18 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         }
 
         List<String> args = new ArrayList<String>();
-        String currentPath = System.getProperty("user.dir");
-        String binPath = currentPath + "/bin";
-        args.add(binPath + "/adda");
+
+
+        args.add(appSetting.getAddaExecSeq());
+
         final List<String> params = Arrays.asList(optionsModel.getActualCommandLine().split(" "));
         args.addAll(params);
+
         args.add("-dir");
-//        Date now = new Date();
-//        SimpleDateFormat pattern = new SimpleDateFormat("dd-MM-yyyy_HH_mm_ss");
-        String path = pathToState;// + "/run_" + pattern.format(now);
-        //path = path.replace("/", "\\");
-        args.add(path);
+        args.add(pathToState);
 
         args.add("-so_buf");
         args.add("line");
-
-//        try {
-//            File folder = new File(path);
-//            if (!folder.exists()) {
-//                folder.mkdir();
-//            }
-//            Files.copy(new File(String.format("%s/alldir_params.dat", binPath)).toPath(), new File(String.format("%s/alldir_params.dat", path)).toPath(), REPLACE_EXISTING);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         ProcessBuilder builder = new ProcessBuilder(args);
         builder.redirectErrorStream(true);
@@ -430,7 +423,6 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
         } catch (IOException e) {
             setRunning(false);
             JOptionPane.showMessageDialog(null, e.getMessage());
-            //e.printStackTrace();
         }
 
 
