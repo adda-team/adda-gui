@@ -56,10 +56,10 @@ public class SettingsManager {
         appSetting.setDefaultProjectPath(userDir);
         appSetting.setLanguage("EN");
         appSetting.setFontSize(12);
-        appSetting.setAddaExecSeq("adda");
+        appSetting.setAddaExecSeq("");
         appSetting.setAddaExecMpi("");
         appSetting.setAddaExecGpu("");
-        appSetting.setGitPath("https://github.com/adda-team/adda/archive/refs/heads/master.zip");
+        appSetting.setGitPath("https://api.github.com/repos/adda-team/adda/releases/latest");
         if (OsUtils.isWindows()) {
             String binPath = userDir + "\\bin\\adda.exe";
             appSetting.setAddaExecSeq(binPath);
