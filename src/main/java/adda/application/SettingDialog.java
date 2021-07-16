@@ -305,9 +305,16 @@ public class SettingDialog extends JDialog {
     }
 
     private void cmd(String cmd, String srcPath) throws IOException {
-        String[] cmdArray = {cmd, "-e", "cd " + srcPath + " && sudo apt-get install gcc && sudo apt-get install gfortran && sudo apt-get install libfftw3-dev && make seq"};
+//        String[] cmdArray = {cmd, "-e", "cd " + srcPath + " && sudo apt-get install gcc && sudo apt-get install gfortran && sudo apt-get install libfftw3-dev && make seq"};
+        StringBuilder builder = new StringBuilder();
+        builder.append(cmd);
+        builder.append(" ");
+        builder.append("-e");
+        builder.append(" ");
+        builder.append("cd " + srcPath + " && sudo apt-get install gcc && sudo apt-get install gfortran && sudo apt-get install libfftw3-dev && make seq");
+
         Runtime rt = Runtime.getRuntime();
-        rt.exec(cmdArray);
+        rt.exec(builder.toString());
     }
 
     Map<String, JTextField> map = new HashMap<>();
