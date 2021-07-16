@@ -21,6 +21,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -198,9 +199,9 @@ public class SettingDialog extends JDialog {
 
                         Optional<File> releaseDirOptional = Arrays.stream((new File(path)).listFiles()).filter(File::isDirectory).findFirst();
                         if (releaseDirOptional.isPresent()) {
-                            javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Succesfully finished \n"));
-                            if (OsUtils.isWindows()) {
 
+                            if (OsUtils.isWindows()) {
+                                javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Succesfully finished \n"));
                                 String win64Dir = releaseDirOptional.get().getAbsolutePath() + "\\win64";
 
                                 final JTextField seq = map.get("addaExecSeq");
@@ -221,8 +222,22 @@ public class SettingDialog extends JDialog {
                                     textArea.append("Succesfully prepared \n");
                                     textArea.append("Now we have to compile ADDA from src code \n");
                                     textArea.append("ADDA required gcc, libfftw3-dev (http://www.fftw.org/) and gfortran  \n");
+                                    textArea.append("----------------  \n");
+                                    textArea.append("\n");
+                                    textArea.append("sudo apt-get install gcc  \n");
+                                    textArea.append("sudo apt-get install gfortran  \n");
+                                    textArea.append("sudo apt-get install libfftw3-dev  \n");
+
+                                    textArea.append("\n");
+                                    textArea.append("----------------  \n");
                                     textArea.append("after reqiured libs installation go to " + srcPath + " and execute\n");
+
+                                    textArea.append("----------------  \n");
+                                    textArea.append("\n");
+                                    textArea.append("cd " + srcPath + "  \n");
                                     textArea.append("make seq\n");
+                                    textArea.append("\n");
+                                    textArea.append("----------------  \n");
                                 });
 
 
@@ -231,13 +246,11 @@ public class SettingDialog extends JDialog {
                                 seq.setText(seqPath + "/adda");
                                 seq.setCaretPosition(seq.getText().length());
 
-                                String[] cmdArray = {"xterm", "-e", "cd " + srcPath + " && sudo apt-get install gcc && sudo apt-get install gfortran && sudo apt-get install libfftw3-dev && make seq"};
-                                Runtime rt = Runtime.getRuntime();
-                                Process pr = rt.exec(cmdArray);
-
-
-
-
+                                try {
+                                    cmd("gnome-terminal", seqPath);
+                                } catch (Exception ignored) {
+                                    cmd(System.getenv().get("TERM"), seqPath);
+                                }
                             }
                         }
 
@@ -289,6 +302,12 @@ public class SettingDialog extends JDialog {
         contentPanel.add(tabs);
 
 
+    }
+
+    private void cmd(String cmd, String srcPath) throws IOException {
+        String[] cmdArray = {cmd, "-e", "cd " + srcPath + " && sudo apt-get install gcc && sudo apt-get install gfortran && sudo apt-get install libfftw3-dev && make seq"};
+        Runtime rt = Runtime.getRuntime();
+        rt.exec(cmdArray);
     }
 
     Map<String, JTextField> map = new HashMap<>();
