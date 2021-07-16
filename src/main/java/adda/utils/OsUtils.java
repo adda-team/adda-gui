@@ -18,8 +18,11 @@ public final class OsUtils
         return getOsName().startsWith("Windows");
     }
 
-    public static boolean isUnix() {
+    public static boolean isLinux() {
         return getOsName().startsWith("Linux");
+    }
+    public static boolean isMac() {
+        return getOsName().startsWith("Mac");
     }
 
     public static boolean createFolder(String path) {

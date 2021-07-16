@@ -221,27 +221,36 @@ public class SettingDialog extends JDialog {
                                 {
                                     textArea.append("Succesfully prepared \n");
                                     textArea.append("Now we have to compile ADDA from src code \n");
-                                    textArea.append("ADDA required gcc, libfftw3-dev (http://www.fftw.org/) and gfortran  \n");
-                                    textArea.append("----------------  \n");
-                                    textArea.append("\n");
-                                    textArea.append("sudo apt-get install gcc  \n");
-                                    textArea.append("sudo apt-get install gfortran  \n");
-                                    textArea.append("sudo apt-get install libfftw3-dev  \n");
+                                    textArea.append("ADDA required make, gcc, fftw3 (http://www.fftw.org/) and gfortran  \n");
 
-                                    textArea.append("\n");
-                                    textArea.append("----------------  \n");
-                                    textArea.append("after reqiured libs installation go to " + srcPath + " and execute\n");
+                                    if (OsUtils.isMac()) {
+                                        textArea.append("fftw3 need to be installed for Mac, but you can apply FFT_TEMPERTON to use inner implementation of fft  \n");
+                                    }
+
+                                    textArea.append("copy and execute next commands in the terminal line by line  \n");
 
                                     textArea.append("----------------  \n");
                                     textArea.append("\n");
-                                    textArea.append("cd " + srcPath + "  \n");
-                                    textArea.append("make seq\n");
+                                    if (OsUtils.isMac()) {
+                                        textArea.append("brew install gcc  \n");
+                                        textArea.append("brew install make  \n");
+                                        textArea.append("cd " + srcPath + "  \n");
+                                        textArea.append("make seq OPTIONS=\"FFT_TEMPERTON\" FORT_LIB_PATH=/usr/local/gfortran/lib\n");
+                                    } else {
+                                        textArea.append("sudo apt-get install gcc  \n");
+                                        textArea.append("sudo apt-get install gfortran  \n");
+                                        textArea.append("sudo apt-get install libfftw3-dev  \n");
+                                        textArea.append("sudo apt-get install make  \n");
+                                        textArea.append("cd " + srcPath + "  \n");
+                                        textArea.append("make seq\n");
+                                    }
+
                                     textArea.append("\n");
                                     textArea.append("----------------  \n");
                                 });
 
 
-                                String seqPath = releaseDirOptional.get().getAbsolutePath() + "/seq";
+                                String seqPath = srcPath + "/seq";
                                 final JTextField seq = map.get("addaExecSeq");
                                 seq.setText(seqPath + "/adda");
                                 seq.setCaretPosition(seq.getText().length());
@@ -306,15 +315,15 @@ public class SettingDialog extends JDialog {
 
     private void cmd(String cmd, String srcPath) throws IOException {
 //        String[] cmdArray = {cmd, "-e", "cd " + srcPath + " && sudo apt-get install gcc && sudo apt-get install gfortran && sudo apt-get install libfftw3-dev && make seq"};
-        StringBuilder builder = new StringBuilder();
-        builder.append(cmd);
-        builder.append(" ");
-        builder.append("-e");
-        builder.append(" ");
-        builder.append("cd " + srcPath + " && sudo apt-get install gcc && sudo apt-get install gfortran && sudo apt-get install libfftw3-dev && make seq");
+//        StringBuilder builder = new StringBuilder();
+//        builder.append(cmd);
+//        builder.append(" ");
+//        builder.append("-e");
+//        builder.append(" ");
+//        builder.append("\"cd " + srcPath + " && sudo apt-get install gcc && sudo apt-get install gfortran && sudo apt-get install libfftw3-dev && make seq\"");
 
         Runtime rt = Runtime.getRuntime();
-        rt.exec(builder.toString());
+        rt.exec(cmd);
     }
 
     Map<String, JTextField> map = new HashMap<>();
