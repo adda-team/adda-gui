@@ -37,8 +37,8 @@ public class SettingsManager {
     }
 
     public static Setting recreateSettings() {
-        String userDir = System.getProperty("user.dir");
-        String firstProjectDir = userDir + "/adda-project";
+        String userDir = OsUtils.getDefaultDirectory();
+        String firstProjectDir = userDir + File.separator + "adda-project";
 
         File file = new File(firstProjectDir);
         //deleteFolder(file);
@@ -61,7 +61,7 @@ public class SettingsManager {
         appSetting.setAddaExecGpu("");
         appSetting.setGitPath("https://api.github.com/repos/adda-team/adda/releases/latest");
         if (OsUtils.isWindows()) {
-            String binPath = userDir + "\\bin\\adda.exe";
+            String binPath = System.getProperty("user.dir") + "\\bin\\adda.exe";
             appSetting.setAddaExecSeq(binPath);
         }
 
@@ -79,7 +79,7 @@ public class SettingsManager {
         setting.setProjects(list);
 
         try {
-            saveSettings(setting, userDir + "/setting.xml");
+            saveSettings(setting, getSettingsPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,8 +97,7 @@ public class SettingsManager {
     }
 
     public static String getSettingsPath() {
-        String userDir = System.getProperty("user.dir");
-        return userDir + "/setting.xml";
+        return OsUtils.getDefaultDirectory() + File.separator + "setting.xml";
     }
 
     public static void saveSettings(Setting setting, String path) throws IOException {

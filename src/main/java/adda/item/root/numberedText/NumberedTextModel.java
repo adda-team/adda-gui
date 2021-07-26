@@ -6,9 +6,7 @@ import adda.base.models.IModel;
 import adda.base.models.IModelObserver;
 import adda.base.models.ModelBase;
 import adda.item.root.projectTree.ProjectTreeModel;
-import net.contentobjects.jnotify.JNotify;
-import net.contentobjects.jnotify.JNotifyException;
-import net.contentobjects.jnotify.JNotifyListener;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;

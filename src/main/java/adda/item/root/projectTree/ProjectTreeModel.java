@@ -7,6 +7,7 @@ import adda.settings.ProjectSetting;
 import adda.settings.Setting;
 import adda.settings.SettingsManager;
 
+import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TreeModelListener;
@@ -18,15 +19,19 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
+//
 
-import net.contentobjects.jnotify.JNotify;
-import net.contentobjects.jnotify.JNotifyException;
-import net.contentobjects.jnotify.JNotifyListener;
+import adda.utils.OsUtils;
+import io.methvin.watcher.DirectoryChangeEvent;
+import io.methvin.watcher.DirectoryWatcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.NOPLogger;
 
 public class ProjectTreeModel extends ModelBase implements TreeModel, Serializable, Cloneable {
 
     public static final String REFRESH = "refresh";
-    public static final int DIRECTORY_LISTENER_MASK = JNotify.FILE_ANY;
+    //public static final int DIRECTORY_LISTENER_MASK = JNotify.FILE_ANY;
     public static final String SELECTED_PATH_FIELD_NAME = "selectedPath";
     public static final String FILE_MODIFIED_FIELD_NAME = "FILE_MODIFIED";
     protected Map<ProjectTreeNode, Integer> directoryListenerIds = new HashMap<>();
@@ -55,55 +60,39 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         Setting settings = SettingsManager.getSettings();
         for (ProjectSetting projectSetting : settings.getProjects()) {
             ProjectTreeNode node = new ProjectTreeNode();
-//            node.id = String.join("_", projectSetting.getName(), projectSetting.getPath());
             node.id = projectSetting.getPath();
             node.name = projectSetting.getName();
             node.desc = String.format("<HTML><b>%s</b><br><small>%s</small></HTML>", projectSetting.getName(), projectSetting.getPath());
             node.folder = projectSetting.getPath();
             node.isPath = true;
             node.isProject = true;
-            JNotifyListener directoryListener = getjNotifyListener();
-
-            try {
-                int watchID = JNotify.addWatch(projectSetting.getPath(), DIRECTORY_LISTENER_MASK, true, directoryListener);
-                directoryListenerIds.put(node, watchID);
-            } catch (JNotifyException e) {
-                e.printStackTrace();
-            }
-
+            starDirtWatch(projectSetting.getPath());
             rootChildren.add(node);
         }
 
         map.put(root.id, rootChildren);
+        timer.start();
     }
 
-    private JNotifyListener getjNotifyListener() {
-        return new JNotifyListener() {
-                    @Override
-                    public void fileCreated(int wd, String rootPath, String name) {
-                        //reload();
+    private void starDirtWatch(String path) {
+        try {
+            DirectoryWatcher.builder()
+                    .path(new File(path).toPath()) // or use paths(directoriesToWatch)
+                    .listener(event -> {
                         isChanged = true;
-                    }
+                        if (event.eventType() == DirectoryChangeEvent.EventType.MODIFY) {
+                            SwingUtilities.invokeLater(() -> notifyObservers(FILE_MODIFIED_FIELD_NAME, event.path().toString()));
+                        }
+                    })
+                    .fileHashing(true)
+                    .logger(NOPLogger.NOP_LOGGER) // defaults to LoggerFactory.getLogger(DirectoryWatcher.class)
+                    .build()
+                    .watchAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-                    @Override
-                    public void fileDeleted(int wd, String rootPath, String name) {
-                        //reload();
-                        isChanged = true;
-                    }
 
-                    @Override
-                    public void fileModified(int wd, String rootPath, String name) {
-                        //System.err.println("modified " + rootPath + " : " + name);
-
-                        javax.swing.SwingUtilities.invokeLater(() -> notifyObservers(FILE_MODIFIED_FIELD_NAME, rootPath + "/" + name));
-                    }
-
-                    @Override
-                    public void fileRenamed(int wd, String rootPath, String oldName, String newName) {
-                        //reload();
-                        isChanged = true;
-                    }
-                };
     }
 
     @Override
@@ -163,6 +152,9 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
             Arrays.sort(files);
             for (File file : files) {
                 if (file.getName().equals("adda_gui_state.data")) {
+                    continue;
+                }
+                if (file.getName().equals(".DS_Store")) {
                     continue;
                 }
                 map.put(file.getCanonicalPath(), file.isDirectory());
@@ -242,23 +234,16 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         node.isProject = true;
         map.get(root.id).add(node);
 
-        JNotifyListener directoryListener = getjNotifyListener();
+        starDirtWatch(newItemModel.getDirectory());
 
-        try {
-            int watchID = JNotify.addWatch(newItemModel.getDirectory(), DIRECTORY_LISTENER_MASK, true, directoryListener);
-            directoryListenerIds.put(node, watchID);
-        } catch (JNotifyException e) {
-            e.printStackTrace();
-        }
-
-        reloadForce();
+        javax.swing.SwingUtilities.invokeLater(() -> reloadForce());
     }
 
     public void showNewProjectDialog() {
         ProjectTreeNewItemModel model = new ProjectTreeNewItemModel();
         model.setDisplayName("New project");
         model.setFolderName("new-project");
-        model.setDirectory(System.getProperty("user.dir"));
+        model.setDirectory(OsUtils.getDefaultDirectory());
 
         ProjectTreeNewItemDialog dialog = new ProjectTreeNewItemDialog(model);
         dialog.pack();
@@ -272,7 +257,7 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
     private final javax.swing.Timer timer = new Timer(1000, new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (isChanged) {
-                reload();
+                javax.swing.SwingUtilities.invokeLater(() -> reload());
                 isChanged = false;
             }
         }

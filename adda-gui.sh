@@ -8,7 +8,7 @@
 
 message()
 {
-  TITLE="Cannot start IntelliJ IDEA"
+  TITLE="Cannot start ADDA GUI"
   if [ -n "$(command -v zenity)" ]; then
     zenity --error --title="$TITLE" --text="$1" --no-wrap
   elif [ -n "$(command -v kdialog)" ]; then
@@ -44,7 +44,7 @@ IDE_BIN_HOME=$(dirname "$(realpath "$0")")
 #IDE_HOME=$(dirname "${IDE_BIN_HOME}")
 IDE_HOME="$IDE_BIN_HOME"
 PRODUCT_VENDOR="adda-gui"
-JAR_PATH="$IDE_HOME/$PRODUCT_VENDOR.jar"
+JAR_PATH="$IDE_HOME/lib/$PRODUCT_VENDOR.jar"
 
 
 # ---------------------------------------------------------------------
@@ -52,9 +52,6 @@ JAR_PATH="$IDE_HOME/$PRODUCT_VENDOR.jar"
 # Try (in order): $IDEA_JDK, .../jbr[-x86], $JDK_HOME, $JAVA_HOME, "java" in $PATH.
 # ---------------------------------------------------------------------
 # shellcheck disable=SC2154
-if [ -n "$IDEA_JDK" ] && [ -x "$IDEA_JDK/bin/java" ]; then
-  JRE="$IDEA_JDK"
-fi
 
 BITS=""
 
@@ -81,14 +78,22 @@ else
   JAVA_BIN="$JRE/bin/java"
 fi
 
-if [ -z "$JAVA_BIN" ] || [ ! -x "$JAVA_BIN" ]; then
+if [ -z "$JAVA_BIN" ]; then
   X86_JRE_URL="https://download.jetbrains.com/idea/jbr-for-211.7628.21-linux-x86.tar.gz"
   # shellcheck disable=SC2166
   if [ -n "$X86_JRE_URL" ] && [ ! -d "$IDE_HOME/jbr-x86" ] && [ "$OS_ARCH" = "i386" -o "$OS_ARCH" = "i686" ]; then
-    message "To run IntelliJ IDEA on a 32-bit system, please download 32-bit Java runtime from \"$X86_JRE_URL\" and unpack it into \"jbr-x86\" directory."
+    message "To run ADDA GUI on a 32-bit system, please download 32-bit Java runtime from \"$X86_JRE_URL\" and unpack it into \"jbr-x86\" directory."
   else
     message "No JRE found. Please make sure \$IDEA_JDK, \$JDK_HOME, or \$JAVA_HOME point to valid JRE installation."
   fi
+  exit 1
+fi
+
+if [ ! -x "$JAVA_BIN" ]; then
+  # shellcheck disable=SC2166
+  echo "please set java as executable file:"
+  echo "sudo chmod +x $JAVA_BIN"
+  message "\"$JAVA_BIN\" is not executable"
   exit 1
 fi
 
@@ -98,14 +103,6 @@ else
   test "${OS_ARCH}" = "x86_64" && BITS="64" || BITS=""
 fi
 
-JNOTIFY_LIB="$IDE_HOME/lib"
-
-if [ "$BITS" = "64"]; then
-  JNOTIFY_LIB="$JNOTIFY_LIB/64bit"
-fi
-
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$JNOTIFY_LIB
-
 # ---------------------------------------------------------------------
 # Run the ADDA GUI
 # ---------------------------------------------------------------------
@@ -114,6 +111,6 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$JNOTIFY_LIB
 IFS="$(printf '\n\t')"
 # shellcheck disable=SC2086
 "$JAVA_BIN" \
-  -jar "JAR_PATH" \
+  -cp "$JAR_PATH" adda.Main\
   "$@"
 

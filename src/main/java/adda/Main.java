@@ -28,6 +28,7 @@ public class Main {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                if (OsUtils.isMac()) System.setProperty( "jdk.lang.Process.launchMechanism", "FORK" );
                 try {
                     UIManager.setLookAndFeel(new FlatLightLaf());
                     UIManager.getLookAndFeel().getDefaults().put("TextField.disabledBackground", new Color(-855310));

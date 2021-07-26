@@ -18,6 +18,7 @@ import adda.item.tab.shape.selector.params.ModelShapeParam;
 import adda.item.tab.shape.selector.params.bicoated.BicoatedModel;
 import adda.settings.AppSetting;
 import adda.settings.SettingsManager;
+import adda.utils.OsUtils;
 import adda.utils.OutputDisplayer;
 import adda.utils.StringHelper;
 
@@ -400,25 +401,35 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
             }
         }
 
-        List<String> args = new ArrayList<String>();
-
-
-        args.add(appSetting.getAddaExecSeq());
-
-        final List<String> params = Arrays.asList(optionsModel.getActualCommandLine().split(" "));
-        args.addAll(params);
-
-        args.add("-dir");
-        args.add(pathToState);
-
-        args.add("-so_buf");
-        args.add("line");
-
-        ProcessBuilder builder = new ProcessBuilder(args);
-        builder.redirectErrorStream(true);
 
         try {
-            Process addaProcess = builder.start();
+            Process addaProcess;
+            List<String> args = new ArrayList<String>();
+            args.add(appSetting.getAddaExecSeq());
+            final List<String> params = Arrays.asList(optionsModel.getActualCommandLine().split(" "));
+            args.addAll(params);
+            args.add("-dir");
+            args.add(pathToState);
+            args.add("-so_buf");
+            args.add("line");
+            if (OsUtils.isMac()) {
+//                StringBuilder builder = new StringBuilder();
+//                builder.append(appSetting.getAddaExecSeq());
+//                builder.append(" ");
+//                builder.append(optionsModel.getActualCommandLine());
+//                builder.append(" -so_buf line");
+//                builder.append(" -dir ");
+//                builder.append("\"");
+//                builder.append(pathToState);
+//                builder.append("\"");
+//                String command = builder.toString();
+//              System.out.println(args);
+                addaProcess = Runtime.getRuntime().exec(args.stream().toArray(String[]::new));
+            } else {
+                ProcessBuilder builder = new ProcessBuilder(args);
+                builder.redirectErrorStream(true);
+                addaProcess = builder.start();
+            }
             outputDisplayer.commence(addaProcess, () -> javax.swing.SwingUtilities.invokeLater(() -> setSuccessfullyFinished(true)));
         } catch (IOException e) {
             setRunning(false);

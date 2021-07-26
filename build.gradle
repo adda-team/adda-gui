@@ -21,12 +21,17 @@ dependencies {
     compile group: 'com.github.jiconfont', name: 'jiconfont-swing', version: '1.0.0'
     compile group: 'com.github.jiconfont', name: 'jiconfont-font_awesome', version: '4.7.0.1'
     compile group: 'com.formdev', name: 'flatlaf', version: '0.35'
-    compile group: 'net.contentobjects.jnotify', name: 'jnotify', version: '0.94'
     compile group: 'net.java.balloontip', name: 'balloontip', version: '1.2.4.1'
     compile group: 'javax.help', name: 'javahelp', version: '2.0.05'
     compile group: 'org.jfree', name: 'jfreechart', version: '1.5.3'
     compile group: 'net.lingala.zip4j', name: 'zip4j', version: '2.9.0'
-    compile fileTree(dir: 'lib', include: ['*'])
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.31'
+    compile group: 'io.methvin', name: 'directory-watcher', version: '0.15.0'
+    //compile group: 'sh.tak.appbundler', name: 'appbundle-maven-plugin', version: '1.2.0'
+
+
+
+    //compile fileTree(dir: 'lib', include: ['*'])
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
     //implementation 'org.junit.jupiter:junit-jupiter'
@@ -42,6 +47,9 @@ manifest {
 launch4j {
     mainClassName = 'adda.Main'
     icon = "${projectDir}/help/en/adda_logo.ico"
+    //bundledJrePath = "c:\\Program Files\\JetBrains\\IntelliJ IDEA 2019.3.4\\jbr"
+    bundledJrePath = "jbr"
+    bundledJre64Bit = true
 }
 
 sourceSets {
@@ -60,4 +68,35 @@ sourceSets {
 test {
     useJUnitPlatform()
 }
+
+task packageExecutableDistribution(type: Zip) {
+    archiveFileName = "adda-gui_win64.zip"
+    destinationDirectory = file("$projectDir/releases")
+
+    from "$buildDir/launch4j"
+}
+
+task addJreToDistributable(type: Copy) {
+    from('c:\\Program Files\\JetBrains\\IntelliJ IDEA 2019.3.4\\jbr')
+    destinationDir = file("$buildDir/launch4j/jbr")
+}
+
+task addAddaBinToDistributable(type: Copy) {
+    from('bin') {
+        include '**/*.*'
+    }
+    destinationDir = file("$buildDir/launch4j/bin")
+}
+
+task addHelpToDistributable(type: Copy) {
+    from('help') {
+        include '**/*.*'
+    }
+    destinationDir = file("$buildDir/launch4j/help")
+}
+
+packageExecutableDistribution.dependsOn createExe
+packageExecutableDistribution.dependsOn addJreToDistributable
+packageExecutableDistribution.dependsOn addAddaBinToDistributable
+packageExecutableDistribution.dependsOn addHelpToDistributable
 

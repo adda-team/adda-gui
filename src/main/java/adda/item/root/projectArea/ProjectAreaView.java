@@ -5,6 +5,8 @@ import adda.base.models.IModel;
 import adda.base.views.ViewBase;
 import adda.item.root.lineChart.LineChartBox;
 import adda.item.root.lineChart.LineChartModel;
+import adda.item.root.numberedText.NumberedTextBox;
+import adda.item.root.numberedText.NumberedTextModel;
 import adda.utils.StringHelper;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -155,21 +157,48 @@ public class ProjectAreaView extends ViewBase {
         }
         if (ProjectAreaModel.IS_SUCCESSFULLY_FINISHED_FIELD_NAME.equals(event.getPropertyName())) {
             ProjectAreaModel projectAreaModel = (ProjectAreaModel) sender;
-            final String pathname = projectAreaModel.getPathToState() + "/mueller";
-            if ((new File(pathname).exists())) {
-                LineChartBox lineChartBox = new LineChartBox();
-                lineChartBox.init();
-                final LineChartModel lineChartModel = (LineChartModel) lineChartBox.getModel();
-                lineChartModel.setDisplayName("mueller");
-                lineChartModel.setDescription(pathname);
-                lineChartModel.loadFromFileAsync(pathname);
-                lineChartBox.getLayout().setMinimumSize(new Dimension(resultPanel.getWidth(), 350));
+            final String muellerPathName = projectAreaModel.getPathToState() + "/mueller";
+            final boolean isMuellerExist = new File(muellerPathName).exists();
+            final String amplPathName = projectAreaModel.getPathToState() + "/ampl";
+            final boolean isAmplExist = new File(amplPathName).exists();
+            final String crossYPathName = projectAreaModel.getPathToState() + "/CrossSec-Y";
+            final boolean isCrossYPathName = new File(crossYPathName).exists();
+            final String crossPathName = projectAreaModel.getPathToState() + "/CrossSec";
+            final boolean isCrossPathName = new File(crossPathName).exists();
+
+            if (isMuellerExist || isAmplExist || isCrossYPathName || isCrossPathName) {
+
+                if (isMuellerExist || isAmplExist) {
+                    String displayName = isMuellerExist ? "mueller" : "ampl";
+                    String path = isMuellerExist ? muellerPathName : amplPathName;
+                    LineChartBox lineChartBox = new LineChartBox();
+                    lineChartBox.init();
+                    final LineChartModel lineChartModel = (LineChartModel) lineChartBox.getModel();
+                    lineChartModel.setDisplayName(displayName);
+                    lineChartModel.setDescription(path);
+                    lineChartModel.loadFromFileAsync(path);
+                    if (!isMuellerExist) {
+                        lineChartModel.setLog(false);
+                    }
+                    lineChartBox.getLayout().setMinimumSize(new Dimension(resultPanel.getWidth(), 350));
+                    resultPanel.removeAll();
+                    resultPanel.add(lineChartBox.getLayout(), BorderLayout.CENTER);
+                } else if(isCrossYPathName || isCrossPathName) {
+                    String displayName = isCrossYPathName ? "CrossSec-Y" : "CrossSec";
+                    String path = isCrossYPathName ? crossYPathName : crossPathName;
+                    NumberedTextBox numberedTextBox = new NumberedTextBox();
+                    numberedTextBox.init();
+                    final NumberedTextModel numberedTextBoxModel = (NumberedTextModel) numberedTextBox.getModel();
+                    numberedTextBoxModel.setDisplayName(displayName);
+                    numberedTextBoxModel.setDescription(path);
+                    numberedTextBoxModel.loadFromFileAsync(path);
+                    numberedTextBox.getLayout().setMinimumSize(new Dimension(resultPanel.getWidth(), 350));
+                    resultPanel.removeAll();
+                    resultPanel.add(numberedTextBox.getLayout(), BorderLayout.CENTER);
+                }
 
                 tabbedPane.setEnabledAt(1, true);
                 tabbedPane.setSelectedIndex(1);
-
-                resultPanel.removeAll();
-                resultPanel.add(lineChartBox.getLayout(), BorderLayout.CENTER);
 
                 panel.revalidate();
                 panel.repaint();
@@ -179,7 +208,6 @@ public class ProjectAreaView extends ViewBase {
 
                 resultPanel.revalidate();
                 resultPanel.repaint();
-
 
             }
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ADDA GUI" default="adda-gui-bundle" basedir=".">
+    <taskdef name="bundleapp"
+             classname="com.oracle.appbundler.AppBundlerTask"
+             classpath="lib/appbundler-1.1.0.jar" />
+    <target name="adda-gui-bundle">
+        <bundleapp outputdirectory="out"
+                   name="adda-gui"
+                   displayname="ADDA GUI"
+                   identifier="adda-gui"
+                   mainclassname="adda.Main">
+            <runtime dir="d:\projects\java\adda-gui\jbr\Contents\Home\"/>
+            <classpath file="out/artifacts/adda_gui/adda-gui.jar" />
+        </bundleapp>
+    </target>
+</project>

@@ -172,15 +172,15 @@ public class SettingDialog extends JDialog {
                         String finalZipUrl = zipUrl;
                         javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Latest release is  " + finalZipUrl + "\n"));
 
-                        String downloadDir = System.getProperty("user.dir") + "/download";
+                        String downloadDir = OsUtils.getDefaultDirectory() + File.separator + "download";
                         OsUtils.createFolder(downloadDir);
 
                         Date now = new Date();
                         SimpleDateFormat pattern = new SimpleDateFormat("MMddHHmmss");
-                        String path = downloadDir + "/adda_release_" + pattern.format(now);
+                        String path = downloadDir + File.separator + "adda_release_" + pattern.format(now);
                         OsUtils.createFolder(path);
 
-                        String zipFileName = path + "/release.zip";
+                        String zipFileName = path + File.separator + "release.zip";
 
                         javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Downloading to " + zipFileName + "\n"));
                         Downloader downloader = new Downloader(new URL(zipUrl), zipFileName);
@@ -225,6 +225,12 @@ public class SettingDialog extends JDialog {
 
                                     if (OsUtils.isMac()) {
                                         textArea.append("fftw3 need to be installed for Mac, but you can apply FFT_TEMPERTON to use inner implementation of fft  \n");
+                                        textArea.append("brew need to be installed for Mac, if you don`t have brew please install it via command below  \n");
+                                        textArea.append("----------------  \n");
+                                        textArea.append("\n");
+                                        textArea.append("sudo /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"  \n");
+                                        textArea.append("\n");
+                                        textArea.append("----------------  \n");
                                     }
 
                                     textArea.append("copy and execute next commands in the terminal line by line  \n");
@@ -232,7 +238,7 @@ public class SettingDialog extends JDialog {
                                     textArea.append("----------------  \n");
                                     textArea.append("\n");
                                     if (OsUtils.isMac()) {
-                                        textArea.append("brew install gcc  \n");
+                                        textArea.append("brew install gcc \n");
                                         textArea.append("brew install make  \n");
                                         textArea.append("cd " + srcPath + "  \n");
                                         textArea.append("make seq OPTIONS=\"FFT_TEMPERTON\" FORT_LIB_PATH=/usr/local/gfortran/lib\n");
@@ -247,6 +253,12 @@ public class SettingDialog extends JDialog {
 
                                     textArea.append("\n");
                                     textArea.append("----------------  \n");
+
+                                    if (OsUtils.isMac()) {
+                                        textArea.append("IMPORTANT! if you have a problem with gfortran please visit this page\n");
+                                        textArea.append("https://github.com/Homebrew/legacy-homebrew/issues/8539  \n");
+
+                                    }
                                 });
 
 
@@ -255,11 +267,14 @@ public class SettingDialog extends JDialog {
                                 seq.setText(seqPath + "/adda");
                                 seq.setCaretPosition(seq.getText().length());
 
+
                                 try {
-                                    cmd("gnome-terminal", seqPath);
+                                    cmd(OsUtils.isMac() ? "open" : "gnome-terminal", seqPath);
                                 } catch (Exception ignored) {
                                     cmd(System.getenv().get("TERM"), seqPath);
                                 }
+
+
                             }
                         }
 

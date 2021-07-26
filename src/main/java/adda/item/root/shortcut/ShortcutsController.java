@@ -66,7 +66,7 @@ public class ShortcutsController extends ControllerBase {
                             SimpleDateFormat pattern = new SimpleDateFormat("MMddHHmmss");
                             String name = "run_" + pattern.format(now);
                             final String projectPath = projectTreeNode.getFolder();
-                            String path = projectPath + "/" + name;
+                            String path = projectPath + File.separator + name;
 
                             File file = new File(path);
                             Context.getInstance().getProjectTreeModel().enableAutoReload = false;
@@ -78,8 +78,8 @@ public class ShortcutsController extends ControllerBase {
                                     //throw new FileNotFoundException("Directory " + firstProjectDir + "cannot be created");
                                     runCreated = false;
                                 } else {
-                                    File from = new File(projectPath + "/adda_gui_state.data");
-                                    File to = new File(path + "/adda_gui_state.data");
+                                    File from = new File(projectPath + File.separator + "adda_gui_state.data");
+                                    File to = new File(path + File.separator + "adda_gui_state.data");
                                     try {
                                         if (from.exists()) {
                                             Files.copy(from.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);

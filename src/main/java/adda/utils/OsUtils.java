@@ -5,6 +5,8 @@ import java.io.File;
 import net.lingala.zip4j.*;
 import net.lingala.zip4j.exception.ZipException;
 
+import javax.swing.filechooser.FileSystemView;
+
 public final class OsUtils
 {
     private static String OS = null;
@@ -15,14 +17,14 @@ public final class OsUtils
     }
     public static boolean isWindows()
     {
-        return getOsName().startsWith("Windows");
+        return getOsName().toLowerCase().startsWith("windows");
     }
 
     public static boolean isLinux() {
-        return getOsName().startsWith("Linux");
+        return getOsName().toLowerCase().startsWith("linux");
     }
     public static boolean isMac() {
-        return getOsName().startsWith("Mac");
+        return getOsName().toLowerCase().startsWith("mac");
     }
 
     public static boolean createFolder(String path) {
@@ -42,5 +44,19 @@ public final class OsUtils
 
     public static void unzip(String targetZipFilePath, String destinationFolderPath) throws ZipException {
             new ZipFile(targetZipFilePath).extractAll(destinationFolderPath);
+    }
+
+    public static String getDefaultDirectory() {
+        String defaultDir = FileSystemView.getFileSystemView().getDefaultDirectory().getPath();
+        String addaGuiPostfix = "AddaGui";
+
+        String defaulAddaGuiPath = defaultDir + File.separator + addaGuiPostfix;
+
+        if (createFolder(defaulAddaGuiPath)) {
+            return defaulAddaGuiPath;
+        }
+
+        return System.getProperty("user.dir");
+
     }
 }
