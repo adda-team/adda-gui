@@ -1,5 +1,7 @@
 package adda.item.root.shortcut;
 
+import adda.base.events.IModelPropertyChangeEvent;
+import adda.base.models.ModelBase;
 import adda.base.views.ViewBase;
 import adda.base.models.IModel;
 import jiconfont.swing.IconFontSwing;
@@ -14,6 +16,7 @@ public class ShortcutsView extends ViewBase {
 
     public JButton runButton;
     public JButton prognosisButton;
+    public JTextArea versionLabel;
 
     public void initFromModel(IModel model) {
         JPanel panel = new JPanel();
@@ -42,30 +45,54 @@ public class ShortcutsView extends ViewBase {
         //editComboBox.setEditable(true);
         panel.add(editComboBox);
 
-        panel.add( Box.createHorizontalStrut(20) );
+        panel.add(Box.createHorizontalStrut(20));
 
         IconFontSwing.register(FontAwesome.getIconFont());
 
 
-
         Icon runIcon = IconFontSwing.buildIcon(FontAwesome.PLAY, 25, Color.DARK_GRAY);
-        JButton runButton = new JButton("Run",runIcon);
+        JButton runButton = new JButton("Run", runIcon);
 //        button.setBorder(new RoundedBorder(10)); //10 is the radius
         panel.add(runButton);
         this.runButton = runButton;
-        panel.add( Box.createHorizontalStrut(20) );
+        panel.add(Box.createHorizontalStrut(20));
         Icon icon = IconFontSwing.buildIcon(FontAwesome.STEP_FORWARD, 25, Color.blue);
-        JButton button = new JButton("Prognosis",icon);
+        JButton button = new JButton("Prognosis", icon);
         button.setEnabled(false);
 //        button.setBorder(new RoundedBorder(10)); //10 is the radius
         //panel.add(button);
         prognosisButton = button;
 
+        versionLabel = new JTextArea();
+        versionLabel.setText(model.getLabel());
+        versionLabel.setWrapStyleWord(false);
+        versionLabel.setLineWrap(false);
+        versionLabel.setOpaque(false);
+        versionLabel.setEditable(false);
+        versionLabel.setFocusable(true);
+        versionLabel.setBackground(UIManager.getColor("Label.background"));
+        versionLabel.setFont(UIManager.getFont("Label.font"));
+        versionLabel.setBorder(UIManager.getBorder("Label.border"));
+        versionLabel.setBorder(BorderFactory.createEmptyBorder(17,10,10,10));
+        versionLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        versionLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-
-        this.panel = panel;
+        JPanel wrapper = new JPanel(new BorderLayout());
+        wrapper.add(panel, BorderLayout.WEST);
+        //wrapper.add(new JPanel());//dummy center
+        wrapper.add(versionLabel, BorderLayout.EAST);
+        wrapper.setBackground(Color.WHITE);
+        this.panel = wrapper;
     }
-//    private static class RoundedBorder implements Border {
+
+    @Override
+    public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
+        if (ModelBase.LABEL_FIELD_NAME.equals(event.getPropertyName())) {
+            versionLabel.setText(event.getPropertyValue().toString());
+        }
+    }
+
+    //    private static class RoundedBorder implements Border {
 //
 //        private int radius;
 //

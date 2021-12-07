@@ -1,10 +1,12 @@
 package adda.settings;
 
+import adda.Context;
 import adda.application.SettingDialog;
 import adda.settings.formatters.json.JsonFormatter;
 import adda.settings.formatters.xml.XmlFormatter;
 import adda.settings.serializer.AddaSerializer;
 import adda.utils.OsUtils;
+import adda.utils.StringHelper;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -123,6 +125,7 @@ public class SettingsManager {
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
+        Context.getInstance().getShortcutsModel().refreshAddaVersion();
     }
 
     public static void deleteFolder(File folder) {
@@ -139,5 +142,43 @@ public class SettingsManager {
         folder.delete();
     }
 
+    public static String getAddaVersion() {
+        final AppSetting appSetting = SettingsManager.getSettings().getAppSetting();
+        return SettingsManager.getAddaVersion(appSetting.getAddaExecSeq());
+    }
+
+    public static String getAddaVersion(String path) {
+        String addaVersion = "";
+        try {
+            if (!StringHelper.isEmpty(path)) {
+                Process addaProcess;
+                List<String> args = new ArrayList<String>();
+                args.add(path);
+                args.add("-V");
+                if (OsUtils.isMac()) {
+                    addaProcess = Runtime.getRuntime().exec(args.stream().toArray(String[]::new));
+                } else {
+                    ProcessBuilder builder = new ProcessBuilder(args);
+                    builder.redirectErrorStream(false);
+                    addaProcess = builder.start();
+                }
+
+                BufferedReader stdInput = new BufferedReader(new
+                        InputStreamReader(addaProcess.getInputStream()));
+
+                System.out.println("Here is the standard output of the command:\n");
+                String s;
+                if ((s = stdInput.readLine()) != null) {
+                    if (s.startsWith("ADDA v.")) {
+                        addaVersion = s;
+                    }
+                }
+
+            }
+        } catch (Exception ignored) {
+
+        }
+        return addaVersion;
+    }
 
 }

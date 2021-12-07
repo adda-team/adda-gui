@@ -7,6 +7,7 @@ import adda.base.boxes.IBox;
 import adda.base.models.IModel;
 import adda.item.tab.base.BaseTabBox;
 import adda.item.tab.base.beam.BeamModel;
+import adda.item.tab.base.propagation.PropagationModel;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.item.tab.base.size.SizeModel;
 import adda.item.tab.internals.InternalsTabBox;
@@ -224,6 +225,11 @@ public class ProjectAreaBox extends BoxBase {
 
         Binder.bindBoth(orientationModel, polarizationSaveModel);
 
+        PropagationModel propagationModel = (PropagationModel) models.stream()
+                .filter(entity -> entity instanceof PropagationModel)
+                .findFirst()
+                .get();
+        Binder.bind(surfaceModel, propagationModel);
 
         ((ProjectAreaModel) model).setNestedModelList(models);
 

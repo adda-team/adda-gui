@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 public class ModelBase implements IModel, Serializable {
 
     public static final String LABEL_FIELD_NAME = "label";
+    public static final String VERIFICATION_FIELD_NAME = "VERIFICATION_FIELD_NAME";
     protected transient List<IModelObserver> observers;
 
     protected boolean isVisibleIfDisabled = false;
@@ -47,6 +48,10 @@ public class ModelBase implements IModel, Serializable {
 
     public boolean validate() {
         return true;
+    }
+
+    public void forceVerify() {
+        notifyObservers(VERIFICATION_FIELD_NAME, label);
     }
 
     protected void initPropertyInfo() {

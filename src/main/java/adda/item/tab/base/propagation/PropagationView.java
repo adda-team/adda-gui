@@ -1,6 +1,7 @@
 package adda.item.tab.base.propagation;
 
 import adda.application.controls.JNumericField;
+import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.views.ViewDialogBase;
 
@@ -30,4 +31,13 @@ public class PropagationView extends ViewDialogBase {
         super.initFromModelInner(model);
     }
 
+    @Override
+    public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
+        super.modelPropertyChanged(sender, event);
+        if (PropagationModel.ENUM_VALUE_FIELD_NAME.equals(event.getPropertyName()) || PropagationModel.Z_FIELD_NAME.equals(event.getPropertyName())) {
+            final JComboBox comboBox = (JComboBox) components.get(PropagationModel.ENUM_VALUE_FIELD_NAME);
+            comboBox.getInputVerifier().verify(comboBox);
+        }
+
+    }
 }

@@ -30,7 +30,7 @@ public class FormulationModel  extends TabEnumModel<FormulationEnum>  implements
     protected PolarizationEnum polarization = PolarizationEnum.ldr;
     protected InteractionEnum interaction = InteractionEnum.poi;
     protected ScatteringQuantitiesEnum scatteringQuantities = ScatteringQuantitiesEnum.dr;
-    protected int shellCount = 0;
+    protected int shellCount = 5;
 
     public FormulationModel() {
         this.setLabel("DDA formulation");//todo localization

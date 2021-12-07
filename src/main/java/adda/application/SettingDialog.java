@@ -164,6 +164,21 @@ public class SettingDialog extends JDialog {
                         JSONObject json = new JSONObject(response);
 
                         String zipUrl = String.valueOf(json.get("zipball_url"));
+                        String tagName = String.valueOf(json.get("tag_name"));
+
+                        String addaVersion = SettingsManager.getAddaVersion();
+
+                        if (!StringHelper.isEmpty(addaVersion) && addaVersion.toLowerCase().replace(".", "").contains(tagName.toLowerCase().replace(".", ""))) {
+
+                            int dialogResult = JOptionPane.showConfirmDialog(
+                                    Context.getInstance().getMainFrame(), "ADDA version is up to date. Do you want to continue?",
+                                    "Download isn't needed",
+                                    JOptionPane.YES_NO_OPTION);
+                            if (dialogResult == JOptionPane.NO_OPTION) {
+                                javax.swing.SwingUtilities.invokeLater(() -> textArea.append("ADDA version is up to date, download isn't needed\n"));
+                                return;
+                            }
+                        }
 
                         if (OsUtils.isWindows()) {
                             zipUrl = String.valueOf(((JSONObject) ((JSONArray) json.get("assets")).get(0)).get("browser_download_url"));
@@ -175,12 +190,14 @@ public class SettingDialog extends JDialog {
                         String downloadDir = OsUtils.getDefaultDirectory() + File.separator + "download";
                         OsUtils.createFolder(downloadDir);
 
-                        Date now = new Date();
-                        SimpleDateFormat pattern = new SimpleDateFormat("MMddHHmmss");
-                        String path = downloadDir + File.separator + "adda_release_" + pattern.format(now);
+
+
+//                        Date now = new Date();
+//                        SimpleDateFormat pattern = new SimpleDateFormat("MMddHHmmss");
+                        String path = downloadDir + File.separator + "adda_" + tagName.replace(".", "_") ;
                         OsUtils.createFolder(path);
 
-                        String zipFileName = path + File.separator + "release.zip";
+                        String zipFileName = path + File.separator + "release_" + tagName.replace(".", "_") + ".zip";
 
                         javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Downloading to " + zipFileName + "\n"));
                         Downloader downloader = new Downloader(new URL(zipUrl), zipFileName);
@@ -191,7 +208,7 @@ public class SettingDialog extends JDialog {
                             javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Downloaded " + downloader.getDownloaded() + " from " + downloader.getSize()));
                         }
 
-                        javax.swing.SwingUtilities.invokeLater(() -> textArea.append("Downloaded \nUnzipping \n"));
+                        javax.swing.SwingUtilities.invokeLater(() -> textArea.append("ADDA " + tagName + " downloaded \nUnzipping \n"));
 
                         OsUtils.unzip(zipFileName, path);
 
@@ -221,6 +238,7 @@ public class SettingDialog extends JDialog {
                                 {
                                     textArea.append("Succesfully prepared \n");
                                     textArea.append("Now we have to compile ADDA from src code \n");
+                                    textArea.append("Please, visit https://github.com/adda-team/adda/wiki/CompilingADDA if something went wrong\n");
                                     textArea.append("ADDA required make, gcc, fftw3 (http://www.fftw.org/) and gfortran  \n");
 
                                     if (OsUtils.isMac()) {
@@ -238,15 +256,12 @@ public class SettingDialog extends JDialog {
                                     textArea.append("----------------  \n");
                                     textArea.append("\n");
                                     if (OsUtils.isMac()) {
-                                        textArea.append("brew install gcc \n");
+                                        textArea.append("brew install gcc fftw \n");
                                         textArea.append("brew install make  \n");
                                         textArea.append("cd " + srcPath + "  \n");
-                                        textArea.append("make seq OPTIONS=\"FFT_TEMPERTON\" FORT_LIB_PATH=/usr/local/gfortran/lib\n");
+                                        textArea.append("make seq OPTIONS=HOMEBREW CC=gcc-11\n");
                                     } else {
-                                        textArea.append("sudo apt-get install gcc  \n");
-                                        textArea.append("sudo apt-get install gfortran  \n");
-                                        textArea.append("sudo apt-get install libfftw3-dev  \n");
-                                        textArea.append("sudo apt-get install make  \n");
+                                        textArea.append("sudo apt-get install gcc gfortran make libfftw3-dev \n");
                                         textArea.append("cd " + srcPath + "  \n");
                                         textArea.append("make seq\n");
                                     }
@@ -270,12 +285,14 @@ public class SettingDialog extends JDialog {
 
                                 try {
                                     cmd(OsUtils.isMac() ? "open" : "gnome-terminal", seqPath);
+
                                 } catch (Exception ignored) {
                                     cmd(System.getenv().get("TERM"), seqPath);
                                 }
 
 
                             }
+                            boolean ignored = new File(zipFileName).delete();
                         }
 
 

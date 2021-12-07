@@ -1,8 +1,8 @@
 package adda;
 
 import adda.application.MainForm;
-import adda.application.SettingDialog;
 import adda.item.root.projectTree.*;
+import adda.item.root.shortcut.ShortcutsModel;
 import adda.item.root.workspace.WorkspaceModel;
 import adda.settings.SettingsManager;
 import adda.utils.Binder;
@@ -13,21 +13,17 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.help.CSH;
 import javax.help.HelpBroker;
-import javax.help.HelpSet;
-import javax.help.HelpSetException;
 import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                Locale.setDefault(Locale.ENGLISH);
                 if (OsUtils.isMac()) System.setProperty( "jdk.lang.Process.launchMechanism", "FORK" );
                 try {
                     UIManager.setLookAndFeel(new FlatLightLaf());
@@ -78,6 +74,7 @@ public class Main {
                 Context.getInstance().mainForm = app;
                 Context.getInstance().workspaceModel = (WorkspaceModel) workspaceBox.getModel();
                 Context.getInstance().projectTreeModel = (ProjectTreeModel) treeBox.getModel();
+                Context.getInstance().shortcutsModel = (ShortcutsModel) shortcutsBox.getModel();
 
 
                 //Binder.bind(Context.getInstance().getWorkspaceModel(), shortcutsBox.getModel());
@@ -116,9 +113,11 @@ public class Main {
 
                 javax.swing.SwingUtilities.invokeLater(() -> {
                     if (isOpenSettings) {
+
                         SettingsManager.recreateSettings();
                         SettingsManager.openSettingsDialog();
                     }
+                    Context.getInstance().getShortcutsModel().refreshAddaVersion();
                 });
 
             }

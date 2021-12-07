@@ -1,0 +1,34 @@
+The next instruction prepared for IDEA IDE
+
+
+-- Windows --
+Preparing of the installation bundle for Windows is mostly automated:
+1) run Gradle task 'packageExecutableDistribution'
+2) go to $projectDir/releases and adda-gui_${version}_win64.zip will be prepared (!!IMPORTANT keep 'version' up to date)
+
+
+
+-- MacOS --
+Preparing of the installation bundle for MacOS is semi-automated:
+1) run Ant task 'adda-gui-bundle'
+2) copy $projectDir/help into $projectDir/out/adda-gui.app/Contents/help
+3) copy with override _PREVIOUS_MAC_RELEASE_ZIP_/adda-gui.app/Contents/PlugIns into $projectDir/out/adda-gui.app/Contents/PlugIns
+4) zip folder $projectDir/out/adda-gui.app into adda-gui_${version}_mac_UNSIGNED.zip
+
+
+
+-- Linux --
+Preparing of the installation bundle for Linux is fully manual (but you could change it).
+At first jar artifact must be configured (Project settings -> Artifacts -> adda-gui (JAR))
+JAR has to include all external libs + 'resourses' directory + adda-gui.main compile output.
+If everything is configured correctly then installation package can be prepared
+
+1) create a new folder for release
+2) copy 'jbr' and 'lib' folders and 'adda-gui.sh' from _PREVIOUS_LINUX_RELEASE_ZIP_ to release folder
+3) run Build->Build artifacts to create release JAR
+4) copy with override $projectDir/out/artifacts/adda-gui/adda-gui.jar into the current release folder/lib
+5) copy $projectDir/help into the current release folder
+6) check the current release folder, it should contain folders 'help',  'jbr',  'lib' and file 'adda-gui.sh'
+7) set 'adda-gui.sh' execution permission: sudo chmod +x ./adda-gui.sh
+8) set 'java' execution permission: sudo chmod +x ./jbr/bin/java
+9) zip the current release folder into adda-gui_${version}_linux.zip

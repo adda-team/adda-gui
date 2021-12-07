@@ -17,6 +17,7 @@ import adda.item.tab.internals.iterativeSolver.IterativeSolverModel;
 import adda.item.tab.internals.jagged.JaggedModel;
 import adda.item.tab.internals.maxIterations.MaxIterationsModel;
 import adda.item.tab.internals.optimization.OptimizationModel;
+import adda.item.tab.internals.reducedFFT.ReducedFftModel;
 import adda.item.tab.internals.symmetry.SymmetryModel;
 import adda.item.tab.internals.volCorrection.VolCorrectionModel;
 import adda.item.tab.output.asymParams.AsymParamsSaveModel;
@@ -122,6 +123,7 @@ public class HelpProvider {
         idMapper.put(PrismModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about prism")));
         idMapper.put(RbcModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about rbc")));
         idMapper.put(SphereCuboidModel.class, Arrays.asList("predefined_shapes", StringHelper.toDisplayString("about spherebox")));
+        idMapper.put(ReducedFftModel.class, Arrays.asList("fast_fourier_transform", StringHelper.toDisplayString("about FFT")));
 
     }
 
@@ -219,6 +221,11 @@ public class HelpProvider {
     }
 
     public static String getShortDescByClass(Class clazz) {
+        if (ReducedFftModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Using symmetry of the interaction matrix to reduce the storage space for the Fourier transformed matrix"
+            );
+        }
         if (RefractiveIndexAggregatorModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
                     "Sets refractive " +

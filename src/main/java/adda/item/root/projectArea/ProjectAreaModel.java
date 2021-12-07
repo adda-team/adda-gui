@@ -6,6 +6,7 @@ import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.models.IModelObserver;
 import adda.base.models.ModelBase;
+import adda.item.tab.base.propagation.PropagationModel;
 import adda.item.tab.base.refractiveIndex.RefractiveIndexModel;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.item.tab.options.OptionsModel;
@@ -211,12 +212,13 @@ public class ProjectAreaModel extends ModelBase implements IModelObserver {
                             }
                         }
 
-
                         setLoading(false);
                         Context.getInstance().setGlobalBlockDialogs(false);
                         Context.getInstance().getMainForm().setLoadingVisible(false);
                         timer.setRepeats(true);
                         timer.start();
+
+                        nestedModelList.forEach(IModel::forceVerify);
                     }
                 });
             }

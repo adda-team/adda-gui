@@ -8,6 +8,8 @@ import adda.base.events.ModelPropertyChangeType;
 import adda.base.models.IModel;
 import adda.base.models.ModelBase;
 import adda.base.views.IView;
+import adda.item.tab.base.dplGrid.DplGridEnum;
+import adda.item.tab.base.dplGrid.DplGridModel;
 import adda.item.tab.base.size.SizeEnum;
 import adda.item.tab.base.size.SizeMeasureEnum;
 import adda.item.tab.base.size.SizeModel;
@@ -191,6 +193,9 @@ public class OptionsView implements IView {
             if (container instanceof SizeModel) {
                 SizeModel sizeModel = (SizeModel) container;
                 isEnabled = !SizeEnum.AlongOX.equals(sizeModel.getType()) || sizeModel.getValue() != 1 || !SizeMeasureEnum.um.equals(sizeModel.getMeasure());
+            } else if (container instanceof DplGridModel) {
+                DplGridModel dplGridModel = (DplGridModel) container;
+                isEnabled = !DplGridEnum.dpl.equals(dplGridModel.getEnumValue()) || dplGridModel.getValue() != 15;
             } else if (container instanceof ModelBase && !((ModelBase) container).isDefaultState()) {
                 isEnabled = true;
             }
@@ -220,6 +225,12 @@ public class OptionsView implements IView {
         if (item instanceof SizeModel) {
             SizeModel sizeModel = (SizeModel) item;
             if (SizeEnum.AlongOX.equals(sizeModel.getType()) && sizeModel.getValue() == 1 && SizeMeasureEnum.um.equals(sizeModel.getMeasure())) {
+                return null;
+            }
+        }
+        if (item instanceof DplGridModel) {
+            DplGridModel dplGridModel = (DplGridModel) item;
+            if (DplGridEnum.dpl.equals(dplGridModel.getEnumValue()) && dplGridModel.getValue() == 15) {
                 return null;
             }
         }

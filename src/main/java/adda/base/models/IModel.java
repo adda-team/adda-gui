@@ -11,6 +11,8 @@ public interface IModel extends Cloneable {
 
     boolean validate();
 
+    void forceVerify();
+
     boolean isVisibleIfDisabled();
 
     Map<String, String> getValidationErrors();

@@ -7,6 +7,7 @@ import adda.application.controls.JNumericField;
 import adda.base.models.ModelBase;
 import adda.help.HelpProvider;
 import adda.help.HelpUtil;
+import adda.item.tab.base.propagation.PropagationModel;
 import adda.utils.ListUtils;
 import adda.utils.ReflectionHelper;
 import adda.utils.StringHelper;
@@ -376,9 +377,20 @@ public class ViewBase implements IView {
                 }
                 //return;
             }
+        }
 
+        if (ModelBase.VERIFICATION_FIELD_NAME.equals(event.getPropertyName())) {
+            for (Component component : components.values()) {
+                if (component.getClass().equals(JComboBox.class)) {
+                    final JComboBox comboBox = (JComboBox) component;
+                    comboBox.getInputVerifier().verify(comboBox);
+                }
+                if (component.getClass().equals(JNumericField.class)) {
+                    final JNumericField numericField = (JNumericField) component;
+                    numericField.getInputVerifier().verify(numericField);
+                }
 
-
+            }
         }
     }
 }

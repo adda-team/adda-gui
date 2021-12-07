@@ -154,10 +154,9 @@ public class ControllerBase implements IController {
         ComboBoxItem selectedItem = (ComboBoxItem) comboBox.getSelectedItem();
         if (selectedItem != null && validate(comboBox, selectedItem)) {
             ReflectionHelper.setPropertyValue(model, comboBox.getName(), selectedItem.getKey());
-
-            if (comboBox.getInputVerifier() != null) {
-                comboBox.getInputVerifier().verify(comboBox);
-            }
+        }
+        if (comboBox.getInputVerifier() != null) {
+            comboBox.getInputVerifier().verify(comboBox);
         }
     }
 

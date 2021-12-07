@@ -23,7 +23,7 @@ public class DipoleShapeDialog extends CustomOkCancelModalDialog {
     private JLabel imageLabel;
     
     public DipoleShapeDialog(IModel model) {
-        super(model, "Dipole shape");//todo localization
+        super(model, "Proportions of the sides of the rectangle");//todo localization
         setupLayout();
         if (!(model instanceof  DipoleShapeModel)) return ;
 
@@ -99,8 +99,6 @@ public class DipoleShapeDialog extends CustomOkCancelModalDialog {
                     false
             );
         }
-
-
         
     }
     

@@ -9,6 +9,7 @@ import adda.item.tab.internals.initialField.InitialFieldBox;
 import adda.item.tab.internals.iterativeSolver.IterativeSolverBox;
 import adda.item.tab.internals.maxIterations.MaxIterationsBox;
 import adda.item.tab.internals.optimization.OptimizationBox;
+import adda.item.tab.internals.reducedFFT.ReducedFftBox;
 import adda.item.tab.internals.symmetry.SymmetryBox;
 import adda.item.tab.internals.volCorrection.VolCorrectionBox;
 import adda.item.tab.internals.jagged.JaggedBox;
@@ -34,6 +35,7 @@ public class InternalsTabBox extends BoxBase {
         addChild(new OptimizationBox());
         addChild(new SymmetryBox());
         addChild(new InitialFieldBox());
+        addChild(new ReducedFftBox());
 
     }
 

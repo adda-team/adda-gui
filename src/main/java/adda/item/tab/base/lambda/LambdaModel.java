@@ -17,7 +17,7 @@ import java.util.List;
 
 public class LambdaModel extends ModelBaseAddaOptionsContainer implements IModelObserver {
 
-    private static final double DEFAULT_LAMBDA = 3.144592654 * 2; // 2pi
+    private static final double DEFAULT_LAMBDA = 3.14159 * 2; // 2pi
     public static final String LAMBDA_FIELD_NAME = "lambda";
     public static final String MEASURE_FIELD_NAME = "measure";
     public static final String IS_ENABLED_FIELD_NAME = "isEnabled";

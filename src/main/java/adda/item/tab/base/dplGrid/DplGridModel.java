@@ -36,10 +36,14 @@ public class DplGridModel extends TabEnumModel<DplGridEnum> {
         }
     }
 
+//    @Override
+//    public boolean isDefaultState() {
+//        return super.isDefaultState() && value == 15;
+//    }
     @Override
     public boolean isDefaultState() {
-        return super.isDefaultState() && value == 15;
-    }
+    return false;
+}
 
     @Override
     public void applyDefaultState() {

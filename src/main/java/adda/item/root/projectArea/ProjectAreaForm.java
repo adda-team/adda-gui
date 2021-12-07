@@ -51,7 +51,10 @@ public class ProjectAreaForm {
     }
 
     public ProjectAreaForm() {
-//        centerPanel.setMaximumSize(new Dimension(220, 9999));
+        //centerPanel.setMinimumSize(new Dimension(250, 100));
+        scrollShape.setMinimumSize(new Dimension(250, 100));
+        panelShape.setMinimumSize(new Dimension(250, 100));
+        panelOptions.setMinimumSize(new Dimension(100, 100));
 //        panelOutput.setMaximumSize(new Dimension(220, 9999));
 //        panelDdaInternal.setMaximumSize(new Dimension(220, 9999));
 //        panelBasic.setMaximumSize(new Dimension(220, 9999));

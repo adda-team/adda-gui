@@ -6,13 +6,12 @@ import adda.base.models.IModel;
 import adda.item.root.projectArea.ProjectAreaBox;
 import adda.item.root.projectArea.ProjectAreaModel;
 import adda.item.root.projectTree.ProjectTreeModel;
+import adda.item.root.shortcut.ShortcutsModel;
 import adda.item.root.workspace.WorkspaceModel;
-import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.settings.formatters.json.JsonFormatter;
 import adda.settings.formatters.plaintext.PlainTextFormatter;
 import adda.settings.serializer.AddaSerializer;
 import adda.settings.serializer.ISerializer;
-import adda.utils.OsUtils;
 
 import javax.help.CSH;
 import javax.help.HelpBroker;
@@ -27,7 +26,7 @@ import java.net.URL;
 
 public class Context {
 
-    public static final String VERSION = "beta0.3.0";
+    public static final String VERSION = "0.4.1";
 
     protected JFrame mainFrame;
 
@@ -36,6 +35,7 @@ public class Context {
     protected WorkspaceModel workspaceModel;
 
     protected ProjectTreeModel projectTreeModel;
+    protected ShortcutsModel shortcutsModel;
 
     protected String runPath;
 
@@ -49,6 +49,10 @@ public class Context {
 
     public ProjectTreeModel getProjectTreeModel() {
         return projectTreeModel;
+    }
+
+    public ShortcutsModel getShortcutsModel() {
+        return shortcutsModel;
     }
 
     public MainForm getMainForm() {
