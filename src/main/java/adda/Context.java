@@ -18,6 +18,7 @@ import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.HelpSetException;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -151,5 +152,15 @@ public class Context {
 
     public void setGlobalBlockDialogs(boolean globalBlockDialogs) {
         isGlobalBlockDialogs = globalBlockDialogs;
+    }
+
+    private Component lastParamsComponent;
+
+    public Component getLastParamsComponent() {
+        return lastParamsComponent;
+    }
+
+    public void setLastParamsComponent(Component lastParamsComponent) {
+        this.lastParamsComponent = lastParamsComponent;
     }
 }

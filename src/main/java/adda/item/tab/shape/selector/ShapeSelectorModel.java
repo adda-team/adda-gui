@@ -3,6 +3,7 @@ package adda.item.tab.shape.selector;
 import adda.base.AddaOption;
 import adda.base.IAddaOption;
 import adda.base.IAddaOptionsContainer;
+import adda.base.annotation.Viewable;
 import adda.base.boxes.IBox;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
@@ -21,9 +22,11 @@ import adda.item.tab.shape.selector.params.cuboid.CuboidBox;
 import adda.item.tab.shape.selector.params.cylinder.CylinderBox;
 import adda.item.tab.shape.selector.params.egg.EggBox;
 import adda.item.tab.shape.selector.params.ellipsoid.EllipsoidBox;
+import adda.item.tab.shape.selector.params.line.LineBox;
 import adda.item.tab.shape.selector.params.plate.PlateBox;
 import adda.item.tab.shape.selector.params.prism.PrismBox;
 import adda.item.tab.shape.selector.params.rbc.RbcBox;
+import adda.item.tab.shape.selector.params.sphere.SphereBox;
 import adda.item.tab.shape.selector.params.spherecuboid.SphereCuboidBox;
 
 import java.util.*;
@@ -31,9 +34,12 @@ import java.util.*;
 public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implements IModelObserver {
 
     public static final String ENUM_VALUE_FIELD_NAME = "enumValue";
+    public static final String AUTOROTATE_FIELD_NAME = "isAutorotate";
     public static final String SHAPE = "shape";
     transient private Map<ShapeSelectorEnum, IBox> paramsMap = new EnumMap<>(ShapeSelectorEnum.class);//todo replace with immutable in constructor
     transient private Map<ShapeSelectorEnum, List<ShapeDomainInfo>> domainInfoMap = new EnumMap<>(ShapeSelectorEnum.class);//todo replace with immutable in constructor
+
+
 
     public ShapeSelectorModel() {
         this.setLabel("Shape");//todo localization
@@ -54,6 +60,8 @@ public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implemen
         paramsMap.put(ShapeSelectorEnum.prism, new PrismBox());
         paramsMap.put(ShapeSelectorEnum.rbc, new RbcBox());
         paramsMap.put(ShapeSelectorEnum.spherebox, new SphereCuboidBox());
+        paramsMap.put(ShapeSelectorEnum.sphere, new SphereBox());
+        paramsMap.put(ShapeSelectorEnum.line, new LineBox());
 
         domainInfoMap.put(ShapeSelectorEnum.bicoated, Arrays.asList(new ShapeDomainInfo("bicoated cores", 1), new ShapeDomainInfo("bicoated shells", 2)));
         domainInfoMap.put(ShapeSelectorEnum.biellipsoid, Arrays.asList(new ShapeDomainInfo("first ellipsoid", 1), new ShapeDomainInfo("second ellipsoid", 2)));
@@ -70,6 +78,21 @@ public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implemen
             }
         });
     }
+
+
+    protected boolean isAutorotate = true;
+
+    public boolean isAutorotate() {
+        return isAutorotate;
+    }
+
+    public void setAutorotate(boolean autorotate) {
+        if (this.isAutorotate != autorotate) {
+            this.isAutorotate = autorotate;
+            notifyObservers(AUTOROTATE_FIELD_NAME, isAutorotate);
+        }
+    }
+
 
     public List<ShapeDomainInfo> getShapeDomainInfos() {
         if (domainInfoMap.containsKey(enumValue)) {

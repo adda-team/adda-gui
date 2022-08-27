@@ -107,6 +107,7 @@ public class ControllerBase implements IController {
                             numericField.setText("1.0");
                             processDoubleField(numericField);
                         }
+                        Context.getInstance().setLastParamsComponent(numericField);
                     }
                 });
 

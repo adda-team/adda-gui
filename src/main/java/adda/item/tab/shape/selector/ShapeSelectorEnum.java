@@ -16,6 +16,5 @@ public enum ShapeSelectorEnum {
     plate,
     prism,
     rbc,
-
     spherebox,
 }
