@@ -35,6 +35,8 @@ public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implemen
 
     public static final String ENUM_VALUE_FIELD_NAME = "enumValue";
     public static final String AUTOROTATE_FIELD_NAME = "isAutorotate";
+    public static final String VOXELIZATION_FIELD_NAME = "isVoxelization";
+    public static final String EXTERNAL_CHANGES = "EXTERNAL_CHANGES";
     public static final String SHAPE = "shape";
     transient private Map<ShapeSelectorEnum, IBox> paramsMap = new EnumMap<>(ShapeSelectorEnum.class);//todo replace with immutable in constructor
     transient private Map<ShapeSelectorEnum, List<ShapeDomainInfo>> domainInfoMap = new EnumMap<>(ShapeSelectorEnum.class);//todo replace with immutable in constructor
@@ -93,6 +95,18 @@ public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implemen
         }
     }
 
+    protected boolean isVoxelization = false;
+
+    public boolean isVoxelization() {
+        return isVoxelization;
+    }
+
+    public void setVoxelization(boolean voxelization) {
+        if (this.isVoxelization != voxelization) {
+            this.isVoxelization = voxelization;
+            notifyObservers(VOXELIZATION_FIELD_NAME, isVoxelization);
+        }
+    }
 
     public List<ShapeDomainInfo> getShapeDomainInfos() {
         if (domainInfoMap.containsKey(enumValue)) {
@@ -157,6 +171,8 @@ public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implemen
     public void modelPropertyChanged(IModel sender, IModelPropertyChangeEvent event) {
         if (sender instanceof ModelShapeParam) {
             notifyObservers(ENUM_VALUE_FIELD_NAME, enumValue);
+        } else {
+            notifyObservers(EXTERNAL_CHANGES, true);
         }
     }
 }

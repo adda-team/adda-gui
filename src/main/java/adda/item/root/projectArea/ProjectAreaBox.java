@@ -7,10 +7,13 @@ import adda.base.boxes.IBox;
 import adda.base.models.IModel;
 import adda.item.tab.base.BaseTabBox;
 import adda.item.tab.base.beam.BeamModel;
+import adda.item.tab.base.dplGrid.DplGridModel;
+import adda.item.tab.base.lambda.LambdaModel;
 import adda.item.tab.base.propagation.PropagationModel;
 import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
 import adda.item.tab.base.size.SizeModel;
 import adda.item.tab.internals.InternalsTabBox;
+import adda.item.tab.internals.jagged.JaggedModel;
 import adda.item.tab.shape.dipoleShape.DipoleShapeModel;
 import adda.item.tab.internals.formulation.FormulationModel;
 import adda.item.tab.internals.initialField.InitialFieldModel;
@@ -230,6 +233,26 @@ public class ProjectAreaBox extends BoxBase {
                 .findFirst()
                 .get();
         Binder.bind(surfaceModel, propagationModel);
+
+
+        Binder.bind(sizeModel, shapeSelectorModel);
+        Binder.bind(dipoleShapeModel, shapeSelectorModel);
+        DplGridModel dplGridModel = (DplGridModel) models.stream()
+                .filter(entity -> entity instanceof DplGridModel)
+                .findFirst()
+                .get();
+        Binder.bind(dplGridModel, shapeSelectorModel);
+        JaggedModel jaggedModel = (JaggedModel) models.stream()
+                .filter(entity -> entity instanceof JaggedModel)
+                .findFirst()
+                .get();
+        Binder.bind(jaggedModel, shapeSelectorModel);
+        LambdaModel lambdaModel = (LambdaModel) models.stream()
+                .filter(entity -> entity instanceof LambdaModel)
+                .findFirst()
+                .get();
+        Binder.bind(lambdaModel, shapeSelectorModel);
+
 
         ((ProjectAreaModel) model).setNestedModelList(models);
 

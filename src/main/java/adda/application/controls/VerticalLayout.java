@@ -7,7 +7,7 @@ public class VerticalLayout implements LayoutManager {
 
     private boolean isHeightOnly = false;
 
-    private int margin = 5;
+    private int margin = 2;
 
     public VerticalLayout() {
     }

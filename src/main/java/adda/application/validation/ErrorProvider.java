@@ -1,5 +1,6 @@
 package adda.application.validation;
 
+import adda.Context;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 import net.java.balloontip.styles.MinimalBalloonStyle;
@@ -95,11 +96,15 @@ public abstract class ErrorProvider extends InputVerifier {
                     false
             );
 
+
         }
         if (error.getErrorType() == Error.ERROR) {
             if (parent instanceof ValidationStatus) {
                 ((ValidationStatus) parent).reportStatus(false);
             }
+//            if (Context.getInstance().getLastParamsComponent() != null) {
+//                Context.getInstance().getLastParamsComponent().requestFocus();
+//            }
             return false;
         } else {
             if (parent instanceof ValidationStatus) {

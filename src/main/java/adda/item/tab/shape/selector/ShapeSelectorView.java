@@ -5,6 +5,14 @@ import adda.application.controls.JScaledImageLabel;
 import adda.base.events.IModelPropertyChangeEvent;
 import adda.base.models.IModel;
 import adda.base.views.ViewBase;
+import adda.item.tab.base.dplGrid.DplGridEnum;
+import adda.item.tab.base.dplGrid.DplGridModel;
+import adda.item.tab.base.lambda.LambdaModel;
+import adda.item.tab.base.refractiveIndexAggregator.RefractiveIndexAggregatorModel;
+import adda.item.tab.base.size.SizeModel;
+import adda.item.tab.internals.jagged.JaggedModel;
+import adda.item.tab.shape.dipoleShape.DipoleShapeEnum;
+import adda.item.tab.shape.dipoleShape.DipoleShapeModel;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
@@ -12,6 +20,7 @@ import com.sun.j3d.utils.behaviors.mouse.MouseWheelZoom;
 import com.sun.j3d.utils.universe.PlatformGeometry;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
+import javax.help.CSH;
 import javax.media.j3d.*;
 import javax.swing.*;
 import javax.vecmath.*;
@@ -41,6 +50,7 @@ public class ShapeSelectorView extends ViewBase {
     protected JPanel canvasPanel;
 
     protected JCheckBox autorotationCheckBox;
+    protected JCheckBox voxelizationCheckBox;
     protected JButton separate3dSceneButton;
 
 
@@ -51,7 +61,7 @@ public class ShapeSelectorView extends ViewBase {
     private final Timer timer = new Timer(100, new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             autorotate();
-            if (counter > 20) {
+            if (counter > 50) {
                 counter = 0;
                 isBusy = false;
                 return;
@@ -80,7 +90,7 @@ public class ShapeSelectorView extends ViewBase {
         if (t3d == null) return;
         if (autorotationCheckBox == null || !autorotationCheckBox.isSelected()) return;
 
-        t3dstep.rotY(-Math.PI / 256);
+        t3dstep.rotY(-Math.PI / 128);
         tg.getTransform(t3d);
         t3d.get(matrix);
         t3d.setTranslation(new Vector3d(0.0, 0.0, 0.0));
@@ -148,10 +158,10 @@ public class ShapeSelectorView extends ViewBase {
         JPanel canvasWrapper = new JPanel(new BorderLayout());
         this.outerPanel.add(canvasWrapper);
 
-        autorotationCheckBox = new JCheckBox();
-        autorotationCheckBox.setText("autorotation");
-        canvasWrapper.add(autorotationCheckBox, BorderLayout.NORTH);
-
+//        autorotationCheckBox = new JCheckBox();
+//        autorotationCheckBox.setText("autorotate");
+//        canvasWrapper.add(autorotationCheckBox, BorderLayout.NORTH);
+//
 
 
 
@@ -168,10 +178,32 @@ public class ShapeSelectorView extends ViewBase {
         canvasWrapper.add(canvasPanel);
 
         autorotationCheckBox = new JCheckBox();
-        autorotationCheckBox.setText("autorotation");
+        autorotationCheckBox.setText("autorotate");
         autorotationCheckBox.setName(ShapeSelectorModel.AUTOROTATE_FIELD_NAME);
-        canvasWrapper.add(autorotationCheckBox, BorderLayout.NORTH);
 
+        voxelizationCheckBox = new JCheckBox();
+        voxelizationCheckBox.setText("voxelization");
+        voxelizationCheckBox.setName(ShapeSelectorModel.VOXELIZATION_FIELD_NAME);
+
+        JPanel checkBoxesPanel = new JPanel();
+        checkBoxesPanel.setLayout(new BorderLayout());
+        checkBoxesPanel.add(autorotationCheckBox, BorderLayout.WEST);
+        checkBoxesPanel.add(voxelizationCheckBox, BorderLayout.EAST);
+
+
+        canvasWrapper.add(checkBoxesPanel, BorderLayout.NORTH);
+
+        JButton button = new JButton("<HTML><FONT color=\"#000099\"><U>open 3D in new window</U></FONT></HTML>");
+        //button.addActionListener(Context.getInstance().getHelpActionListener());
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setFocusable(false);
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button.setHorizontalAlignment(JButton.LEFT);
+        canvasWrapper.add(button, BorderLayout.SOUTH);
+        set3dLoadedStatus("initialization ...");
         //this.outerPanel.add(wrapper);
 
     }
@@ -187,7 +219,7 @@ public class ShapeSelectorView extends ViewBase {
         }
         ShapeSelectorModel shapeSelectorModel = (ShapeSelectorModel) model;
         autorotationCheckBox.setSelected(shapeSelectorModel.isAutorotate());
-
+        voxelizationCheckBox.setSelected(shapeSelectorModel.isVoxelization());
 
 //        pictureLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 //        pictureLabel.setVerticalAlignment(JLabel.TOP);
@@ -220,10 +252,12 @@ public class ShapeSelectorView extends ViewBase {
                 additionalPanel.repaint();
                 additionalPanel.revalidate();
             }
-            if (!getShapeID(shapeSelectorModel).equals(currentShapeID) && shapeSelectorModel.getParamsBox().getModel() != null) {
-                currentShapeID = getShapeID(shapeSelectorModel);
-                init3dCanvas((ModelShapeParam) shapeSelectorModel.getParamsBox().getModel());
-            }
+            SwingUtilities.invokeLater(() -> {
+                if (!getShapeID(shapeSelectorModel).equals(currentShapeID) && shapeSelectorModel.getParamsBox().getModel() != null) {
+                    currentShapeID = getShapeID(shapeSelectorModel);
+                    init3dCanvas((ModelShapeParam) shapeSelectorModel.getParamsBox().getModel());
+                }
+            });
 
         }
         timer.setRepeats(true);
@@ -415,7 +449,52 @@ public class ShapeSelectorView extends ViewBase {
                     objRoot.addChild(mouseWheelZoom);
 
 
-                    shapeModel.createSurfaceShape(tg);
+                    if (voxelizationCheckBox.isSelected()) {
+                        DipoleShapeModel dipoleShapeModel = (DipoleShapeModel) Context.getInstance().getChildModelFromSelectedBox(DipoleShapeModel.class);
+                        DplGridModel dplGridModel  = (DplGridModel) Context.getInstance().getChildModelFromSelectedBox(DplGridModel.class);
+                        JaggedModel jaggedModel  = (JaggedModel) Context.getInstance().getChildModelFromSelectedBox(JaggedModel.class);
+                        SizeModel sizeModel  = (SizeModel) Context.getInstance().getChildModelFromSelectedBox(SizeModel.class);
+                        LambdaModel lambdaModel  = (LambdaModel) Context.getInstance().getChildModelFromSelectedBox(LambdaModel.class);
+
+                        if (lambdaModel.getLambda() <= 0 || sizeModel.getValue() <= 0 || dplGridModel.getValue() <= 0) {
+                            set3dLoadedStatus("Invalid parameters");
+                            if (Context.getInstance().getLastParamsComponent() != null) {
+                                Context.getInstance().getLastParamsComponent().requestFocus();
+                            }
+                            return;
+                        }
+
+                        int jagged = jaggedModel.getFlag() ? jaggedModel.getJagged() : 1;
+                        double sizeX = sizeModel.getValue();
+                        double drelX, dMax;
+                        double[] rectDip;
+                        if (dipoleShapeModel.getEnumValue() == DipoleShapeEnum.Rect) {
+                            dMax = Math.max(dipoleShapeModel.getScaleX(), dipoleShapeModel.getScaleY());
+                            dMax = Math.max(dMax, dipoleShapeModel.getScaleZ());
+                            drelX = dipoleShapeModel.getScaleX()/ dMax;
+                            rectDip = new double[] {dipoleShapeModel.getScaleX(), dipoleShapeModel.getScaleY(), dipoleShapeModel.getScaleZ()};
+                        } else {
+                            dMax = 1;
+                            drelX = 1;
+                            rectDip = new double[] {1, 1, 1};
+                        }
+
+
+                        int minBoxX = 16;
+                        int boxX;
+                        if (dplGridModel.getEnumValue() == DplGridEnum.dpl) {
+                            boxX=(int)Math.ceil((sizeX/drelX)*dplGridModel.getValue()/lambdaModel.getLambda());
+                        } else {
+                            boxX = (int) dplGridModel.getValue();
+                        }
+
+                        boxX=ModelShapeParam.fitBox(boxX, jagged);
+                        boxX = Math.max(boxX, minBoxX);
+                        shapeModel.createVoxelizedShape(tg, boxX, jagged, rectDip);
+                    } else {
+                        shapeModel.createSurfaceShape(tg);
+                    }
+
 
                     objRoot.compile();
 
@@ -469,6 +548,7 @@ public class ShapeSelectorView extends ViewBase {
         canvasPanel.removeAll();
         canvasPanel.add(new JLabel(message));
         canvasPanel.repaint();
+        canvasPanel.revalidate();
     }
 
     @Override
@@ -476,6 +556,16 @@ public class ShapeSelectorView extends ViewBase {
         super.modelPropertyChanged(sender, event);
         if (ShapeSelectorModel.AUTOROTATE_FIELD_NAME.equals(event.getPropertyName())) {
             autorotationCheckBox.setSelected((boolean) event.getPropertyValue());
+        }
+        if (ShapeSelectorModel.VOXELIZATION_FIELD_NAME.equals(event.getPropertyName())) {
+            voxelizationCheckBox.setSelected((boolean) event.getPropertyValue());
+            modelToProcess = (ShapeSelectorModel) sender;
+            set3dLoadedStatus();
+        }
+
+        if (ShapeSelectorModel.EXTERNAL_CHANGES.equals(event.getPropertyName()) && voxelizationCheckBox.isSelected()) {
+            modelToProcess = (ShapeSelectorModel) sender;
+            set3dLoadedStatus();
         }
 
 
@@ -523,6 +613,7 @@ public class ShapeSelectorView extends ViewBase {
 
     private String getShapeID(ShapeSelectorModel shapeSelectorModel) {
         return shapeSelectorModel.getEnumValue().toString()
+                + (shapeSelectorModel.isVoxelization() ? "voxel" : "math")
                 + ((shapeSelectorModel.getParamsBox() == null || shapeSelectorModel.getParamsBox().getModel() == null) ? "" : String.join("", ((ModelShapeParam) shapeSelectorModel.getParamsBox().getModel()).getParamsList()));
     }
 
