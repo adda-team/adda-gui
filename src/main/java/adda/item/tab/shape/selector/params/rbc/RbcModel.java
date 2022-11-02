@@ -108,11 +108,6 @@ public class RbcModel extends ModelShapeParam {
     double h = firstParam;
     double b = secondParam;
 
-//        P = -D^2/4 - b^2*h^2/4/D^2+ b^2*c^4/4/D^2/(h^2 - b^2);
-//        Q = (D^4 + 4*D^2*P -b^4)/4/b^2;
-//        R = -D^2/16*(D^2+4*P);
-//        S = -(c^2 + 2*P)/h^2;
-
     double P;
     double Q;
     double R;
@@ -141,7 +136,6 @@ public class RbcModel extends ModelShapeParam {
         int countOfStep = 301;
 
         double step = D / countOfStep;
-
         ArrayList<Double> x = new ArrayList<>();
         ArrayList<Double> y = new ArrayList<>();
         ArrayList<Double> z = new ArrayList<>();
@@ -224,14 +218,5 @@ public class RbcModel extends ModelShapeParam {
         value = ro2 * ro2 + 2 * S * ro2 * z2 + z2 * z2 + P * ro2 + Q * z2 + R;
         return value <= 0;
     }
-
-//    @Override
-//    protected Color3f getVoxelColor() {
-//        return new Color3f(Color.RED);
-//    }
-//
-//    protected Color3f getSurfaceColor() {
-//        return new Color3f(Color.RED);
-//    };
 
 }
