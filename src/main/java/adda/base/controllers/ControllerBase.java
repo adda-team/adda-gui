@@ -14,8 +14,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -78,21 +77,45 @@ public class ControllerBase implements IController {
             }
             if (component.getClass().equals(JNumericField.class)) {
                 JNumericField numericField = (JNumericField) component;
-                numericField.setInputVerifier(new ModelValidator(Context.getInstance().getMainFrame(), numericField, model, numericField.getName()));
-                numericField.getDocument().addDocumentListener(new DocumentListener() {
+                final ModelValidator inputVerifier = new ModelValidator(Context.getInstance().getMainFrame(), numericField, model, numericField.getName());
+                numericField.setInputVerifier(inputVerifier);
+                numericField.addFocusListener(inputVerifier);
+                SwingUtilities.invokeLater(() -> inputVerifier.verify(numericField));
+//                numericField.getDocument().addDocumentListener(new DocumentListener() {
+//                    @Override
+//                    public void insertUpdate(DocumentEvent e) {
+////                        processDoubleField(numericField);
+//                        inputVerifier.verify(numericField);
+//                    }
+//
+//                    @Override
+//                    public void removeUpdate(DocumentEvent e) {
+////                        processDoubleField(numericField);
+//                        inputVerifier.verify(numericField);
+//                    }
+//
+//                    @Override
+//                    public void changedUpdate(DocumentEvent e) {
+////                        processDoubleField(numericField);
+//                        inputVerifier.verify(numericField);
+//                    }
+//                });
+                numericField.addKeyListener(new KeyListener() {
                     @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        processDoubleField(numericField);
+                    public void keyTyped(KeyEvent e) {
+
                     }
 
                     @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        processDoubleField(numericField);
+                    public void keyPressed(KeyEvent e) {
+                        if (e.getKeyCode()==KeyEvent.VK_ENTER){
+                            processDoubleField(numericField);
+                        }
                     }
 
                     @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        processDoubleField(numericField);
+                    public void keyReleased(KeyEvent e) {
+
                     }
                 });
                 numericField.addFocusListener(new FocusListener() {
@@ -105,8 +128,9 @@ public class ControllerBase implements IController {
                     public void focusLost(FocusEvent focusEvent) {
                         if (StringHelper.isEmpty(numericField.getText())) {
                             numericField.setText("1.0");
-                            processDoubleField(numericField);
+                            //processDoubleField(numericField);
                         }
+                        processDoubleField(numericField);
                         Context.getInstance().setLastParamsComponent(numericField);
                     }
                 });

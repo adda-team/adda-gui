@@ -1,16 +1,15 @@
-package adda.item.tab.shape.selector.params.plate;
+package adda.item.tab.shape.selector.params.superellipsoid;
 
 import adda.base.annotation.*;
 import adda.base.boxes.BoxBase;
 import adda.item.tab.shape.selector.params.ViewParamBase;
-import adda.item.tab.shape.selector.params.capsule.CapsuleModel;
 
 @BindModel
 @BindView(ViewParamBase.class)
 @BindController
-public class PlateBox extends BoxBase {
+public class SuperellipsoidBox extends BoxBase {
 
-    public PlateBox() {
+    public SuperellipsoidBox() {
         needInitSelf = true;
     }
 }

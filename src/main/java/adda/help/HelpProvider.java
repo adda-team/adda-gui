@@ -47,16 +47,20 @@ import adda.item.tab.shape.selector.params.cuboid.CuboidModel;
 import adda.item.tab.shape.selector.params.cylinder.CylinderModel;
 import adda.item.tab.shape.selector.params.egg.EggModel;
 import adda.item.tab.shape.selector.params.ellipsoid.EllipsoidModel;
+import adda.item.tab.shape.selector.params.line.LineModel;
 import adda.item.tab.shape.selector.params.plate.PlateBox;
 import adda.item.tab.shape.selector.params.plate.PlateModel;
 import adda.item.tab.shape.selector.params.prism.PrismModel;
 import adda.item.tab.shape.selector.params.rbc.RbcBox;
 import adda.item.tab.shape.selector.params.rbc.RbcModel;
+import adda.item.tab.shape.selector.params.sphere.SphereModel;
 import adda.item.tab.shape.selector.params.spherecuboid.SphereCuboidModel;
+import adda.item.tab.shape.selector.params.superellipsoid.SuperellipsoidModel;
 import adda.item.tab.shape.surface.SurfaceModel;
 import adda.utils.StringHelper;
 
 import javax.help.CSH;
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -558,13 +562,33 @@ public class HelpProvider {
             return StringHelper.toDisplayString(
                     "Red Blood Cell, an axisymmetric (over z-axis) biconcave homogeneous particle, which is " +
                             "characterized by diameter d, maximum and minimum width h, b, and diameter at the position of the maximum " +
-                            "width c. The surface is described by ro^4+2S*ro^2*z^2+z^4+P*ro^2+Q*z^2+R=0, ro^2=x^2+y^2, P,Q,R,S are " +
+                            "width c. The surface is described by ro^4 + 2S*ro^2*z^2 + z^4 + P*ro^2 + Q*z^2+R=0, ro^2=x^2+y^2, P,Q,R,S are " +
                             "determined by the described parameters."
             );
         }
         if (SphereCuboidModel.class.equals(clazz)) {
             return StringHelper.toDisplayString(
                     "Sphere (diameter d_sph) in a cube (size Dx, first domain)"
+            );
+        }
+        if (SphereModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Sphere (diameter is Dx)"
+            );
+        }
+
+        if (LineModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Line along X axis (size Dx)"
+            );
+        }
+
+        if (SuperellipsoidModel.class.equals(clazz)) {
+            return StringHelper.toDisplayString(
+                    "Homogeneous superellipsoid with semi-axes a, b, c along the x, y, and z "+
+                    "directions, respectively. Nonnegative e and n control the shape of cross sections parallel and perpendicular "+
+                    "to the xy-plane, respectively, according to [(x/a)^(2/e) + (y/b)^(2/e)]^(e/n) + (z/c)^(2/n) <= 1. Large "+
+                    "values of e and/or n lead to spiky shapes with potential discretization problems."
             );
         }
 

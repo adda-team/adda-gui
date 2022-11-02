@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'adda'
-version = '0.4.2'
+version = '0.9.5'
 sourceCompatibility = '8'
 
 repositories {
@@ -28,7 +28,8 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.31'
     compile group: 'io.methvin', name: 'directory-watcher', version: '0.15.0'
     //compile group: 'sh.tak.appbundler', name: 'appbundle-maven-plugin', version: '1.2.0'
-
+//    implementation group: 'org.jogamp.gluegen', name: 'gluegen-rt-main', version:'2.3.2'
+//    implementation group: 'org.jogamp.jogl', name: 'jogl-all-main', version:'2.3.2'
 
 
     compile fileTree(dir: 'lib', include: ['*'])
@@ -77,7 +78,7 @@ task packageExecutableDistribution(type: Zip) {
 }
 
 task addJreToDistributable(type: Copy) {
-    from('c:\\Program Files\\JetBrains\\IntelliJ IDEA 2019.3.4\\jbr')
+    from("$projectDir/jbr-windows/")
     destinationDir = file("$buildDir/launch4j/jbr")
 }
 

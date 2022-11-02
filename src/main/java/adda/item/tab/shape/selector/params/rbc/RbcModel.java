@@ -3,12 +3,12 @@ package adda.item.tab.shape.selector.params.rbc;
 import adda.base.annotation.Viewable;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
 import adda.utils.StringHelper;
-import com.sun.j3d.utils.geometry.GeometryInfo;
-import com.sun.j3d.utils.geometry.NormalGenerator;
+import org.jogamp.java3d.utils.geometry.GeometryInfo;
+import org.jogamp.java3d.utils.geometry.NormalGenerator;
 
-import javax.media.j3d.*;
-import javax.vecmath.Color3f;
-import javax.vecmath.Point3d;
+
+import org.jogamp.vecmath.Color3f;
+import org.jogamp.vecmath.Point3d;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -119,7 +119,7 @@ public class RbcModel extends ModelShapeParam {
     double S;
 
     @Override
-    protected void initParams() {
+    public void initParams() {
         D = 1.0;//7.65;
         c = thirdParam;
         h = firstParam;
@@ -225,13 +225,13 @@ public class RbcModel extends ModelShapeParam {
         return value <= 0;
     }
 
-    @Override
-    protected Color3f getVoxelColor() {
-        return new Color3f(Color.RED);
-    }
-
-    protected Color3f getSurfaceColor() {
-        return new Color3f(Color.RED);
-    };
+//    @Override
+//    protected Color3f getVoxelColor() {
+//        return new Color3f(Color.RED);
+//    }
+//
+//    protected Color3f getSurfaceColor() {
+//        return new Color3f(Color.RED);
+//    };
 
 }

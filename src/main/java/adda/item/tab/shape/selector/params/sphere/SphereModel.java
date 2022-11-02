@@ -2,8 +2,16 @@ package adda.item.tab.shape.selector.params.sphere;
 
 import adda.base.models.ModelBase;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
+import org.jogamp.java3d.Appearance;
+import org.jogamp.java3d.Material;
+import org.jogamp.java3d.PolygonAttributes;
+import org.jogamp.java3d.TransformGroup;
+import org.jogamp.java3d.utils.geometry.GeometryInfo;
+import org.jogamp.java3d.utils.geometry.NormalGenerator;
+import org.jogamp.java3d.utils.geometry.Sphere;
 
-import javax.media.j3d.TransformGroup;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +21,33 @@ public class SphereModel extends ModelShapeParam {
         return new ArrayList<>();
     }
 
+
+    public void createSurfaceShape(TransformGroup tg) {
+
+        Appearance ap = new Appearance();
+
+        PolygonAttributes polyAttrbutes = new PolygonAttributes();
+        polyAttrbutes.setPolygonMode(PolygonAttributes.POLYGON_FILL);
+        polyAttrbutes.setCullFace(PolygonAttributes.CULL_NONE);
+        ap.setPolygonAttributes(polyAttrbutes);
+
+        Material material = new Material();
+        material.setShininess(0.5f);
+        material.setDiffuseColor(getSurfaceColor());
+        material.setAmbientColor(getSurfaceColor());
+        ap.setMaterial(material);
+
+
+        Sphere sphere = new Sphere(0.5f, Sphere.GENERATE_NORMALS, 100);
+        sphere.setAppearance(ap);
+
+        tg.addChild(sphere);
+    }
+
     @Override
     public List<Double> getSurfacePoints() {
+
+
         int countOfStep = 301;
 
         double step = 1.0 / countOfStep;

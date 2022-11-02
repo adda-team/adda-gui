@@ -7,10 +7,12 @@ import net.java.balloontip.styles.MinimalBalloonStyle;
 import net.java.balloontip.styles.RoundedBalloonStyle;
 
 import java.awt.Color;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public abstract class ErrorProvider extends InputVerifier {
+public abstract class ErrorProvider extends InputVerifier implements FocusListener {
 
     private Border originalBorder;
     private Color originalBackgroundColor;
@@ -66,6 +68,25 @@ public abstract class ErrorProvider extends InputVerifier {
     RoundedBalloonStyle style = new RoundedBalloonStyle(5, 5, Color.WHITE, Color.RED);
 
     @Override
+    public boolean shouldYieldFocus(JComponent input) {
+        return true;
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        if (balloonTip != null) {
+            balloonTip.setVisible(true);
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (balloonTip != null) {
+            balloonTip.setVisible(false);
+        }
+    }
+
+    @Override
     public boolean verify(JComponent c) {
         Error error = ErrorDefinition(c);
         if (error.getErrorType() == Error.NO_ERROR) {
@@ -93,7 +114,7 @@ public abstract class ErrorProvider extends InputVerifier {
                     BalloonTip.Orientation.RIGHT_ABOVE,
                     BalloonTip.AttachLocation.NORTHEAST,
                     30, 10,
-                    false
+                    true
             );
 
 
@@ -102,9 +123,6 @@ public abstract class ErrorProvider extends InputVerifier {
             if (parent instanceof ValidationStatus) {
                 ((ValidationStatus) parent).reportStatus(false);
             }
-//            if (Context.getInstance().getLastParamsComponent() != null) {
-//                Context.getInstance().getLastParamsComponent().requestFocus();
-//            }
             return false;
         } else {
             if (parent instanceof ValidationStatus) {

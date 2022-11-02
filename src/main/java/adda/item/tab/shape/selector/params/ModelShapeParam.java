@@ -1,11 +1,21 @@
 package adda.item.tab.shape.selector.params;
 
+import adda.Context;
 import adda.base.models.ModelBase;
-import com.sun.j3d.utils.geometry.GeometryInfo;
-import com.sun.j3d.utils.geometry.NormalGenerator;
+import adda.item.tab.base.dplGrid.DplGridEnum;
+import adda.item.tab.base.dplGrid.DplGridModel;
+import adda.item.tab.base.lambda.LambdaModel;
+import adda.item.tab.base.size.SizeEnum;
+import adda.item.tab.base.size.SizeModel;
+import adda.item.tab.internals.jagged.JaggedModel;
+import adda.item.tab.shape.dipoleShape.DipoleShapeEnum;
+import adda.item.tab.shape.dipoleShape.DipoleShapeModel;
+import org.jogamp.java3d.*;
+import org.jogamp.java3d.utils.geometry.GeometryInfo;
+import org.jogamp.java3d.utils.geometry.NormalGenerator;
 
-import javax.media.j3d.*;
-import javax.vecmath.*;
+
+import org.jogamp.vecmath.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +30,21 @@ public abstract class ModelShapeParam extends ModelBase {
     public static final String FOURTH_PARAM = "fourthParam";
     public static final String FIFTH_PARAM = "fifthParam";
 
+    public ModelShapeParam() {
+        initParams();
+    }
+
     public abstract List<String> getParamsList();
+
+    public double getInitialScale() {
+        return 4.5;
+    }
+
+    protected int getSurfaceCoordinatesArrayType() {
+        return GeometryInfo.QUAD_ARRAY;
+    }
+
+    protected int jagged = 1;
 
     public void createSurfaceShape(TransformGroup tg) {
         initParams();
@@ -30,7 +54,7 @@ public abstract class ModelShapeParam extends ModelBase {
             return;
         }
 
-        GeometryInfo gi = new GeometryInfo(GeometryInfo.QUAD_ARRAY);
+        GeometryInfo gi = new GeometryInfo(getSurfaceCoordinatesArrayType());
         gi.setCoordinates(points.stream().mapToDouble(i -> i).toArray());
 
         NormalGenerator normalGenerator = new NormalGenerator();
@@ -44,7 +68,7 @@ public abstract class ModelShapeParam extends ModelBase {
         ap.setPolygonAttributes(polyAttrbutes);
 
         Material material = new Material();
-        material.setShininess(50f);
+        material.setShininess(0.5f);
         material.setDiffuseColor(getSurfaceColor());
         material.setAmbientColor(getSurfaceColor());
         ap.setMaterial(material);
@@ -59,6 +83,7 @@ public abstract class ModelShapeParam extends ModelBase {
     }
 
     public void createVoxelizedShape(TransformGroup tg, int boxX, int jagged, double[] rectDip) {
+        this.jagged = jagged;
         initParams();
         double gridspace = 1.0/ boxX;
 
@@ -127,7 +152,41 @@ public abstract class ModelShapeParam extends ModelBase {
 
             if (isExternalVoxel) {
                 Point3d point = hash.get(key);
-                addVoxel(point.x, point.y, point.z, gridSpaceX, gridSpaceY, gridSpaceZ, point3dArrayList);
+                if (jagged > 1) {
+                    double leftBottomX = point.x - gridSpaceX*jagged*0.5f;
+                    double leftBottomY = point.y - gridSpaceY*jagged*0.5f;
+                    double leftBottomZ = point.z - gridSpaceZ*jagged*0.5f;
+
+                    double deltaX = gridSpaceX*0.5f;
+                    double deltaY = gridSpaceY*0.5f;
+                    double deltaZ = gridSpaceZ*0.5f;
+
+//                    Map<String, Point3d> jaggedHash = new HashMap<>();
+//                    int halfJagged = jagged / 2;
+                    for (int jaggedI = 0; jaggedI < jagged; jaggedI++) {
+                        for (int jaggedJ = 0; jaggedJ < jagged; jaggedJ++) {
+                            for (int jaggedK = 0; jaggedK < jagged; jaggedK++) {
+//                                String jaggedKey = getVoxelCenterKey(jaggedI, jaggedJ, jaggedK);
+//                                if (!jaggedHash.containsKey(jaggedKey)) {
+//                                    jaggedHash.put(jaggedKey, new Point3d());
+//                                }
+                                boolean isOuterX = jaggedI == 0 || jaggedI == jagged - 1;
+                                boolean isOuterY = jaggedJ == 0 || jaggedJ == jagged - 1;
+                                boolean isOuterZ = jaggedK == 0 || jaggedK == jagged - 1;
+
+                                if (isOuterX || isOuterY || isOuterZ) {
+                                    double currentX = leftBottomX + deltaX + jaggedI*gridSpaceX;
+                                    double currentY = leftBottomY + deltaY + jaggedJ*gridSpaceY;
+                                    double currentZ = leftBottomZ + deltaZ + jaggedK*gridSpaceZ;
+                                    addVoxel(currentX, currentY, currentZ, gridSpaceX, gridSpaceY, gridSpaceZ, point3dArrayList);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    addVoxel(point.x, point.y, point.z, gridSpaceX, gridSpaceY, gridSpaceZ, point3dArrayList);
+                }
+
             }
         }
 
@@ -152,7 +211,7 @@ public abstract class ModelShapeParam extends ModelBase {
         polyAttrbutes.setCullFace(PolygonAttributes.CULL_NONE);
         ap.setPolygonAttributes(polyAttrbutes);
         Material material = new Material();
-        material.setShininess(50f);
+        material.setShininess(0.5f);
         material.setAmbientColor(getVoxelColor());
         material.setDiffuseColor(getVoxelColor());
         ap.setMaterial(material);
@@ -168,7 +227,7 @@ public abstract class ModelShapeParam extends ModelBase {
         polyAttrbutes.setCullFace(PolygonAttributes.CULL_NONE);
         ap.setPolygonAttributes(polyAttrbutes);
         material = new Material();
-        material.setShininess(50f);
+        material.setShininess(0.5f);
         material.setDiffuseColor(getVoxelLineColor());
         material.setAmbientColor(getVoxelLineColor());
         ap.setMaterial(material);
@@ -176,7 +235,7 @@ public abstract class ModelShapeParam extends ModelBase {
         tg.addChild(shape2);
     }
 
-    protected void initParams() {
+    public void initParams() {
 
     }
 
@@ -286,16 +345,70 @@ public abstract class ModelShapeParam extends ModelBase {
         return builder.toString();
     }
 
+
+
+    public Color3f getBackgroundColor() {
+        return new Color3f(0.75f, 0.69f, 0.680f);
+    }
+
     protected Color3f getVoxelColor() {
-        return new Color3f(Color.MAGENTA);
+        return new Color3f(0.75f,0f,0.75f);
     }
 
     protected Color3f getVoxelLineColor() {
-        return new Color3f(Color.BLACK);
+        return new Color3f(0,0,0);
     }
 
 
     protected Color3f getSurfaceColor() {
-        return new Color3f(Color.MAGENTA);
+        return new Color3f(0.75f,0f,0.75f);
     };
+
+    protected String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public static int getActiveProjectGridSizeAlongXAxis() {
+        DipoleShapeModel dipoleShapeModel = (DipoleShapeModel) Context.getInstance().getChildModelFromSelectedBox(DipoleShapeModel.class);
+        DplGridModel dplGridModel  = (DplGridModel) Context.getInstance().getChildModelFromSelectedBox(DplGridModel.class);
+        JaggedModel jaggedModel  = (JaggedModel) Context.getInstance().getChildModelFromSelectedBox(JaggedModel.class);
+        SizeModel sizeModel  = (SizeModel) Context.getInstance().getChildModelFromSelectedBox(SizeModel.class);
+        LambdaModel lambdaModel  = (LambdaModel) Context.getInstance().getChildModelFromSelectedBox(LambdaModel.class);
+
+        if (sizeModel.getType() == SizeEnum.EqRadius) {
+            return 0;
+        }
+
+        if (lambdaModel.getLambda() <= 0 || sizeModel.getValue() <= 0 || dplGridModel.getValue() <= 0) {
+            return 0;
+        }
+
+        int jagged = jaggedModel.getFlag() ? jaggedModel.getJagged() : 1;
+        double sizeX = sizeModel.getValue();
+        double drelX, dMax;
+
+        if (dipoleShapeModel.getEnumValue() == DipoleShapeEnum.Rect) {
+            dMax = Math.max(dipoleShapeModel.getScaleX(), dipoleShapeModel.getScaleY());
+            dMax = Math.max(dMax, dipoleShapeModel.getScaleZ());
+            drelX = dipoleShapeModel.getScaleX()/ dMax;
+        } else {
+            drelX = 1;
+        }
+
+
+        int minBoxX = 16;
+        int boxX;
+        if (dplGridModel.getEnumValue() == DplGridEnum.dpl) {
+            boxX=(int)Math.ceil((sizeX/drelX)*dplGridModel.getValue()/lambdaModel.getLambda());
+        } else {
+            boxX = (int) dplGridModel.getValue();
+        }
+
+        boxX=ModelShapeParam.fitBox(boxX, jagged);
+        boxX = Math.max(boxX, minBoxX);
+
+        return boxX;
+    }
 }

@@ -4,16 +4,31 @@ import adda.base.annotation.BindEnableFrom;
 import adda.base.annotation.Viewable;
 import adda.base.models.ModelBase;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
+import adda.item.tab.shape.selector.params.ModelShapeParamTwoDomains;
+import adda.item.tab.shape.selector.params.sphere.SphereModel;
 import adda.utils.StringHelper;
+import org.jogamp.java3d.*;
+import org.jogamp.java3d.utils.geometry.Sphere;
 
+
+import org.jogamp.vecmath.AxisAngle4f;
+import org.jogamp.vecmath.Color3f;
+import org.jogamp.vecmath.Color4f;
+import org.jogamp.vecmath.Vector3d;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class CoatedModel extends ModelShapeParam {
+public class CoatedModel extends ModelShapeParamTwoDomains {
 
 
     @Viewable(value = "<html>d<sub>in</sub>/d</html>")
     protected double firstParam = 0.5;
+    private double coat_ratio;
+    private double coat_x;
+    private double coat_y;
+    private double coat_z;
+    private double coat_r2;
 
     public double getFirstParam() {
         return firstParam;
@@ -159,4 +174,117 @@ public class CoatedModel extends ModelShapeParam {
 
         return isValid;
     }
+
+    public void createSurfaceShape(TransformGroup tg) {
+
+        Appearance ap = new Appearance();
+
+        PolygonAttributes polyAttrbutes = new PolygonAttributes();
+        polyAttrbutes.setPolygonMode(PolygonAttributes.POLYGON_FILL);
+        polyAttrbutes.setCullFace(PolygonAttributes.CULL_NONE);
+        ap.setPolygonAttributes(polyAttrbutes);
+
+        Material material = new Material();
+        material.setShininess(0f);
+        Color color = Color.magenta;
+
+        Color3f c = new Color3f(255, 0, 255);
+        material.setDiffuseColor(c);
+        material.setAmbientColor(c);
+
+        ap.setMaterial(material);
+        TransparencyAttributes trans = new TransparencyAttributes();
+        trans.setTransparencyMode(TransparencyAttributes.BLENDED);
+        trans.setTransparency(0.6f);
+        ap.setTransparencyAttributes(trans);
+        ap.setCapability(Appearance.ALLOW_COLORING_ATTRIBUTES_READ);
+        ap.setCapability(Appearance.ALLOW_COLORING_ATTRIBUTES_WRITE);
+        ap.setCapability(Appearance.ALLOW_MATERIAL_READ);
+        ap.setCapability(Appearance.ALLOW_MATERIAL_WRITE);
+        ap.setCapability(Appearance.ALLOW_TRANSPARENCY_ATTRIBUTES_READ);
+        ap.setCapability(Appearance.ALLOW_TRANSPARENCY_ATTRIBUTES_WRITE);
+
+        Sphere sphere = new Sphere(0.5f, Sphere.GENERATE_NORMALS | Sphere.GENERATE_NORMALS_INWARD, 100);
+        sphere.setAppearance(ap);
+
+        tg.addChild(sphere);
+
+
+        ap = new Appearance();
+
+        polyAttrbutes = new PolygonAttributes();
+        polyAttrbutes.setPolygonMode(PolygonAttributes.POLYGON_FILL);
+        polyAttrbutes.setCullFace(PolygonAttributes.CULL_NONE);
+        ap.setPolygonAttributes(polyAttrbutes);
+
+        material = new Material();
+        material.setShininess(0.5f);
+
+        material.setDiffuseColor(new Color3f(0f, 0.75f, 0f));
+        material.setAmbientColor(new Color3f(0f, 0.75f, 0f));
+
+        ap.setMaterial(material);
+
+
+        TransformGroup tgCoated = new TransformGroup();
+        Transform3D t3d = new Transform3D();
+
+        tgCoated.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+
+
+        if (isConcentric()) {
+            t3d.setTranslation(new Vector3d(0, 0, 0));
+        } else {
+            t3d.setTranslation(new Vector3d(secondParam, thirdParam, fourthParam));
+        }
+        t3d.setRotation(new AxisAngle4f(0f, 0f, 0f, 0f));
+        t3d.setScale(1.0);
+
+        tgCoated.setTransform(t3d);
+
+        Sphere sphere2 = new Sphere((float)(0.5f*firstParam), Sphere.GENERATE_NORMALS, 100);
+        sphere2.setAppearance(ap);
+
+        tgCoated.addChild(sphere2);
+
+        tg.addChild(tgCoated);
+    }
+
+    @Override
+    public void initParams() {
+        coat_ratio =firstParam;
+        coat_x=secondParam;
+        coat_y =thirdParam;
+        coat_z =fourthParam;
+        if (isConcentric()) {
+            coat_x=0;
+            coat_y =0;
+            coat_z =0;
+        }
+        coat_r2 =0.25*coat_ratio*coat_ratio;
+    }
+
+    @Override
+    protected boolean isPointInsideShapeVolumeFirst(double xr, double yr, double zr) {
+        if (xr*xr+yr*yr+zr*zr<=0.25) { // first test to skip some dipoles immediately)
+            return true;
+        }
+        return false;
+    }
+
+
+
+    @Override
+    protected boolean isPointInsideShapeVolumeSecond(double xr, double yr, double zr) {
+        if (xr*xr+yr*yr+zr*zr<=0.25) { // first test to skip some dipoles immediately)
+            double xcoat=xr-coat_x;
+            double ycoat=yr- coat_y;
+            double zcoat=zr- coat_z;
+            if (xcoat*xcoat+ycoat*ycoat+zcoat*zcoat<= coat_r2) return true;
+
+        }
+
+        return false;
+    }
+
 }

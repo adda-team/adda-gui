@@ -5,6 +5,13 @@ import adda.base.annotation.Viewable;
 import adda.base.models.ModelBase;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
 import adda.utils.StringHelper;
+import org.jogamp.java3d.Appearance;
+import org.jogamp.java3d.Material;
+import org.jogamp.java3d.PolygonAttributes;
+import org.jogamp.java3d.TransformGroup;
+import org.jogamp.java3d.utils.geometry.Box;
+import org.jogamp.java3d.utils.geometry.Sphere;
+
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -105,5 +112,42 @@ public class CuboidModel extends ModelShapeParam {
         }
 
         return isValid;
+    }
+
+    @Override
+    public double getInitialScale() {
+        return 3;
+    }
+
+    public void createSurfaceShape(TransformGroup tg) {
+
+        Appearance ap = new Appearance();
+
+        PolygonAttributes polyAttrbutes = new PolygonAttributes();
+        polyAttrbutes.setPolygonMode(PolygonAttributes.POLYGON_FILL);
+        polyAttrbutes.setCullFace(PolygonAttributes.CULL_NONE);
+        ap.setPolygonAttributes(polyAttrbutes);
+
+        Material material = new Material();
+        material.setShininess(0.5f);
+        material.setDiffuseColor(getSurfaceColor());
+        material.setAmbientColor(getSurfaceColor());
+        ap.setMaterial(material);
+
+
+        Box box = new Box(0.5f, (float) firstParam*0.5f, (float) secondParam*0.5f, ap);
+        box.setAppearance(ap);
+
+        tg.addChild(box);
+    }
+
+    @Override
+    public int getBoxY(int boxX, double rectScaleX, double rectScaleY, double rectScaleZ, int jagged) {
+        return fitBox_yz(firstParam * boxX * (rectScaleX / rectScaleY), jagged);
+    }
+
+    @Override
+    public int getBoxZ(int boxX, double rectScaleX, double rectScaleY, double rectScaleZ, int jagged) {
+        return fitBox_yz(secondParam * boxX * (rectScaleX / rectScaleZ), jagged);
     }
 }

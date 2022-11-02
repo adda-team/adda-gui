@@ -11,6 +11,13 @@
                    mainclassname="adda.Main">
             <runtime dir="d:\projects\java\adda-gui\jbr\Contents\Home\"/>
             <classpath file="out/artifacts/adda_gui/adda-gui.jar" />
+            <option value="-Dcom.apple.macos.use-file-dialog-packages=true"/>
+            <option value="-Dcom.apple.macos.useScreenMenuBar=true"/>
+            <option value="-Dcom.apple.smallTabs=true"/>
+            <option value="-Dfile.encoding=UTF-8"/>
+
+            <option value="-Xmx4096M" name="Xmx"/>
+            <option value="-Xms128m" name="Xms"/>
         </bundleapp>
     </target>
 </project>

@@ -5,6 +5,7 @@ import adda.base.models.ModelBase;
 import adda.item.tab.shape.selector.params.ModelShapeParam;
 import adda.utils.StringHelper;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,7 @@ public class EllipsoidModel extends ModelShapeParam {
 
 
     @Viewable(value = "y/x")
-    protected double firstParam = 1;
+    protected double firstParam = 0.5;
 
     public double getFirstParam() {
         return firstParam;
@@ -73,7 +74,7 @@ public class EllipsoidModel extends ModelShapeParam {
     double invsqZ;
 
     @Override
-    protected void initParams() {
+    public void initParams() {
         invsqY = 1/(firstParam*firstParam);
         invsqZ = 1/(secondParam*secondParam);
     }

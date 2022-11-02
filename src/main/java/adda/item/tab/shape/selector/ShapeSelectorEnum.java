@@ -17,4 +17,5 @@ public enum ShapeSelectorEnum {
     prism,
     rbc,
     spherebox,
+    superellipsoid,
 }

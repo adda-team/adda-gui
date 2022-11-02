@@ -28,6 +28,7 @@ import adda.item.tab.shape.selector.params.prism.PrismBox;
 import adda.item.tab.shape.selector.params.rbc.RbcBox;
 import adda.item.tab.shape.selector.params.sphere.SphereBox;
 import adda.item.tab.shape.selector.params.spherecuboid.SphereCuboidBox;
+import adda.item.tab.shape.selector.params.superellipsoid.SuperellipsoidBox;
 
 import java.util.*;
 
@@ -63,6 +64,7 @@ public class ShapeSelectorModel extends TabEnumModel<ShapeSelectorEnum> implemen
         paramsMap.put(ShapeSelectorEnum.rbc, new RbcBox());
         paramsMap.put(ShapeSelectorEnum.spherebox, new SphereCuboidBox());
         paramsMap.put(ShapeSelectorEnum.sphere, new SphereBox());
+        paramsMap.put(ShapeSelectorEnum.superellipsoid, new SuperellipsoidBox());
         paramsMap.put(ShapeSelectorEnum.line, new LineBox());
 
         domainInfoMap.put(ShapeSelectorEnum.bicoated, Arrays.asList(new ShapeDomainInfo("bicoated cores", 1), new ShapeDomainInfo("bicoated shells", 2)));
