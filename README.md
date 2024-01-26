@@ -1,20 +1,23 @@
 # ADDA GUI
 
-ADDA GUI is a graphical user interface for ADDA, 
-available for [Windows, Linux and MacOS](https://github.com/adda-team/adda-gui/releases).
+This is a graphical user interface for ADDA, 
+[available for Windows, Unix, and macOS](https://github.com/adda-team/adda-gui/releases). It's main features are:
+* Real-time 3D visualization of a scatterer (for built-in ADDA shapes, either the smooth shape or its voxel model).
+* Automatic downloading of the latest release of ADDA (an executable for Windows or the latest source with compilation instructions for Unix and macOS).
+* Convenient interface to all ADDA command line options and parameter files (e.g., for orientation averaging) with brief explanations.
+* Plotting of computed Mueller and the amplitude matrix elements (versus the scattering angle).
+* Automatically stores the results of each simulation (for convenient display afterwards).
 
-The main feature is 3D viewing of a scatterer, additionally you can display the Mueller and the amplitude matrices, download the latest release of the executable ADDA code, and display the results of previously completed simulations.
-
-User can view a usual 3D model
+User can view an analytic (smooth) 3D model of a particle with specific parameter values:
 ![Screenshot_48](https://user-images.githubusercontent.com/13792919/211077747-b34204d8-1cab-4bec-9114-c259a12a78f5.png)
 
-also a discretization view is available (this model ADDA will use  for computation)
+or its voxelized representation (the one, which is used by ADDA in further simulation):
 ![Screenshot_49](https://user-images.githubusercontent.com/13792919/211077745-fa696063-34ef-48a4-b9ca-6deb0ecc56d5.png)
 
-Full screen mode is available
+Full screen mode is also available:
 ![Screenshot_50](https://user-images.githubusercontent.com/13792919/211077738-5ca23433-5be5-4319-af31-4c5d4b801f19.png)
 
-17 built-in shapes were implemented: bicoated, biellipsoid, bisphere, box, capsule, chebyshev, coated, cylinder, egg, ellipsoid, line, plate, prism, rbc, sphere, spherebox, superellipsoid. For each shape there is a corresponding area of parameters, when changing which the scatterer is redrawn. Below are all implemented scatterer shapes in polygonal and voxelized form.
+All 17 shapes, built into ADDA, were implemented: bicoated, biellipsoid, bisphere, box, capsule, chebyshev, coated, cylinder, egg, ellipsoid, line, plate, prism, rbc, sphere, spherebox, superellipsoid. For each shape there are defining parameters - changing them causes the scatterer to be redrawn in real time. Below we present examples of all implemented scatterer shapes, both in smooth (polygonal) and voxelized forms:
 
 | shape | polygon | voxelized |
 | --- | --- |--- |
