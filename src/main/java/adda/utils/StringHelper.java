@@ -2,6 +2,8 @@ package adda.utils;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,6 +31,10 @@ public class StringHelper {
 
     public static boolean isEmpty(String s) {
         return s == null || "".equals("" + s);
+    }
+
+    public static boolean isEmptyOrWhitespaces(String s) {
+        return s == null || "".equals("" + s) || s.trim().isEmpty();
     }
 
     private Map<Object, String> map = new HashMap<>();
@@ -67,6 +73,20 @@ public class StringHelper {
 
         Matcher m = REMOVE_TAGS.matcher(string);
         return m.replaceAll("");
+    }
+
+
+    private static final Pattern TO_FOLDER_NAME = Pattern.compile("[\\/?%*:|\"<>\\s]+?");
+
+    public static String toFolderName(String string) {
+        if (string == null || string.length() == 0) {
+            Date now = new Date();
+            SimpleDateFormat pattern = new SimpleDateFormat("MM_dd_HH_mm_ss");
+            return "folder_" + pattern.format(now);
+        }
+
+        Matcher m = TO_FOLDER_NAME.matcher(string);
+        return m.replaceAll("_").toLowerCase();
     }
 
 

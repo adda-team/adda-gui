@@ -43,16 +43,19 @@ public class PropagationModel extends TabEnumModel<PropagationEnum> implements I
                 x = 1;
                 y = 0;
                 z = 0;
+                notifyObservers(X_FIELD_NAME, x); //only one notification is enough for UI redraw
                 break;
             case oy:
                 x = 0;
                 y = 1;
                 z = 0;
+                notifyObservers(Y_FIELD_NAME, x);
                 break;
             case oz:
                 x = 0;
                 y = 0;
                 z = 1;
+                notifyObservers(Z_FIELD_NAME, x);
                 break;
         }
     }

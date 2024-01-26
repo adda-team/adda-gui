@@ -19,11 +19,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
+import java.util.regex.*;
 //
 
 import adda.utils.OsUtils;
+import adda.utils.StringHelper;
 import io.methvin.watcher.DirectoryChangeEvent;
 import io.methvin.watcher.DirectoryWatcher;
+import org.reflections.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.NOPLogger;
@@ -226,15 +229,44 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
     public void addProject(ProjectTreeNewItemModel newItemModel) {
         ProjectTreeNode node = new ProjectTreeNode();
 //            node.id = String.join("_", projectSetting.getName(), projectSetting.getPath());
-        node.id = newItemModel.getDirectory();
-        node.name = newItemModel.getDisplayName();
+        if (StringHelper.isEmptyOrWhitespaces(newItemModel.getDisplayName())) {
+            node.name = StringHelper.toFolderName(newItemModel.getDisplayName());
+        } else {
+            node.name = newItemModel.getDisplayName();
+        }
+        String projectFolderName = StringHelper.toFolderName(newItemModel.getDisplayName());
+        String folder = newItemModel.getDirectory() + File.separator + projectFolderName;
+
+        File file = new File(folder);
+        if (!file.exists()) {
+            if (!file.mkdir()) {
+                JOptionPane.showMessageDialog(null, "<html>Can't create a folder <b>" + folder + "</b></html>");
+                return;
+            }
+        } else {
+            folder = folder + "_" + StringHelper.toFolderName("");
+            file = new File(folder);
+            if (!file.mkdir()) {
+                JOptionPane.showMessageDialog(null, "<html>Can't create a folder <b>" + folder + "</b></html>");
+                return;
+            }
+        }
+
+        node.setId(folder);
+        newItemModel.setDirectory(folder);
+
+        node.setFolder(folder);
         node.desc = String.format("<HTML><b>%s</b><br><small>%s</small></HTML>", newItemModel.getDisplayName(), newItemModel.getDirectory());
-        node.folder = newItemModel.getDirectory();
         node.isPath = true;
         node.isProject = true;
         map.get(root.id).add(node);
-
-        starDirtWatch(newItemModel.getDirectory());
+        Setting setting = SettingsManager.getSettings();
+        ProjectSetting projectSetting = new ProjectSetting();
+        projectSetting.setName(node.name);
+        projectSetting.setPath(folder);
+        setting.getProjects().add(projectSetting);
+        SettingsManager.saveSettings(setting);
+        starDirtWatch(folder);
 
         javax.swing.SwingUtilities.invokeLater(() -> reloadForce());
     }
