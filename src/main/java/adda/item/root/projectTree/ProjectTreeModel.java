@@ -268,7 +268,10 @@ public class ProjectTreeModel extends ModelBase implements TreeModel, Serializab
         SettingsManager.saveSettings(setting);
         starDirtWatch(folder);
 
-        javax.swing.SwingUtilities.invokeLater(() -> reloadForce());
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            reloadForce();
+            setSelectedPath(node);
+        });
     }
 
     public void showNewProjectDialog() {
